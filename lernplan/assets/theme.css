@@ -293,3 +293,123 @@ svg.i { width: 100%; height: 100%; display: block; }
 
 /* Checkboxen */
 .box { display: inline-block; width: 11px; height: 11px; border: 1px solid var(--goldline); border-radius: 2px; vertical-align: -1px; }
+
+/* ═════════════════════ Erweiterung: Spiel-Komponenten ═════════════════════ */
+:root {
+  --night: #16140f;
+  --night2: #221e18;
+  --ivory: #f2ece0;
+  --nightline: rgba(191, 152, 88, .26);
+  --nightmuted: #9a8f7c;
+}
+
+/* Fortschritt im Fuß */
+.prog { display: flex; align-items: center; gap: 10px; }
+.prog .trk { width: 150px; height: 3px; background: var(--line); border-radius: 2px; overflow: hidden; }
+.prog .trk i { display: block; height: 100%; background: linear-gradient(90deg, var(--goldline), var(--gold)); }
+.prog b { font-weight: 400; color: var(--gold); letter-spacing: .14em; }
+
+/* Daumenregister */
+.tabs { position: absolute; right: 0; top: 150px; display: flex; flex-direction: column; gap: 5px; }
+.tabs span {
+  width: 19px; height: 66px; border-radius: 4px 0 0 4px;
+  background: var(--line2); color: var(--faint);
+  writing-mode: vertical-rl; transform: rotate(180deg);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 6.8px; letter-spacing: .2em; text-transform: uppercase;
+}
+.tabs span.done { background: #e8dcc4; color: var(--gold2); }
+.tabs span.on { background: var(--gold); color: #fff; width: 22px; }
+
+/* Dunkle Seiten */
+.page.dark { background: var(--night); color: #d6cebf; }
+.page.dark .run { color: var(--nightmuted); border-color: rgba(191,152,88,.22); }
+.page.dark .run .pg { color: var(--goldline); }
+.page.dark .foot { color: var(--nightmuted); border-color: rgba(191,152,88,.22); }
+.page.dark .prog .trk { background: #3a332a; }
+.page.dark .tabs span { background: #2a251e; color: #6f6656; }
+.page.dark .tabs span.done { background: #4a3f2c; color: #d4b57a; }
+.page.dark .tabs span.on { background: var(--gold); color: #fff; }
+.dark .frame { position: absolute; inset: 16px; border: 1px solid var(--nightline); border-radius: 3px; pointer-events: none; }
+.dark .glow { position: absolute; width: 760px; height: 760px; right: -300px; top: -320px; background: radial-gradient(circle, rgba(191,152,88,.20), rgba(191,152,88,0) 62%); pointer-events: none; }
+.dark .glow.b { right: auto; left: -360px; top: auto; bottom: -420px; background: radial-gradient(circle, rgba(191,152,88,.10), rgba(191,152,88,0) 62%); }
+.dark .wm { position: absolute; font-family: var(--display); font-style: italic; line-height: .8; color: transparent; -webkit-text-stroke: 1px rgba(191,152,88,.16); pointer-events: none; }
+.foil { background: linear-gradient(165deg, #f1dcaa 0%, #c99d55 38%, #9b7536 70%, #d8b878 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.dark .label, .dark .kicker { color: var(--goldline); }
+.dark .tr p { color: #a99f8c; }
+.dark .tr .tag { color: var(--goldline); border-color: rgba(191,152,88,.5); }
+.dark b, .dark strong { color: var(--ivory); }
+
+/* Level-Opener */
+.lvl { position: relative; z-index: 1; flex: 1; display: flex; flex-direction: column; }
+.lvl .lk { font-size: 9px; letter-spacing: .4em; text-transform: uppercase; color: var(--goldline); margin-top: 40px; }
+.lvl .ln { font-family: var(--display); font-style: italic; font-weight: 500; font-size: 270px; line-height: .78; margin: 6px 0 0 -10px; }
+.lvl .lt { font-family: var(--display); font-weight: 400; font-size: 66px; line-height: 1; color: var(--ivory); margin-top: 18px; letter-spacing: -.01em; }
+.lvl .lt em { color: #d9b878; }
+.lvl .ls { font-size: 13.5px; line-height: 1.6; color: #c9c0b0; max-width: 520px; margin-top: 16px; }
+.lvl .pills { display: flex; gap: 8px; margin-top: 22px; }
+.pill { font-size: 8.4px; letter-spacing: .16em; text-transform: uppercase; color: var(--goldline); border: 1px solid rgba(191,152,88,.45); border-radius: 30px; padding: 5px 12px 4px; white-space: nowrap; }
+.pill.solid { background: var(--gold); color: #fff; border-color: var(--gold); }
+.unlock { margin-top: 30px; border-top: 1px solid var(--nightline); }
+.unlock .u { display: grid; grid-template-columns: 30px 1fr auto; align-items: baseline; padding: 11px 0; border-bottom: 1px solid var(--nightline); }
+.unlock .u .d { width: 8px; height: 8px; border: 1px solid var(--goldline); transform: rotate(45deg); margin-left: 4px; }
+.unlock .u b { font-weight: 500; font-size: 13px; color: var(--ivory); }
+.unlock .u span { font-size: 11px; color: var(--nightmuted); }
+.unlock .u em { font-family: var(--display); font-size: 15px; color: var(--goldline); font-style: normal; }
+.reward { margin-top: auto; display: flex; gap: 14px; align-items: center; border: 1px solid var(--nightline); border-radius: 6px; padding: 13px 16px; background: rgba(255,255,255,.02); }
+.reward .ic { width: 26px; height: 26px; color: var(--goldline); flex: none; }
+.reward p { font-size: 11.6px; color: #c9c0b0; line-height: 1.5; }
+.reward .label { margin-bottom: 2px; }
+
+/* Claude-Mission */
+.mission {
+  background: var(--night); color: #d6cebf; border-radius: 7px; padding: 15px 18px 15px;
+  position: relative; overflow: hidden;
+}
+.mission::after { content: ''; position: absolute; width: 360px; height: 360px; right: -150px; top: -190px; background: radial-gradient(circle, rgba(191,152,88,.22), rgba(191,152,88,0) 65%); }
+.mission .mh { display: flex; align-items: center; gap: 10px; position: relative; z-index: 1; }
+.mission .mh .ic { width: 22px; height: 22px; color: var(--goldline); }
+.mission .mh .t { font-size: 8.6px; letter-spacing: .26em; text-transform: uppercase; color: var(--goldline); }
+.mission .mh .xp { margin-left: auto; color: #fff; background: var(--gold); border-color: var(--gold); }
+.mission h3 { color: var(--ivory); font-size: 24px; margin: 8px 0 4px; position: relative; z-index: 1; }
+.mission p { color: #c9c0b0; font-size: 11.8px; position: relative; z-index: 1; }
+.mission .how { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 11px; position: relative; z-index: 1; }
+.mission .how div { border: 1px solid var(--nightline); border-radius: 4px; padding: 7px 9px 6px; font-size: 10.6px; color: #d6cebf; line-height: 1.35; }
+.mission .how div b { display: block; font-family: var(--display); font-size: 17px; color: var(--goldline); font-weight: 500; line-height: 1; margin-bottom: 2px; }
+.mission .tr p { color: #a99f8c; }
+.mission .tr .tag { color: var(--goldline); border-color: rgba(191,152,88,.5); }
+.cbadge { display: inline-flex; align-items: center; gap: 6px; background: var(--night); color: var(--goldline); border-radius: 20px; padding: 3px 10px 2px 7px; font-size: 7.8px; letter-spacing: .18em; text-transform: uppercase; white-space: nowrap; }
+.cbadge svg { width: 11px; height: 11px; }
+
+/* Schreibpapier */
+.sheet { flex: 1; display: grid; grid-template-columns: 31% 1fr; border: 1px solid var(--line); border-radius: 4px; overflow: hidden; background: #fbfaf7; }
+.sheet .rand { background: repeating-linear-gradient(135deg, #f1eee7 0 6px, #f6f3ed 6px 12px); border-right: 1.5px solid #d9b4a6; position: relative; }
+.sheet .rand span { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%) rotate(-90deg); white-space: nowrap; font-size: 8px; letter-spacing: .3em; text-transform: uppercase; color: #b8afa0; }
+.sheet .lines { background-image: repeating-linear-gradient(to bottom, transparent 0, transparent 27px, #d8d2c6 27px, #d8d2c6 28px); background-position: 0 14px; }
+.wlines { background-image: repeating-linear-gradient(to bottom, transparent 0, transparent 25px, #cfc9bd 25px, #cfc9bd 26px); }
+
+/* Medaillen */
+.medals { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px 8px; }
+.medal { text-align: center; }
+.medal svg { width: 58px; height: 64px; display: block; margin: 0 auto 4px; }
+.medal b { display: block; font-family: var(--display); font-weight: 600; font-size: 13.5px; line-height: 1.1; color: var(--ink); }
+.medal span { display: block; font-size: 8.8px; color: var(--muted); line-height: 1.3; margin-top: 2px; }
+
+/* Streak */
+.streak { display: flex; gap: 8px; }
+.streak .f { width: 30px; height: 36px; display: flex; flex-direction: column; align-items: center; }
+.streak .f svg { width: 22px; height: 26px; }
+.streak .f span { font-size: 7.6px; letter-spacing: .1em; color: var(--muted); margin-top: 1px; }
+
+/* Karteikarten */
+.cards .cd { display: grid; grid-template-columns: 22px 37% 1fr 58px; border: 1px solid var(--line); border-radius: 5px; background: var(--card); margin-bottom: 6px; min-height: 62px; }
+.cards .cd .no { font-family: var(--display); color: var(--gold); font-size: 15px; padding: 7px 0 0 7px; }
+.cards .cd .q { padding: 8px 12px 7px 4px; font-size: 11.4px; color: var(--ink); font-weight: 600; line-height: 1.38; border-right: 1px dashed var(--goldline); }
+.cards .cd .a { padding: 8px 12px 7px; font-size: 10.6px; color: var(--ink2); line-height: 1.42; }
+.cards .cd .rv { border-left: 1px solid var(--line2); display: flex; flex-direction: column; justify-content: center; gap: 3px; padding: 0 8px; }
+.cards .cd .rv span { display: flex; align-items: center; gap: 5px; font-size: 7.4px; letter-spacing: .1em; color: var(--muted); }
+.cards .cd .rv .box { width: 9px; height: 9px; }
+
+/* Inhalte nie heimlich stauchen – Überlauf soll sichtbar (und messbar) bleiben */
+.body > * { flex-shrink: 0; }
+.mission b, .mission strong { color: var(--ivory); }

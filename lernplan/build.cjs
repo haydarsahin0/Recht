@@ -1,37 +1,92 @@
-// Rendert eine Lernplan-HTML-Datei als A4-PDF und prüft, dass keine Seite überläuft.
-// Aufruf: node build.cjs tag-1-probe.html Tag-1-Probe.pdf [--png <dir>]
+// Baut ein Lern-PDF und prüft, dass keine Seite überläuft.
+//
+//   node build.cjs tag-1            → setzt tag-1/pages/*.html zusammen, rendert tag-1/<out>.pdf
+//   node build.cjs datei.html x.pdf → rendert eine einzelne HTML-Datei
+//   Option: --png <ordner>          → zusätzlich jede Seite als PNG (zur Sichtprüfung)
+//
+// Platzhalter in den Seiten (nur im Ordner-Modus):
+//   {{RUN}}        Kopfzeile mit Seitenzahl
+//   {{FOOT:text}}  Fußzeile mit Fortschritt in % und Text
+//   {{P:id}}       Seitenzahl der <section data-id="id">
+//   data-level="n" auf <section> → Daumenregister mit Level n hervorgehoben
 const { chromium } = require('playwright');
-const { resolve } = require('node:path');
+const fs = require('node:fs');
+const path = require('node:path');
+
+function assemble(dir) {
+  const meta = JSON.parse(fs.readFileSync(path.join(dir, 'meta.json'), 'utf8'));
+  const files = fs.readdirSync(path.join(dir, 'pages')).filter(f => f.endsWith('.html')).sort();
+  const raw = files.map(f => fs.readFileSync(path.join(dir, 'pages', f), 'utf8')).join('\n');
+  const sections = raw.split(/(?=<section\b)/).filter(s => s.trim().startsWith('<section'));
+  const total = sections.length;
+  const pad = n => String(n).padStart(2, '0');
+  const ids = {};
+  sections.forEach((s, i) => { const m = s.match(/data-id="([^"]+)"/); if (m) ids[m[1]] = i + 1; });
+
+  const out = sections.map((s, i) => {
+    const n = i + 1;
+    const pct = Math.round((n / total) * 100);
+    const lvl = Number((s.match(/data-level="(\d)"/) || [])[1] || 0);
+    s = s.replace(/\{\{P:([\w-]+)\}\}/g, (_, id) => { if (!ids[id]) throw new Error('Unbekannte Seiten-ID: ' + id); return ids[id]; });
+    s = s.replace('{{RUN}}', `<header class="run"><span>Recht · Klausurtraining</span><span>${meta.run}</span><span class="pg">${pad(n)} / ${pad(total)}</span></header>`);
+    s = s.replace(/\{\{FOOT:([^}]*)\}\}/, (_, t) => `<footer class="foot"><div class="prog"><div class="trk"><i style="width:${pct}%"></i></div><b>${pct} %</b></div><span>${t}</span></footer>`);
+    if (lvl) {
+      const tabs = meta.levels.map((name, k) => `<span class="${k + 1 === lvl ? 'on' : k + 1 < lvl ? 'done' : ''}">${name}</span>`).join('');
+      s = s.replace(/<\/section>\s*$/, `<div class="tabs">${tabs}</div>\n</section>\n`);
+    }
+    return s;
+  }).join('\n');
+
+  const html = `<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>${meta.title}</title>
+<link rel="stylesheet" href="../assets/theme.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+${out}
+</body>
+</html>
+`;
+  const file = path.join(dir, path.basename(dir) + '.html');
+  fs.writeFileSync(file, html);
+  return { file, pdf: path.join(dir, meta.out) };
+}
 
 (async () => {
-const [src, out, flag, pngDir] = process.argv.slice(2);
-const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH || undefined });
-const page = await browser.newPage({ viewport: { width: 794, height: 1123 } });
-await page.goto('file://' + resolve(src));
-await page.evaluate(() => document.fonts.ready);
+  const args = process.argv.slice(2);
+  const pngIdx = args.indexOf('--png');
+  const pngDir = pngIdx >= 0 ? args.splice(pngIdx, 2)[1] : null;
+  let [src, out] = args;
+  if (fs.statSync(src).isDirectory()) ({ file: src, pdf: out } = assemble(src));
 
-const problems = await page.evaluate(() => {
-  const res = [];
-  document.querySelectorAll('.page').forEach((p, i) => {
+  const browser = await chromium.launch();
+  const page = await browser.newPage({ viewport: { width: 794, height: 1123 } });
+  await page.goto('file://' + path.resolve(src));
+  await page.evaluate(() => document.fonts.ready);
+
+  const report = await page.evaluate(() => [...document.querySelectorAll('.page')].map((p, i) => {
     const body = p.querySelector('.body');
     const foot = p.querySelector('.foot');
+    if (!body || !foot || p.classList.contains('nocheck')) return { page: i + 1, free: null };
     let bottom = 0;
     body.querySelectorAll('*').forEach(el => { const r = el.getBoundingClientRect(); if (r.height) bottom = Math.max(bottom, r.bottom); });
-    const free = foot.getBoundingClientRect().top - 14 - bottom;
-    res.push({ page: i + 1, free: Math.round(free) });
-  });
-  return res;
-});
-for (const p of problems) console.log(`Seite ${String(p.page).padStart(2)}: ${p.free < 0 ? 'ÜBERLAUF' : 'frei'} ${p.free}px`);
-
-await page.pdf({ path: out, preferCSSPageSize: true, printBackground: true });
-if (flag === '--png') {
-  const n = problems.length;
-  for (let i = 0; i < n; i++) {
-    const el = (await page.$$('.page'))[i];
-    await el.screenshot({ path: `${pngDir}/p${String(i + 1).padStart(2, '0')}.png` });
+    return { page: i + 1, free: Math.round(foot.getBoundingClientRect().top - 12 - bottom) };
+  }));
+  for (const r of report) {
+    if (r.free === null) continue;
+    console.log(`Seite ${String(r.page).padStart(2)}: ${r.free < 0 ? 'ÜBERLAUF' : 'frei'} ${r.free}px`);
   }
-}
-await browser.close();
-if (problems.some(p => p.free < 0)) process.exitCode = 1;
+
+  await page.pdf({ path: out, preferCSSPageSize: true, printBackground: true });
+  if (pngDir) {
+    fs.mkdirSync(pngDir, { recursive: true });
+    const els = await page.$$('.page');
+    for (let i = 0; i < els.length; i++) await els[i].screenshot({ path: path.join(pngDir, `p${String(i + 1).padStart(2, '0')}.png`) });
+  }
+  await browser.close();
+  console.log('→', out);
+  if (report.some(r => r.free !== null && r.free < 0)) process.exitCode = 1;
 })();
