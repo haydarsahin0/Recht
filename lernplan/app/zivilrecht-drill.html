@@ -1,0 +1,539 @@
+<title>Zivilrecht-Drill</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<style>
+/* Layout: eine ruhige Lernspalte – Kopf mit Level, darunter Karten/Quiz als Bühne, wie das Klausurtraining-PDF */
+:root {
+  --bg: #f3f2ee; --surface: #f9f8f4; --ink: #1c1a17; --ink2: #3a352e; --muted: #6b665d; --line: #dcd6cb;
+  --gold: #a47c3b; --gold-ink: #85662b; --gold-soft: #faf3e4; --on-gold: #ffffff;
+  --ok: #4f7a45; --ok-soft: #e7efe0; --no: #a2573f; --no-soft: #f6e3db;
+  --stage: #16140f; --stage-ink: #f2ece0; --stage-muted: #a99f8c; --stage-line: rgba(191,152,88,.28);
+  --display: "Cormorant Garamond", "Times New Roman", serif;
+  --text: "Lora", Georgia, serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #13110d; --surface: #1c1914; --ink: #f0e9dc; --ink2: #d8cfbf; --muted: #9d927f; --line: #3a342a;
+  --gold: #c9a25e; --gold-ink: #e2c286; --gold-soft: #2a2419; --on-gold: #16140f;
+  --ok: #92b882; --ok-soft: #1e2a1a; --no: #e39a84; --no-soft: #36211a;
+  --stage: #0b0a08; --stage-ink: #f2ece0; --stage-muted: #a99f8c; --stage-line: rgba(201,162,94,.3);
+  color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #13110d; --surface: #1c1914; --ink: #f0e9dc; --ink2: #d8cfbf; --muted: #9d927f; --line: #3a342a;
+  --gold: #c9a25e; --gold-ink: #e2c286; --gold-soft: #2a2419; --on-gold: #16140f;
+  --ok: #92b882; --ok-soft: #1e2a1a; --no: #e39a84; --no-soft: #36211a;
+  --stage: #0b0a08; --stage-ink: #f2ece0; --stage-muted: #a99f8c; --stage-line: rgba(201,162,94,.3);
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink2); font-family: var(--text); font-size: 16px; line-height: 1.55; margin: 0; }
+.app { max-width: 760px; margin: 0 auto; padding-inline: 18px; padding-block: 18px 40px; }
+h1, h2, h3 { font-family: var(--display); color: var(--ink); font-weight: 500; text-wrap: balance; margin: 0; }
+button { font: inherit; color: inherit; cursor: pointer; }
+button:focus-visible, .opt:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+.label { font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); }
+.muted { color: var(--muted); }
+.tr { display: flex; gap: 8px; align-items: flex-start; margin-top: 10px; font-style: italic; color: var(--muted); font-size: 14.5px; }
+.tr b { font-style: normal; font-weight: 400; font-size: 10px; letter-spacing: .12em; color: var(--gold); border: 1px solid var(--gold); border-radius: 3px; padding: 1px 5px 0; margin-top: 3px; flex: none; }
+
+/* Kopf */
+.top { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-bottom: 14px; border-bottom: 1px solid var(--line); }
+.brand { font-size: 11px; letter-spacing: .24em; text-transform: uppercase; color: var(--muted); }
+.brand strong { color: var(--ink); font-weight: 600; }
+.chip { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--gold); color: var(--gold-ink); border-radius: 30px; padding: 4px 11px 3px; font-size: 13px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.chip.fill { background: var(--gold); color: var(--on-gold); border-color: var(--gold); }
+.row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+
+/* Bühne (dunkle Heldenkarte) */
+.stage { background: var(--stage); color: var(--stage-ink); border-radius: 12px; padding: 22px 22px 20px; margin-top: 18px; position: relative; overflow: hidden; }
+.stage::after { content: ""; position: absolute; width: 420px; height: 420px; right: -180px; top: -220px; background: radial-gradient(circle, rgba(191,152,88,.25), rgba(191,152,88,0) 65%); pointer-events: none; }
+.stage > * { position: relative; z-index: 1; }
+.stage h1 { color: var(--stage-ink); font-size: clamp(30px, 6vw, 40px); line-height: 1.05; }
+.stage h1 em { color: #d9b878; }
+.stage .label { color: #c9a25e; }
+.lvl { display: grid; grid-template-columns: auto 1fr; gap: 18px; align-items: center; margin-top: 18px; }
+.ring { width: 92px; height: 92px; position: relative; }
+.ring svg { width: 92px; height: 92px; transform: rotate(-90deg); }
+.ring .n { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.ring .n b { font-family: var(--display); font-style: italic; font-size: 38px; line-height: .9; color: #e2c286; font-weight: 600; }
+.ring .n span { font-size: 9px; letter-spacing: .2em; text-transform: uppercase; color: var(--stage-muted); }
+.lvl .rank { font-family: var(--display); font-size: 24px; color: var(--stage-ink); }
+.lvl .sub { font-size: 13px; color: var(--stage-muted); font-variant-numeric: tabular-nums; }
+.bar { height: 5px; background: rgba(255,255,255,.1); border-radius: 4px; overflow: hidden; margin-top: 8px; }
+.bar i { display: block; height: 100%; background: linear-gradient(90deg, #c9a25e, #e9cf98); border-radius: 4px; transition: width .6s ease; }
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; margin-top: 18px; border-top: 1px solid var(--stage-line); }
+.stats div { padding: 12px 0 0; }
+.stats b { display: block; font-family: var(--display); font-size: 28px; line-height: 1; color: var(--stage-ink); font-weight: 500; font-variant-numeric: tabular-nums; }
+.stats span { font-size: 10.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--stage-muted); }
+
+/* Tage */
+.days { display: flex; gap: 8px; margin-top: 18px; overflow-x: auto; padding-bottom: 2px; }
+.day { flex: none; border: 1px solid var(--line); background: var(--surface); border-radius: 30px; padding: 6px 14px 5px; font-size: 13px; color: var(--muted); }
+.day.on { background: var(--gold); border-color: var(--gold); color: var(--on-gold); }
+.day[disabled] { cursor: default; opacity: .6; }
+
+/* Modi */
+.modes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 18px; }
+.mode { text-align: left; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 16px 16px 14px; display: flex; flex-direction: column; gap: 6px; transition: border-color .15s, transform .15s; min-width: 0; }
+.mode:hover { border-color: var(--gold); transform: translateY(-1px); }
+.mode h3 { font-size: 23px; }
+.mode p { margin: 0; font-size: 14px; color: var(--muted); }
+.mode .go { margin-top: auto; padding-top: 6px; font-size: 13px; color: var(--gold-ink); }
+.mode.dark { background: var(--stage); border-color: var(--stage); }
+.mode.dark h3 { color: var(--stage-ink); }
+.mode.dark p { color: var(--stage-muted); }
+.mode.dark .go { color: #e2c286; }
+.count { font-family: var(--display); font-size: 15px; color: var(--gold-ink); }
+
+/* Themen */
+.topics { margin-top: 22px; }
+.topic { display: grid; grid-template-columns: minmax(0, 150px) 1fr 52px; gap: 12px; align-items: center; padding: 9px 0; border-top: 1px solid var(--line); font-size: 14.5px; color: var(--ink); }
+.topic:last-child { border-bottom: 1px solid var(--line); }
+.tbar { height: 6px; background: var(--line); border-radius: 4px; overflow: hidden; }
+.tbar i { display: block; height: 100%; background: var(--gold); border-radius: 4px; }
+.topic .pct { text-align: right; font-variant-numeric: tabular-nums; color: var(--muted); font-size: 13px; }
+
+/* Lern-Bildschirm */
+.bar2 { display: flex; align-items: center; gap: 12px; margin-top: 16px; }
+.back { background: none; border: 1px solid var(--line); border-radius: 30px; padding: 6px 13px 5px; font-size: 13px; color: var(--muted); }
+.prog { flex: 1; height: 5px; background: var(--line); border-radius: 4px; overflow: hidden; }
+.prog i { display: block; height: 100%; background: var(--gold); transition: width .3s; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 24px 22px 22px; margin-top: 16px; }
+.card .q { font-family: var(--display); font-size: clamp(24px, 5vw, 30px); line-height: 1.2; color: var(--ink); margin-top: 8px; }
+.card .a { margin-top: 16px; padding-top: 16px; border-top: 1px dashed var(--gold); font-size: 17px; color: var(--ink); }
+.boxes { display: flex; gap: 4px; }
+.boxes i { width: 16px; height: 4px; border-radius: 2px; background: var(--line); }
+.boxes i.on { background: var(--gold); }
+.btns { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-top: 16px; }
+.btn { border-radius: 9px; padding: 13px 10px 12px; border: 1px solid var(--line); background: var(--surface); font-size: 15px; color: var(--ink); }
+.btn.main { background: var(--gold); border-color: var(--gold); color: var(--on-gold); grid-column: 1 / -1; }
+.btn.no { border-color: var(--no); color: var(--no); }
+.btn.mid { border-color: var(--gold); color: var(--gold-ink); }
+.btn.ok { border-color: var(--ok); color: var(--ok); }
+.btn small { display: block; font-size: 11px; opacity: .8; margin-top: 2px; }
+.opts { display: grid; gap: 10px; margin-top: 18px; }
+.opt { text-align: left; border: 1px solid var(--line); background: var(--bg); border-radius: 9px; padding: 13px 14px 12px; font-size: 16px; color: var(--ink); display: grid; grid-template-columns: 26px 1fr; gap: 8px; }
+.opt .k { font-family: var(--display); color: var(--gold); font-size: 18px; line-height: 1.2; }
+.opt.right { border-color: var(--ok); background: var(--ok-soft); }
+.opt.wrong { border-color: var(--no); background: var(--no-soft); }
+.opt[disabled] { cursor: default; }
+.fb { margin-top: 16px; border-radius: 10px; padding: 14px 16px; }
+.fb.right { background: var(--ok-soft); border: 1px solid var(--ok); }
+.fb.wrong { background: var(--no-soft); border: 1px solid var(--no); }
+.fb .h { font-weight: 600; color: var(--ink); }
+.fb p { margin: 6px 0 0; color: var(--ink); font-size: 15px; }
+.case { background: var(--gold-soft); border: 1px solid var(--gold); border-radius: 9px; padding: 12px 14px; font-size: 15.5px; color: var(--ink); margin-top: 10px; }
+.combo { font-family: var(--display); font-style: italic; color: var(--gold-ink); font-size: 18px; min-width: 70px; text-align: right; }
+.pop { position: fixed; left: 50%; top: 38%; transform: translate(-50%, -50%); font-family: var(--display); font-size: 44px; font-weight: 600; color: var(--gold); pointer-events: none; animation: pop 900ms ease-out forwards; z-index: 30; }
+@keyframes pop { 0% { opacity: 0; transform: translate(-50%, -30%) scale(.8); } 20% { opacity: 1; transform: translate(-50%, -50%) scale(1.05); } 100% { opacity: 0; transform: translate(-50%, -110%) scale(1); } }
+
+/* Ergebnis */
+.result { text-align: center; }
+.result .big { font-family: var(--display); font-size: 74px; line-height: 1; color: var(--ink); font-variant-numeric: tabular-nums; margin-top: 10px; }
+.result .big span { color: var(--muted); font-size: 40px; }
+.medal { width: 86px; height: 86px; margin: 6px auto 0; display: block; }
+
+/* Overlay */
+.overlay { position: fixed; inset: 0; background: rgba(10,9,7,.72); display: flex; align-items: center; justify-content: center; padding: 18px; z-index: 40; }
+.overlay .box { background: var(--stage); color: var(--stage-ink); border: 1px solid var(--stage-line); border-radius: 14px; padding: 26px 24px; max-width: 380px; width: 100%; text-align: center; }
+.overlay .box h2 { color: var(--stage-ink); font-size: 34px; }
+.overlay .box p { color: var(--stage-muted); }
+.overlay .num { font-family: var(--display); font-style: italic; font-size: 96px; line-height: .9; color: #e2c286; }
+canvas#fx { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 35; }
+
+.foot { margin-top: 26px; font-size: 12.5px; color: var(--muted); display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--muted); margin-right: 6px; vertical-align: 1px; }
+.dot.on { background: var(--ok); }
+@media (max-width: 520px) {
+  .brand .long { display: none; }
+  .modes { grid-template-columns: minmax(0, 1fr); }
+  .topic { grid-template-columns: minmax(0, 110px) 1fr 44px; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+</style>
+
+<div class="app">
+  <header class="top">
+    <div class="brand"><strong>Recht</strong><span class="long"> · Klausurtraining</span> · Drill</div>
+    <div class="row"><span class="chip" id="streakChip" title="Tage am Stück"><svg width="12" height="14" viewBox="0 0 24 26" aria-hidden="true"><path d="M12 24c-4.6 0-7.5-3-7.5-7 0-4.2 3.2-6.4 4.4-10.8 3 1.8 4.2 4.6 4 7 1.2-.8 2-2.3 2.1-3.8 2.6 2.2 4.5 5.1 4.5 8 0 3.8-2.9 6.6-7.5 6.6z" fill="currentColor"/></svg><span id="streakN">0</span></span><span class="chip fill" id="xpChip">0 XP</span></div>
+  </header>
+  <main id="view"></main>
+  <footer class="foot">
+    <span id="sync"><i class="dot"></i>Fortschritt wird geladen …</span>
+    <span>Klausur: Mo, 12.10.2026 · Ziel 1,7</span>
+  </footer>
+</div>
+<canvas id="fx" aria-hidden="true"></canvas>
+
+<script>
+(() => {
+"use strict";
+
+/* ───────── Inhalte · Tag 1 ───────── */
+const TOPICS = {
+  klausur: "Klausur & Prüfer", recht: "Recht & BGB", methode: "Gutachten & Methode",
+  anspruch: "Anspruch", we: "Willenserklärung", zugang: "Abgabe & Zugang", vertrag: "Vertragsschluss"
+};
+
+const CARDS = [
+  ["k1","klausur","Wie ist die Klausur aufgebaut?","120 Minuten: 50 % Falllösung (Gutachten), 50 % Einzelfragen.","Yarısı vaka (Gutachten), yarısı kısa sorular."],
+  ["k2","klausur","Die Antwort-Formel für Einzelfragen?","Abstrakte Definition + Paragraf + 1–2 Sätze Erklärung. Beispiele nur, wenn danach gefragt ist.","Tanım + paragraf + kısa açıklama. Örnek sadece sorulursa."],
+  ["r1","recht","Was ist Recht (rechtswissenschaftlich)?","Nach dem Positivismus die Summe aller geltenden Rechtsnormen – geschriebene (Gesetze) und ungeschriebene (Gewohnheitsrecht).","Yürürlükteki tüm yazılı ve yazısız kuralların toplamı. Sadece „adalet“ demek yetmez."],
+  ["r2","recht","Privatrecht vs. öffentliches Recht?","Privatrecht: Gleichordnung (Bürger – Bürger), typisch Vertrag. Öffentliches Recht: Über-/Unterordnung (Staat – Bürger), typisch Verwaltungsakt.","Özel hukuk eşitler arası; kamu hukukunda devlet üstte."],
+  ["r3","recht","Gesetz im formellen vs. materiellen Sinn?","Formell: vom Parlament im Gesetzgebungsverfahren erlassen. Materiell: jede generell-abstrakte Rechtsnorm (auch Verordnung, Satzung).","Şekli kanun = meclisten çıkan; maddi kanun = genel ve soyut her kural."],
+  ["r4","recht","Wie sieht die Normhierarchie aus?","Grundgesetz > Parlamentsgesetze > Rechtsverordnungen > Satzungen. EU-Recht hat Anwendungsvorrang.","Üstteki kural alttakinden önce gelir."],
+  ["r5","recht","Die 5 Bücher des BGB?","Allgemeiner Teil (§§ 1–240), Schuldrecht (§§ 241–853), Sachenrecht (§§ 854–1296), Familienrecht (§§ 1297–1921), Erbrecht (§§ 1922–2385).","Genel hükümler, borçlar, eşya, aile, miras."],
+  ["r6","recht","Regelungstechnik des BGB?","„Vor die Klammer ziehen“: Allgemeine Regeln stehen vorne und gelten auch für spezielle. Lex specialis: Das spezielle Gesetz verdrängt das allgemeine.","Genel kurallar başta; özel kural genelin önüne geçer."],
+  ["r7","recht","EU-Verordnung vs. EU-Richtlinie?","Verordnung gilt unmittelbar (Art. 288 Abs. 2 AEUV). Richtlinie muss in nationales Recht umgesetzt werden (Art. 288 Abs. 3 AEUV).","Tüzük doğrudan uygulanır; yönerge iç hukuka aktarılmalı."],
+  ["m1","methode","Was ist Subsumtion?","Die Unterordnung eines Sachverhalts unter einen Rechtssatz: Man prüft, ob die Tatbestandsmerkmale erfüllt sind und die Rechtsfolge eintritt.","Olayı kuralın şartlarına tek tek uygulamak."],
+  ["m2","methode","Die 4 Schritte des Gutachtenstils?","Obersatz (Konjunktiv: „könnte“) – Definition – Subsumtion – Ergebnis („folglich“).","Soru – kural – uygulama – sonuç."],
+  ["m3","methode","Gutachtenstil vs. Urteilsstil?","Gutachtenstil: Das Ergebnis steht am Ende. Urteilsstil: Ergebnis zuerst („…, denn …“) – in der Klausur Punktabzug.","Sınavda sonuç hep sonda gelir."],
+  ["m4","methode","Die 4 Auslegungsmethoden?","Grammatikalisch (Wortlaut), systematisch (Zusammenhang), teleologisch (Sinn und Zweck), historisch (Wille des Gesetzgebers – nur unterstützend).","Lafzi, sistematik, amaçsal, tarihsel yorum."],
+  ["m5","methode","Voraussetzungen einer Analogie?","① Planwidrige Regelungslücke ② vergleichbare Interessenlage.","Plana aykırı kanun boşluğu + benzer menfaat durumu."],
+  ["a1","anspruch","Was ist ein Anspruch?","Das Recht, von einem anderen ein Tun oder Unterlassen zu verlangen (§ 194 Abs. 1 BGB).","Birinden bir şey yapmasını veya yapmamasını isteme hakkı."],
+  ["a2","anspruch","Mit welcher Frage beginnt jede Falllösung?","Wer will was von wem woraus?","Kim, neyi, kimden, hangi dayanakla istiyor?"],
+  ["a3","anspruch","Aufbau einer Anspruchsprüfung?","I. Anspruch entstanden · II. Anspruch untergegangen · III. Anspruch durchsetzbar.","Doğdu mu? Sona erdi mi? İleri sürülebilir mi?"],
+  ["a4","anspruch","Anspruchsgrundlagen beim Kaufvertrag?","Kaufpreis: § 433 Abs. 2 BGB. Übergabe und Übereignung: § 433 Abs. 1 S. 1 BGB.","Bedel § 433 II, malın teslimi ve mülkiyet § 433 I 1."],
+  ["w1","we","Was ist eine Willenserklärung?","Die Äußerung eines Willens, der auf die Herbeiführung einer Rechtsfolge gerichtet ist. Sie ist Ausdruck der Privatautonomie.","Hukuki sonuç doğurmaya yönelik iradenin açıklanması."],
+  ["w2","we","Elemente der Willenserklärung?","Objektiv: Erklärung (ausdrücklich oder konkludent). Subjektiv: Handlungswille, Erklärungsbewusstsein, Geschäftswille.","Dış unsur: beyan. İç unsurlar: hareket iradesi, beyan bilinci, işlem iradesi."],
+  ["w3","we","Fehlt der Handlungswille – Folge?","Keine Willenserklärung (z. B. Reflex nach einem Wespenstich).","Hareket iradesi yoksa irade beyanı da yok."],
+  ["w4","we","Fehlendes Erklärungsbewusstsein – Folge?","H.M. (Erklärungstheorie): WE liegt vor, wenn der Erklärende es bei Sorgfalt hätte erkennen können; sie ist anfechtbar. Willenstheorie: keine WE.","Hâkim görüş: beyan var ama iptal edilebilir."],
+  ["w5","we","Wie wird eine WE ausgelegt?","§§ 133, 157 BGB: nach dem objektiven Empfängerhorizont mit Rücksicht auf die Verkehrssitte.","Makul bir alıcı beyanı nasıl anlardı?"],
+  ["z1","zugang","Wann wird eine empfangsbedürftige WE wirksam?","Mit Abgabe und Zugang (§ 130 Abs. 1 S. 1 BGB). Nicht empfangsbedürftig (z. B. Testament): schon mit Abgabe.","Gönderilmeli ve varmalı. Vasiyet için gönderme yeter."],
+  ["z2","zugang","Definition Zugang?","Wenn die Erklärung so in den Machtbereich des Empfängers gelangt, dass unter normalen Umständen mit Kenntnisnahme zu rechnen ist.","Alıcının hâkimiyet alanına girmesi + normalde okuyabilecek olması."],
+  ["z3","zugang","Definition Abgabe?","Die willentliche Entäußerung der Erklärung in den Rechtsverkehr.","Beyanı bilerek yola çıkarmak."],
+  ["z4","zugang","Was regelt § 130 Abs. 1 S. 2 BGB?","Den Widerruf: Geht er vorher oder gleichzeitig zu, wird die WE nicht wirksam.","Geri alma önce veya aynı anda ulaşırsa beyan geçersiz olur."],
+  ["v1","vertrag","Wie kommt ein Vertrag zustande?","Durch zwei übereinstimmende Willenserklärungen: Angebot und Annahme (§§ 145 ff. BGB).","İcap (teklif) + kabul."],
+  ["v2","vertrag","Definition Angebot?","Eine empfangsbedürftige WE, durch die einem anderen ein Vertragsschluss so angetragen wird, dass das Zustandekommen des Vertrages nur noch von dessen Zustimmung abhängt.","Karşı tarafın sadece „evet“ demesi yeterli olmalı."],
+  ["v3","vertrag","Definition Annahme?","Eine empfangsbedürftige WE, aus der hervorgeht, dass dem Angebot uneingeschränkt zugestimmt wird.","Teklife şartsız „evet“."],
+  ["v4","vertrag","Essentialia negotii beim Kauf?","Parteien, Kaufsache, Preis – plus Rechtsbindungswille.","Taraflar, mal, fiyat + bağlanma iradesi."],
+  ["v5","vertrag","Was ist eine invitatio ad offerendum?","Die Aufforderung, selbst ein Angebot abzugeben – ohne Rechtsbindungswillen. Z. B. Schaufenster, Katalog, Website.","İcaba davet: Teklifi müşteri yapar."],
+  ["v6","vertrag","Was regelt § 150 BGB?","Abs. 1: Verspätete Annahme = neuer Antrag. Abs. 2: Annahme mit Änderungen = Ablehnung + neuer Antrag.","Geç veya değiştirilmiş kabul = yeni teklif."],
+  ["v7","vertrag","Bis wann kann ein Angebot angenommen werden?","Anwesende (auch Telefon): sofort (§ 147 Abs. 1). Abwesende: solange mit Antwort zu rechnen ist (§ 147 Abs. 2). Mit Frist: bis Fristende (§ 148).","Hazırlar arasında hemen; değilse makul süre; süre verilmişse o süre içinde."],
+  ["v8","vertrag","Vertragsschluss bei einer Versteigerung?","Gebot = Angebot, Zuschlag = Annahme (§ 156). Ein Gebot erlischt durch ein Übergebot.","Pey = teklif, ihale = kabul."],
+].map(([id, topic, q, a, tr]) => ({ id, topic, q, a, tr }));
+
+// [id, topic, typ, frage, optionen, richtig(index), erklärung, tr, fall?]
+const QUIZ = [
+  ["q1","klausur","mc","Wie viel Prozent der Punkte gibt es für die Einzelfragen?",["25 %","50 %","75 %"],1,"50 % Falllösung, 50 % Einzelfragen – in der Probeklausur je 28 Punkte.","Puanın yarısı kısa sorulardan gelir."],
+  ["q2","klausur","mc","Gefragt ist nur nach Übergabe. Du prüfst zusätzlich Schadensersatz. Was bringt das?",["Bonuspunkte","Keine Punkte – Zeitverschwendung","Halbe Punkte"],1,"Laut Fehlerbericht gibt es für Ungefragtes (z. B. § 122 BGB) keine Punkte.","Sorulmayanı incelemek puan getirmez."],
+  ["q3","klausur","mc","Was gehört NICHT in ein Gutachten?",["Überschriften","Definition vor der Subsumtion","Den Sachverhalt nacherzählen"],2,"Sachverhalt und Gesetz kennt der Prüfer schon. Starte mit dem Obersatz.","Olayı yeniden anlatma, giriş cümlesiyle başla."],
+  ["q4","methode","mc","Welcher Satz ist ein richtiger Obersatz?",["„V hat gegen K einen Anspruch aus § 433 II.“","„V könnte gegen K einen Anspruch auf Zahlung von 50 € aus § 433 Abs. 2 BGB haben.“","„Ein Angebot ist eine empfangsbedürftige WE …“"],1,"Obersatz = Konjunktiv („könnte“) + Wer, was, von wem, woraus + genaue Norm.","Giriş cümlesi „könnte“ ile ve tam paragrafla yazılır."],
+  ["q5","methode","mc","„G ist Besitzer, denn er hält das Buch.“ Das ist …",["Gutachtenstil","Urteilsstil","eine Definition"],1,"Ergebnis zuerst = Urteilsstil. Richtig: „G müsste Besitzer sein. Besitzer ist … Folglich …“","Sonucu başta söylemek karar üslubudur – puan kaybettirir."],
+  ["q6","methode","mc","Welche Auslegungsmethode ist nach h.M. nur unterstützend?",["die systematische","die historische","die teleologische"],1,"Die historische Auslegung ist subsidiär: Sie stützt nur ein Ergebnis aus den anderen Methoden.","Tarihsel yorum sadece destekleyicidir."],
+  ["q7","methode","mc","„Wo Sitzt Tante Hilde?“ steht für …",["Wer, Sache, Tatbestand, Haftung","Wortlaut, Systematik, Telos, Historie","Wille, Subsumtion, Tatbestand, Handlung"],1,"Die 4 Auslegungsmethoden: Wortlaut, Systematik, Telos (Sinn und Zweck), Historie.","Dört yorum yöntemi için hafıza cümlesi."],
+  ["q8","recht","mc","Die Straßenverkehrs-Ordnung (StVO) ist …",["ein Gesetz im formellen Sinn","nur ein Gesetz im materiellen Sinn","Gewohnheitsrecht"],1,"Die StVO ist eine Rechtsverordnung der Exekutive (Art. 80 GG), kein Parlamentsgesetz.","Yönetmelik → sadece maddi anlamda kanun."],
+  ["q9","recht","mc","Die Uni beauftragt eine Sicherheitsfirma. Welches Rechtsgebiet?",["Öffentliches Recht","Privatrecht","Strafrecht"],1,"Es ist ein Dienstvertrag – beide Seiten handeln gleichgeordnet.","Sözleşme var → özel hukuk."],
+  ["q10","recht","mc","Seit wann ist das BGB in Kraft?",["1.1.1896","1.1.1900","1.1.1949"],1,"Erlassen 1896, in Kraft seit dem 1.1.1900.","1896'da kabul edildi, 1900'de yürürlüğe girdi."],
+  ["q11","recht","mc","In welchem Buch des BGB steht der Kaufvertrag?",["Allgemeiner Teil","Schuldrecht","Sachenrecht"],1,"§§ 433 ff. gehören zum Schuldrecht (§§ 241–853).","Satış sözleşmesi borçlar hukukundadır."],
+  ["q12","anspruch","mc","Anspruchsgrundlage für die Zahlung des Kaufpreises?",["§ 433 Abs. 1 S. 1 BGB","§ 433 Abs. 2 BGB","§ 985 BGB"],1,"§ 433 Abs. 2: Der Käufer ist verpflichtet, den Kaufpreis zu zahlen.","Satış bedeli → § 433 II."],
+  ["q13","anspruch","mc","Die Erfüllung (§ 362) prüfst du unter …",["I. Anspruch entstanden","II. Anspruch untergegangen","III. Anspruch durchsetzbar"],1,"Erfüllung ist rechtsvernichtend: Der Anspruch geht unter.","İfa talebi sona erdirir."],
+  ["q14","anspruch","mc","Die Verjährung (§ 214) prüfst du unter …",["I. entstanden","II. untergegangen","III. durchsetzbar"],2,"Verjährung ist eine Einrede (rechtshemmend): Der Anspruch besteht, ist aber nicht durchsetzbar.","Zamanaşımı bir def'idir."],
+  ["q15","we","mc","B wird bei einer Auktion von einer Wespe gestochen und reißt die Hand hoch.",["WE, aber anfechtbar","WE, voll wirksam","keine WE – Handlungswille fehlt"],2,"Ein Reflex ist keine Handlung. Ohne Handlungswillen keine Willenserklärung.","Refleks hareketi irade beyanı değildir."],
+  ["q16","we","mc","B will ein Rad leihen, verhört sich und sagt „Ja“ zum Kauf.",["keine WE","WE, aber anfechtbar (§ 119)","WE, nichtig"],1,"Fehlt nur der Geschäftswille, liegt trotzdem eine WE vor. B kann anfechten.","İşlem iradesi eksikse beyan vardır ama iptal edilebilir."],
+  ["q17","we","mc","Trierer Weinversteigerung: A winkt einem Freund zu. Nach h.M. …",["keine WE","WE, wenn A es hätte erkennen können – anfechtbar","der Vertrag ist automatisch nichtig"],1,"Erklärungstheorie (h.M.): Erklärungsfahrlässigkeit genügt; A kann anfechten.","Hâkim görüş: beyan var, iptal edilebilir."],
+  ["q18","we","mc","Wie wird eine Willenserklärung ausgelegt?",["So, wie der Erklärende sie meinte","So, wie ein objektiver Empfänger sie verstehen durfte","Nur nach dem Wortlaut"],1,"§§ 133, 157 BGB: objektiver Empfängerhorizont mit Rücksicht auf die Verkehrssitte.","Makul bir alıcının anlayışı esastır."],
+  ["q19","we","mc","B nickt auf ein Angebot. Das ist …",["eine ausdrückliche Erklärung","eine konkludente Erklärung","keine Erklärung"],1,"Konkludent = durch schlüssiges Verhalten (Nicken, Hand heben).","Davranışla yapılan örtülü beyan."],
+  ["q20","zugang","mc","Ein Brief wird um 21 Uhr in den Briefkasten eines Büros geworfen. Zugang?",["sofort um 21 Uhr","am nächsten Morgen","erst, wenn jemand ihn liest"],1,"Nach 18 Uhr ist erst am nächsten Tag mit Kenntnisnahme zu rechnen.","Akşam atılan mektup ertesi sabah ulaşmış sayılır."],
+  ["q21","zugang","mc","E-Mail an eine Firma, Eingang um 15 Uhr in der Geschäftszeit. Zugang?",["um 15 Uhr","am nächsten Morgen","erst, wenn sie gelesen wird"],0,"Geschäftlich, in der Geschäftszeit: Kenntnisnahme ist sofort zu erwarten.","Mesai saatinde gelen iş e-postası hemen ulaşmış sayılır."],
+  ["q22","zugang","mc","Ein Telefonat gilt als Erklärung …",["unter Abwesenden","unter Anwesenden (§ 147 Abs. 1 S. 2)","gar nicht als Erklärung"],1,"Entscheidend ist der direkte Dialog – auch am Telefon oder per Video.","Telefon konuşması hazırlar arası sayılır."],
+  ["q23","zugang","mc","Der Brief liegt seit Montag im Briefkasten. Am Dienstag widerruft der Absender.",["Widerruf wirksam","Zu spät – die WE ist wirksam","Beide unwirksam"],1,"Der Widerruf muss vorher oder gleichzeitig zugehen (§ 130 Abs. 1 S. 2).","Geri alma geç kaldı – beyan geçerli."],
+  ["q24","zugang","mc","Anwältin R lässt eine Bestellung liegen, die Sekretärin schickt sie ab. Das Problem heißt …",["invitatio ad offerendum","abhandengekommene Willenserklärung","Dissens"],1,"Streit: e.A. keine Abgabe, a.A. Zurechnung (dann anfechtbar, § 122 analog).","Sahibinin göndermek istemediği beyan."],
+  ["q25","vertrag","mc","Ein Online-Shop zeigt eine Jacke für 80 €. Das ist …",["eine invitatio ad offerendum","ein Angebot nach § 145 BGB","eine Annahme"],0,"Kein Rechtsbindungswille: begrenzte Ware, Verkäufer will Kunden aussuchen. Das Angebot macht der Kunde.","Online mağaza = icaba davet."],
+  ["q26","vertrag","mc","V bietet ein Rad für 500 € an. K sagt: „Ja, für 450 €.“",["Ablehnung + neues Angebot (§ 150 Abs. 2)","Vertrag über 450 €","Vertrag über 500 €"],0,"Eine Annahme mit Änderungen ist eine Ablehnung, verbunden mit einem neuen Antrag.","„Evet ama 450 €“ = ret + yeni teklif."],
+  ["q27","vertrag","mc","Ein Warenautomat ist …",["eine invitatio","ein Angebot an alle („ad incertas personas“)","keine Erklärung"],1,"Der Automat verkauft an jeden, solange Ware da ist. Annahme: Geld einwerfen.","Otomat herkese yapılmış bir tekliftir."],
+  ["q28","vertrag","mc","Bei einer Versteigerung kommt der Vertrag zustande durch …",["das Gebot","den Zuschlag (§ 156)","die Zahlung"],1,"Gebot = Angebot, Zuschlag = Annahme.","Açık artırmada sözleşme ihale ile kurulur."],
+  ["q29","vertrag","mc","Ein Angebot unter Anwesenden kann angenommen werden …",["nur sofort (§ 147 Abs. 1)","innerhalb einer Woche","bis zum Widerruf"],0,"Unter Anwesenden – auch am Telefon – nur sofort.","Hazırlar arasında teklif hemen kabul edilmeli."],
+  ["q30","vertrag","mc","Was muss ein Angebot zum Kauf mindestens enthalten?",["Parteien, Kaufsache, Preis","eine Unterschrift","ein Lieferdatum"],0,"Die essentialia negotii – damit der andere nur noch „Ja“ sagen muss.","Esaslı unsurlar: taraflar, mal, fiyat."],
+  ["q31","vertrag","mc","Eine eBay-Auktion löst du über …",["§ 156 – Zuschlag","normal Angebot + Annahme","gar nicht – kein Vertrag möglich"],1,"Keine Versteigerung i.S.v. § 156 (kein Zuschlag). Das Einstellen ist ein verbindliches Angebot.","eBay normal teklif + kabul ile çözülür."],
+  ["t1","recht","wf","Das BGB hat fünf Bücher.",["Wahr","Falsch"],0,"AT, Schuldrecht, Sachenrecht, Familienrecht, Erbrecht.","BGB beş kitaptır."],
+  ["t2","zugang","wf","Ein Brief geht erst zu, wenn der Empfänger ihn liest.",["Wahr","Falsch"],1,"Es reicht, dass unter normalen Umständen mit Kenntnisnahme zu rechnen ist.","Okunması gerekmez – okunabilir olması yeter."],
+  ["t3","we","wf","Fehlt der Geschäftswille, liegt keine Willenserklärung vor.",["Wahr","Falsch"],1,"Die WE liegt vor; sie ist nur anfechtbar (§ 119).","İşlem iradesi eksik olsa da beyan vardır."],
+  ["t4","zugang","wf","Ein Testament muss zugehen, um wirksam zu sein.",["Wahr","Falsch"],1,"Das Testament ist nicht empfangsbedürftig: Die Abgabe genügt.","Vasiyet için varma gerekmez."],
+  ["t5","vertrag","wf","Eine verspätete Annahme gilt als neues Angebot.",["Wahr","Falsch"],0,"§ 150 Abs. 1 BGB.","Geç kabul yeni tekliftir."],
+  ["t6","methode","wf","Die historische Auslegung ist nach h.M. die wichtigste Methode.",["Wahr","Falsch"],1,"Sie ist nur unterstützend (subsidiär).","Tarihsel yorum en önemlisi değildir."],
+  ["t7","methode","wf","Im Gutachten steht das Ergebnis am Anfang.",["Wahr","Falsch"],1,"Das Ergebnis kommt am Ende – sonst Urteilsstil.","Sonuç her zaman sonda."],
+  ["t8","recht","wf","Das Strafrecht gehört zum öffentlichen Recht.",["Wahr","Falsch"],0,"Der Staat straft den Bürger – Über- und Unterordnung.","Ceza hukuku kamu hukukudur."],
+  ["t9","zugang","wf","Stirbt der Erklärende nach der Abgabe, wird die WE trotzdem wirksam.",["Wahr","Falsch"],0,"§ 130 Abs. 2 BGB.","Gönderdikten sonra ölüm beyanı etkilemez."],
+  ["t10","vertrag","wf","Ein Katalog ist eine invitatio ad offerendum.",["Wahr","Falsch"],0,"Wie Schaufenster und Website: kein Rechtsbindungswille.","Katalog icaba davettir."],
+  ["f1","vertrag","fall","Muss H verkaufen?",["Ja, das Preisschild ist ein Angebot","Nein: Schaufenster = invitatio. K macht das Angebot, H kann ablehnen.","Ja, wegen § 150 BGB"],1,"Die Auslage ist nur eine Aufforderung. Das Angebot macht K – und H muss es nicht annehmen.","Vitrin teklif değildir; H kabul etmek zorunda değil.","Im Schaufenster von H hängt ein Mantel mit dem Schild „19 €“ – gemeint waren 190 €. K will ihn für 19 € kaufen."],
+  ["f2","vertrag","fall","Ist ein Vertrag zustande gekommen?",["Nein, die Annahme fehlt","Ja – Annahme durch Versenden der Ware (§ 151)","Nein, der Katalog ist bindend"],1,"Katalog = invitatio, Bestellung = Angebot. Die Annahme muss nach der Verkehrssitte nicht erklärt werden (§ 151).","Malı göndermek kabul sayılır (§ 151).","K bestellt per Brief eine Lampe aus dem Katalog von V. V antwortet nicht, schickt aber sofort die Lampe los."],
+  ["f3","vertrag","fall","Ist ein Vertrag zustande gekommen?",["Ja","Nein: Unter Anwesenden nur sofortige Annahme (§ 147 Abs. 1). K's „Ja“ ist ein neues Angebot (§ 150 Abs. 1).","Ja, wegen § 151"],1,"Das Telefonat ist ein Gespräch unter Anwesenden. Das Angebot erlosch (§ 146); Ks spätes „Ja“ ist ein neues Angebot, das V annehmen müsste.","Telefonda teklif hemen kabul edilmeli; ertesi günkü „evet“ yeni tekliftir.","V fragt K am Telefon: „Willst du mein Auto für 8.000 €?“ K: „Ich überlege und rufe morgen an.“ Am nächsten Tag ruft K an: „Ja!“"],
+  ["f4","zugang","fall","Was ist die Folge?",["Das Angebot ist trotzdem wirksam","Widerruf rechtzeitig – das Angebot wird nicht wirksam (§ 130 Abs. 1 S. 2)","K muss anfechten"],1,"Der Widerruf ging vor dem Brief zu.","Geri alma mektuptan önce ulaştı – teklif hiç geçerli olmadı.","K schickt V per Brief ein Angebot. Noch bevor der Brief ankommt, ruft K bei V an: „Vergiss mein Angebot!“"],
+  ["f5","we","fall","Was gilt nach h.M.?",["Keine Willenserklärung","WE, wenn A es hätte erkennen können – anfechtbar","Der Vertrag ist automatisch nichtig"],1,"Das Erklärungsbewusstsein fehlt. Nach der Erklärungstheorie genügt Erklärungsfahrlässigkeit.","Beyan bilinci yok; hâkim görüşe göre beyan var, iptal edilebilir.","A unterschreibt ein Blatt, das er für eine Glückwunschkarte hält. Tatsächlich ist es eine Sammelbestellung für Wein."],
+  ["f6","vertrag","fall","Wer hat das Angebot gemacht?",["V","K","niemand – kein Vertrag"],1,"V wollte sich nicht binden (kein Preis, „vielleicht“). Ks „150 €“ ist das Angebot, Vs „Deal“ die Annahme.","Teklifi K yaptı, V kabul etti.","V sagt: „Ich verkaufe vielleicht mein Rad. Was bietest du?“ K: „150 €.“ V: „Deal.“"],
+].map(([id, topic, type, q, opts, ans, expl, tr, ctx]) => ({ id, topic, type, q, opts, ans, expl, tr, ctx }));
+
+/* ───────── Zustand ───────── */
+const KEY = "zivilrecht-drill-v1";
+const RANKS = ["Rechts-Neuling","Paragrafen-Scout","Gutachten-Lehrling","Anspruchs-Jäger","Gutachten-Profi","Klausur-Maschine"];
+const INTERVAL_DAYS = [0, 0.25, 1, 2, 4, 7];
+const LEVEL_XP = 150;
+const fresh = () => ({ v: 1, xp: 0, days: [], cards: {}, quiz: {}, rounds: [], updatedAt: 0 });
+let S = fresh();
+let db = null, docRef = null, saving = false, dirty = false, saveTimer = null;
+
+function loadLocal() { try { const t = localStorage.getItem(KEY); return t ? JSON.parse(t) : null; } catch { return null; } }
+function saveLocal() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch {} }
+const today = () => new Date().toISOString().slice(0, 10);
+
+function touch() {
+  S.updatedAt = Date.now();
+  const d = today();
+  if (!S.days.includes(d)) { S.days.push(d); if (S.days.length > 60) S.days = S.days.slice(-60); }
+  saveLocal(); scheduleSave(); renderTop();
+}
+function scheduleSave() { if (!docRef) return; dirty = true; clearTimeout(saveTimer); saveTimer = setTimeout(flush, 1200); }
+async function flush() {
+  if (!docRef || saving || !dirty) return;
+  saving = true; dirty = false;
+  try { await docRef.set(JSON.parse(JSON.stringify(S))); setSync(true); }
+  catch (e) { setSync(false, e && e.code === "quota_exceeded" ? "Speicher voll – nur auf diesem Gerät" : "Nur auf diesem Gerät gespeichert"); }
+  saving = false;
+  if (dirty) scheduleSave();
+}
+function setSync(on, msg) {
+  document.getElementById("sync").innerHTML = `<i class="dot${on ? " on" : ""}"></i>` + esc(msg || (on ? "Fortschritt in deinem Konto gespeichert" : "Fortschritt nur auf diesem Gerät"));
+}
+
+/* ───────── Hilfen ───────── */
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const level = () => Math.floor(S.xp / LEVEL_XP) + 1;
+const rankName = l => RANKS[Math.min(l - 1, RANKS.length - 1)] + (l > RANKS.length ? " " + (l - RANKS.length + 1) : "");
+function streak() {
+  const set = new Set(S.days); let n = 0; const d = new Date();
+  if (!set.has(d.toISOString().slice(0, 10))) d.setDate(d.getDate() - 1);
+  while (set.has(d.toISOString().slice(0, 10))) { n++; d.setDate(d.getDate() - 1); }
+  return n;
+}
+const cardState = id => S.cards[id] || { box: 0, due: 0, right: 0, wrong: 0 };
+const dueCards = () => CARDS.filter(c => cardState(c.id).due <= Date.now());
+const mastered = () => CARDS.filter(c => cardState(c.id).box >= 4).length;
+function accuracy(topic) {
+  let r = 0, w = 0;
+  QUIZ.filter(q => !topic || q.topic === topic).forEach(q => { const s = S.quiz[q.id]; if (s) { r += s.right; w += s.wrong; } });
+  CARDS.filter(c => !topic || c.topic === topic).forEach(c => { const s = S.cards[c.id]; if (s) { r += s.right; w += s.wrong; } });
+  return r + w ? Math.round((r / (r + w)) * 100) : null;
+}
+const weakItems = () => QUIZ.filter(q => { const s = S.quiz[q.id]; return s && s.last === 0; });
+
+function addXP(n) {
+  if (!n) return;
+  const before = level();
+  S.xp += n;
+  popText("+" + n + " XP");
+  if (level() > before) setTimeout(() => levelUp(level()), 700);
+}
+function popText(t) {
+  const el = document.createElement("div"); el.className = "pop"; el.textContent = t;
+  document.body.appendChild(el); setTimeout(() => el.remove(), 950);
+}
+
+/* ───────── Kopf ───────── */
+function renderTop() {
+  document.getElementById("xpChip").textContent = S.xp + " XP";
+  document.getElementById("streakN").textContent = streak();
+}
+
+/* ───────── Start ───────── */
+function home() {
+  const l = level(), inL = S.xp % LEVEL_XP, pct = Math.round((inL / LEVEL_XP) * 100);
+  const acc = accuracy(), due = dueCards().length, weak = weakItems().length;
+  const C = 2 * Math.PI * 40;
+  const topics = Object.entries(TOPICS).map(([k, name]) => {
+    const a = accuracy(k);
+    return `<div class="topic"><span>${esc(name)}</span><div class="tbar"><i style="width:${a ?? 0}%"></i></div><span class="pct">${a === null ? "–" : a + " %"}</span></div>`;
+  }).join("");
+  view.innerHTML = `
+    <section class="stage">
+      <span class="label">Tag 1 · Das Fundament</span>
+      <h1>Trainiere bis es <em>sitzt</em>.</h1>
+      <div class="lvl">
+        <div class="ring"><svg viewBox="0 0 92 92"><circle cx="46" cy="46" r="40" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="6"/><circle cx="46" cy="46" r="40" fill="none" stroke="#c9a25e" stroke-width="6" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${C * (1 - pct / 100)}"/></svg><div class="n"><b>${l}</b><span>Level</span></div></div>
+        <div><div class="rank">${esc(rankName(l))}</div><div class="sub">${inL} / ${LEVEL_XP} XP bis Level ${l + 1}</div><div class="bar"><i style="width:${pct}%"></i></div></div>
+      </div>
+      <div class="stats">
+        <div><b>${mastered()}<span style="font-size:18px;color:var(--stage-muted)"> / ${CARDS.length}</span></b><span>Karten sicher</span></div>
+        <div><b>${acc === null ? "–" : acc + " %"}</b><span>Trefferquote</span></div>
+        <div><b>${streak()}</b><span>Tage am Stück</span></div>
+      </div>
+    </section>
+    <nav class="days" aria-label="Lerntage">
+      <button class="day on">Tag 1 · Fundament</button>
+      <button class="day" disabled>Tag 2 · bald</button>
+      <button class="day" disabled>Tag 3 · bald</button>
+      <button class="day" disabled>Tag 4 · bald</button>
+    </nav>
+    <section class="modes">
+      <button class="mode dark" data-go="quiz"><span class="label">10 Fragen · Combo-Bonus</span><h3>Quiz-Runde</h3><p>Multiple Choice, Wahr/Falsch und Mini-Fälle – mit Erklärung auf Deutsch und Türkisch.</p><span class="go">Runde starten →</span></button>
+      <button class="mode" data-go="cards"><span class="label">Lernkartei · ${due} fällig</span><h3>Karteikarten</h3><p>Frage lesen, laut antworten, aufdecken. Gewusste Karten kommen seltener wieder.</p><span class="go">${due ? "Fällige Karten lernen →" : "Alles gelernt – Bonusrunde →"}</span></button>
+      <button class="mode" data-go="cases"><span class="label">6 Fälle</span><h3>Mini-Fälle</h3><p>Kurze Sachverhalte wie in der Klausur: Wer macht das Angebot? Ist es zugegangen?</p><span class="go">Fälle lösen →</span></button>
+      <button class="mode" data-go="weak"><span class="label">${weak} offen</span><h3>Schwachstellen</h3><p>Nur die Fragen, die du zuletzt falsch hattest. Bis alles grün ist.</p><span class="go">${weak ? "Fehler ausbügeln →" : "Noch keine Fehler →"}</span></button>
+    </section>
+    <section class="topics"><span class="label">Trefferquote nach Thema</span><div style="margin-top:8px">${topics}</div></section>
+    <div class="tr"><b>TR</b><span>Her gün önce Quiz-Runde, sonra vadesi gelen kartlar. Yanlış yaptıkların „Schwachstellen“ bölümünde toplanır. İlerlemen kaydedilir; Claude'a „Drill'imi kontrol et“ dersen zayıf konularını görür.</span></div>`;
+  view.querySelectorAll("[data-go]").forEach(b => b.onclick = () => {
+    const g = b.dataset.go;
+    if (g === "quiz") startQuiz(shuffle(QUIZ.filter(q => q.type !== "fall")).slice(0, 10), "Quiz-Runde");
+    if (g === "cases") startQuiz(shuffle(QUIZ.filter(q => q.type === "fall")), "Mini-Fälle");
+    if (g === "weak") { const w = weakItems(); w.length ? startQuiz(shuffle(w), "Schwachstellen") : startQuiz(shuffle(QUIZ).slice(0, 5), "Bonusrunde"); }
+    if (g === "cards") startCards();
+  });
+}
+
+/* ───────── Karteikarten ───────── */
+let deck = [], di = 0, deckLen = 0;
+function startCards() {
+  const due = dueCards().sort((a, b) => cardState(a.id).box - cardState(b.id).box);
+  deck = (due.length ? due : shuffle(CARDS)).slice(0, 15); di = 0; deckLen = deck.length;
+  showCard(false);
+}
+function showCard(open) {
+  if (di >= deck.length) return finishCards();
+  const c = deck[di], st = cardState(c.id);
+  const boxes = [1, 2, 3, 4, 5].map(i => `<i class="${st.box >= i ? "on" : ""}"></i>`).join("");
+  view.innerHTML = `
+    <div class="bar2"><button class="back" id="back">← Start</button><div class="prog"><i style="width:${Math.round((Math.min(di, deckLen) / deckLen) * 100)}%"></i></div><span class="muted" style="font-size:13px">${Math.min(di + 1, deck.length)} / ${deck.length}</span></div>
+    <article class="card">
+      <div class="row" style="justify-content:space-between"><span class="label">${esc(TOPICS[c.topic])}</span><span class="boxes" title="Lernstufe">${boxes}</span></div>
+      <div class="q">${esc(c.q)}</div>
+      ${open ? `<div class="a">${esc(c.a)}</div><div class="tr"><b>TR</b><span>${esc(c.tr)}</span></div>` : ""}
+    </article>
+    <div class="btns">${open
+      ? `<button class="btn no" data-r="0">Nicht gewusst<small>kommt gleich wieder</small></button><button class="btn mid" data-r="1">Unsicher<small>+1 XP</small></button><button class="btn ok" data-r="2">Gewusst<small>+3 XP</small></button>`
+      : `<button class="btn main" id="reveal">Aufdecken</button>`}</div>
+    <p class="muted" style="font-size:13.5px;margin-top:12px">${open ? "Sei ehrlich – nur so weiß die Kartei, was du wiederholen musst." : "Erst laut antworten, dann aufdecken."}</p>`;
+  document.getElementById("back").onclick = home;
+  if (!open) document.getElementById("reveal").onclick = () => showCard(true);
+  else view.querySelectorAll("[data-r]").forEach(b => b.onclick = () => rateCard(c, +b.dataset.r));
+}
+function rateCard(c, r) {
+  const st = { ...cardState(c.id) };
+  if (r === 0) { st.box = 1; st.due = Date.now(); st.wrong++; deck.push(c); }
+  else if (r === 1) { st.box = Math.max(1, st.box); st.due = Date.now() + 10 * 60000; st.right++; addXP(1); if (deck.indexOf(c, di + 1) < 0 && deck.length < deckLen + 8) deck.push(c); }
+  else { st.box = Math.min(5, st.box + 1); st.due = Date.now() + INTERVAL_DAYS[st.box] * 86400000 - (INTERVAL_DAYS[st.box] >= 1 ? 7200000 : 0); st.right++; addXP(3); }
+  S.cards[c.id] = st; touch(); di++; showCard(false);
+}
+function finishCards() {
+  view.innerHTML = `
+    <div class="bar2"><button class="back" id="back">← Start</button></div>
+    <section class="card result">
+      <span class="label">Kartei-Runde geschafft</span>
+      <svg class="medal" viewBox="0 0 58 64"><polygon points="18,38 11,61 18.5,57 23,63 27,45" fill="#c9a25e"/><polygon points="40,38 47,61 39.5,57 35,63 31,45" fill="#a47c3b"/><circle cx="29" cy="26" r="22" fill="var(--gold-soft)" stroke="#bf9858" stroke-width="1.2"/><text x="29" y="33" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="20" fill="#a47c3b">§</text></svg>
+      <h2 style="font-size:34px;margin-top:6px">${mastered()} von ${CARDS.length} Karten sitzen</h2>
+      <p class="muted">Gewusste Karten kommen erst in 1, 2, 4 oder 7 Tagen wieder. So landet alles im Langzeitgedächtnis.</p>
+      <div class="btns" style="grid-template-columns:repeat(2,minmax(0,1fr))"><button class="btn" id="again">Noch eine Runde</button><button class="btn main" style="grid-column:auto" id="toQuiz">Quiz-Runde</button></div>
+    </section>`;
+  burst();
+  document.getElementById("back").onclick = home;
+  document.getElementById("again").onclick = startCards;
+  document.getElementById("toQuiz").onclick = () => startQuiz(shuffle(QUIZ.filter(q => q.type !== "fall")).slice(0, 10), "Quiz-Runde");
+}
+
+/* ───────── Quiz ───────── */
+let Q = [], qi = 0, score = 0, combo = 0, roundXP = 0, roundName = "";
+function startQuiz(items, name) { Q = items; qi = 0; score = 0; combo = 0; roundXP = 0; roundName = name; showQ(); }
+function showQ() {
+  if (qi >= Q.length) return finishQuiz();
+  const q = Q[qi];
+  const keys = q.type === "wf" ? ["W", "F"] : ["a", "b", "c", "d"];
+  const order = q.type === "wf" ? [0, 1] : shuffle(q.opts.map((_, i) => i));
+  view.innerHTML = `
+    <div class="bar2"><button class="back" id="back">← Start</button><div class="prog"><i style="width:${Math.round((qi / Q.length) * 100)}%"></i></div><span class="combo" id="combo">${combo >= 2 ? "Combo ×" + combo : ""}</span></div>
+    <article class="card">
+      <div class="row" style="justify-content:space-between"><span class="label">${esc(roundName)} · ${qi + 1} / ${Q.length}</span><span class="label" style="color:var(--muted)">${esc(TOPICS[q.topic])}</span></div>
+      ${q.ctx ? `<div class="case">${esc(q.ctx)}</div>` : ""}
+      <div class="q">${esc(q.q)}</div>
+      <div class="opts">${order.map((i, pos) => `<button class="opt" data-i="${i}"><span class="k">${keys[pos]}</span><span>${esc(q.opts[i])}</span></button>`).join("")}</div>
+      <div id="fb"></div>
+    </article>`;
+  document.getElementById("back").onclick = home;
+  view.querySelectorAll(".opt").forEach(b => b.onclick = () => answer(q, +b.dataset.i));
+}
+function answer(q, i) {
+  const ok = i === q.ans;
+  view.querySelectorAll(".opt").forEach(b => { b.disabled = true; const k = +b.dataset.i; if (k === q.ans) b.classList.add("right"); else if (k === i) b.classList.add("wrong"); });
+  const st = S.quiz[q.id] || { right: 0, wrong: 0, last: null };
+  if (ok) { st.right++; st.last = 1; score++; combo++; let gain = 10; if (combo % 3 === 0) gain += 5; roundXP += gain; addXP(gain); }
+  else { st.wrong++; st.last = 0; combo = 0; }
+  S.quiz[q.id] = st; touch();
+  document.getElementById("combo").textContent = combo >= 2 ? "Combo ×" + combo : "";
+  document.getElementById("fb").innerHTML = `
+    <div class="fb ${ok ? "right" : "wrong"}">
+      <div class="h">${ok ? (combo && combo % 3 === 0 ? "Richtig! Combo-Bonus +5" : "Richtig!") : "Leider falsch – richtig ist: " + esc(q.opts[q.ans])}</div>
+      <p>${esc(q.expl)}</p>
+      <div class="tr"><b>TR</b><span>${esc(q.tr)}</span></div>
+    </div>
+    <div class="btns"><button class="btn main" id="next">${qi + 1 < Q.length ? "Weiter" : "Auswertung"}</button></div>`;
+  const n = document.getElementById("next"); n.focus(); n.onclick = () => { qi++; showQ(); };
+}
+function finishQuiz() {
+  const pct = Q.length ? Math.round((score / Q.length) * 100) : 0;
+  let bonus = 0;
+  if (Q.length >= 5 && pct >= 80) { bonus = 20; roundXP += bonus; addXP(bonus); }
+  S.rounds.push({ d: today(), n: roundName, s: score, t: Q.length }); if (S.rounds.length > 40) S.rounds = S.rounds.slice(-40);
+  touch();
+  const msg = pct >= 80 ? "Stark. So sieht eine 1,7 aus." : pct >= 50 ? "Solide. Die Fehler landen in deinen Schwachstellen." : "Kein Problem – genau dafür trainierst du. Lies die Erklärungen noch einmal.";
+  view.innerHTML = `
+    <div class="bar2"><button class="back" id="back">← Start</button></div>
+    <section class="card result">
+      <span class="label">${esc(roundName)} · Auswertung</span>
+      <div class="big">${score}<span> / ${Q.length}</span></div>
+      <h2 style="font-size:28px;margin-top:6px">${pct} % richtig · +${roundXP} XP</h2>
+      <p class="muted">${esc(msg)}${bonus ? " Runden-Bonus: +20 XP." : ""}</p>
+      <div class="tr" style="justify-content:center"><b>TR</b><span>${pct >= 80 ? "Harika – PDF'teki görev için de +20 XP yaz." : "Yanlışlarını „Schwachstellen“ bölümünde tekrar et."}</span></div>
+      <div class="btns" style="grid-template-columns:repeat(2,minmax(0,1fr))"><button class="btn" id="again">Neue Runde</button><button class="btn main" style="grid-column:auto" id="home">Zum Start</button></div>
+    </section>`;
+  if (pct >= 80) burst();
+  document.getElementById("back").onclick = home;
+  document.getElementById("home").onclick = home;
+  document.getElementById("again").onclick = () => startQuiz(shuffle(QUIZ.filter(q => q.type !== "fall")).slice(0, 10), "Quiz-Runde");
+}
+
+/* ───────── Level-up & Konfetti ───────── */
+function levelUp(l) {
+  const o = document.createElement("div"); o.className = "overlay";
+  o.innerHTML = `<div class="box" role="dialog" aria-label="Level aufgestiegen"><span class="label" style="color:#c9a25e">Level up</span><div class="num">${l}</div><h2>${esc(rankName(l))}</h2><p>Du bist aufgestiegen. Weiter so – jede Runde bringt dich näher an die 1,7.</p><button class="btn main" style="width:100%;margin-top:8px">Weiter</button></div>`;
+  document.body.appendChild(o); burst();
+  o.querySelector("button").onclick = () => o.remove();
+}
+function burst() {
+  if (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const cv = document.getElementById("fx"), ctx = cv.getContext("2d");
+  const w = cv.width = innerWidth * devicePixelRatio, h = cv.height = innerHeight * devicePixelRatio;
+  const cols = ["#c9a25e", "#e9cf98", "#a47c3b", "#f2ece0", "#85662b"];
+  const P = Array.from({ length: 110 }, () => ({ x: w / 2, y: h * 0.35, vx: (Math.random() - .5) * 18 * devicePixelRatio, vy: (Math.random() * -14 - 4) * devicePixelRatio, s: (4 + Math.random() * 5) * devicePixelRatio, r: Math.random() * 6, c: cols[Math.floor(Math.random() * cols.length)] }));
+  let t = 0;
+  (function step() {
+    ctx.clearRect(0, 0, w, h); t++;
+    P.forEach(p => { p.vy += .45 * devicePixelRatio; p.x += p.vx; p.y += p.vy; p.r += .15; ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.r); ctx.fillStyle = p.c; ctx.fillRect(-p.s / 2, -p.s / 4, p.s, p.s / 2); ctx.restore(); });
+    if (t < 110) requestAnimationFrame(step); else ctx.clearRect(0, 0, w, h);
+  })();
+}
+
+/* ───────── Start & Sync ───────── */
+const view = document.getElementById("view");
+const local = loadLocal();
+if (local && local.v === 1) S = Object.assign(fresh(), local);
+renderTop(); home();
+setSync(false, "Fortschritt nur auf diesem Gerät");
+
+(async () => {
+  try {
+    if (!window.claude || !window.claude.use) return;
+    const [dbNs, user] = await Promise.all([window.claude.use("db"), window.claude.use("user")]);
+    const uid = user ? await user.id() : null;
+    if (!dbNs || !uid) return;
+    db = dbNs; docRef = db.doc("progress/" + uid);
+    const snap = await docRef.get();
+    const remote = snap.exists ? snap.data() : null;
+    if (remote && remote.v === 1 && (remote.updatedAt || 0) >= (S.updatedAt || 0)) {
+      S = Object.assign(fresh(), JSON.parse(JSON.stringify(remote))); saveLocal(); renderTop(); home(); setSync(true);
+    } else if (S.updatedAt) { dirty = true; await flush(); }
+    else setSync(true, "Bereit – Fortschritt wird in deinem Konto gespeichert");
+  } catch (e) { setSync(false); }
+})();
+})();
+</script>

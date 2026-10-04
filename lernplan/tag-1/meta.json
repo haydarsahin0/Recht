@@ -2,5 +2,12 @@
   "title": "Tag 1 · Das Fundament",
   "run": "Tag 1 · Das Fundament",
   "out": "Tag-1-Das-Fundament.pdf",
-  "levels": ["Level 1", "Level 2", "Level 3", "Level 4", "Finale"]
+  "levels": [
+    "Level 1",
+    "Level 2",
+    "Level 3",
+    "Level 4",
+    "Finale"
+  ],
+  "app": "https://claude.ai/artifact/Aqkgt1pBGem1hGmo2Bcx4v"
 }

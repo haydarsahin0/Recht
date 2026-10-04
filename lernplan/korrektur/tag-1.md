@@ -109,3 +109,17 @@ Antworten sollen abstrakt sein und – wo möglich – eine Norm nennen (Fehlerb
 | 4 | Was ist eine WE, welche Elemente? | 3 | Definition: Äußerung eines Willens, der auf die Herbeiführung einer Rechtsfolge gerichtet ist (1) · objektiv: Erklärung, ausdrücklich oder konkludent (1) · subjektiv: Handlungswille, Erklärungsbewusstsein, Geschäftswille (1) |
 | 5 | invitatio ad offerendum + Beispiel? | 2 | Aufforderung zur Abgabe eines Angebots, ohne Rechtsbindungswillen (1) · Beispiel: Schaufenster, Katalog, Website (1) |
 | 6 | Wann wird eine empfangsbedürftige WE unter Abwesenden wirksam? | 2 | Mit Zugang, § 130 Abs. 1 S. 1 BGB (1) · Zugang: Machtbereich + unter normalen Umständen Kenntnisnahme zu erwarten (1) |
+
+---
+
+## App-Fortschritt lesen („Prüf meinen Drill“)
+
+Die Quiz-App ist das Artifact https://claude.ai/artifact/Aqkgt1pBGem1hGmo2Bcx4v (Quelle: `app/zivilrecht-drill.html`).
+Fortschritt liegt im Artifact-Datenspeicher, Collection `progress`, ein Dokument pro Person (Doc-ID = User-ID).
+Lesen mit `ArtifactData` → `action: "list"`, `collection: "progress"`.
+
+Felder: `xp`, `days` (Lerntage), `cards` (`{id: {box 0–5, due, right, wrong}}`), `quiz` (`{id: {right, wrong, last}}`,
+`last: 0` = zuletzt falsch), `rounds` (letzte Runden mit Punktzahl). Karten-/Fragen-IDs: `k*` Klausur, `r*` Recht,
+`m*` Methode, `a*` Anspruch, `w*` Willenserklärung, `z*` Zugang, `v*` Vertrag, `q*`/`t*` Quiz, `f*` Mini-Fälle.
+Auswertung für den Studenten: schwächste Themen (Trefferquote), Karten in Box 0–1, Fragen mit `last: 0` – dann gezielt
+die passenden Seiten im PDF und eine Mini-Übung vorschlagen.

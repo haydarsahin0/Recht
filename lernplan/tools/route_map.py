@@ -3,15 +3,15 @@
 Aufruf: python3 tools/route_map.py > tag-1/pages/01b-route.html
 """
 GOLD, GOLDL, DEEP, INK, MUTED, CARD, NIGHT = "#a47c3b", "#bf9858", "#85662b", "#1c1a17", "#6b665d", "#f7f6f2", "#16140f"
-W, ROWS, R = 694, [78, 228, 378, 528, 678], 75
+W, ROWS, R = 694, [78, 222, 366, 510, 654], 72
 XL, XR = 84, 610
 
 levels = [
     ("Level 1 · Die Klausur", "55 Min · 15 XP"),
     ("Level 2 · Recht & Methode", "105 Min · 30 XP"),
     ("Level 3 · Die Willenserklärung", "85 Min · 25 XP"),
-    ("Level 4 · Der Vertrag", "65 Min · 25 XP"),
-    ("Finale · Training & Boss", "100 Min · 200 XP"),
+    ("Level 4 · Der Vertrag", "90 Min · 55 XP"),
+    ("Finale · Training & Boss", "115 Min · 220 XP"),
 ]
 # (zeile, x, art, kurz, titel, zeit, xp)
 nodes = [
@@ -27,14 +27,16 @@ nodes = [
     (2, 280, "n", "§10", "Meinungsstreit", "20'", "5 XP"),
     (2, 410, "n", "§11", "Zugang", "25'", "5 XP"),
     (2, 540, "n", "§12", "Sonderfälle", "15'", "5 XP"),
-    (3, 540, "n", "§13", "Angebot + Annahme", "30'", "5 XP"),
-    (3, 400, "n", "§14", "Auktion & Co.", "15'", "5 XP"),
-    (3, 260, "n", "§15", "Muster-Gutachten", "20'", "10 XP"),
-    (4, 135, "m", "M1", "Mission 1 · geführt", "25'", "30 XP"),
-    (4, 250, "m", "M2", "Mission 2 · Klausur", "30'", "50 XP"),
-    (4, 365, "m", "M3", "Mission 3 · Fragen", "15'", "36 XP"),
-    (4, 480, "k", "", "Fragen-Karten", "15'", "24 XP"),
-    (4, 612, "b", "", "Boss-Test", "15'", "60 XP"),
+    (3, 550, "n", "§13", "Angebot + Annahme", "30'", "5 XP"),
+    (3, 420, "n", "§14", "Auktion & Co.", "15'", "5 XP"),
+    (3, 290, "n", "§15", "Muster-Gutachten", "20'", "10 XP"),
+    (3, 160, "n", "§16", "Mini-Fälle", "25'", "30 XP"),
+    (4, 120, "m", "M1", "Mission 1", "25'", "30 XP"),
+    (4, 215, "m", "M2", "Mission 2", "30'", "50 XP"),
+    (4, 310, "m", "M3", "Mission 3", "15'", "36 XP"),
+    (4, 405, "k", "", "Karten", "15'", "24 XP"),
+    (4, 500, "a", "", "App-Drill", "15'", "20 XP"),
+    (4, 615, "b", "", "Boss-Test", "15'", "60 XP"),
 ]
 pauses = [(XR + R, (ROWS[0] + ROWS[1]) / 2, "r"), (XL - R, (ROWS[1] + ROWS[2]) / 2, "l"),
           (XR + R, (ROWS[2] + ROWS[3]) / 2, "r"), (XL - R, (ROWS[3] + ROWS[4]) / 2, "l")]
@@ -77,6 +79,9 @@ for row, x, kind, short, title, t, xp in nodes:
         out.append(f'<circle cx="{x}" cy="{y}" r="22" fill="{NIGHT}" stroke="{GOLDL}" stroke-width="1.2"/>')
         out.append(f'<use href="#i-pen" x="{x - 9}" y="{y - 12}" width="18" height="18" style="color:{GOLDL}"/>')
         out.append(f'<text x="{x}" y="{y + 15}" text-anchor="middle" font-size="6.4" letter-spacing="1" fill="{GOLDL}">{short}</text>')
+    elif kind == "a":
+        out.append(f'<circle cx="{x}" cy="{y}" r="19" fill="#faf3e4" stroke="{GOLD}" stroke-width="1.4"/>')
+        out.append(f'<use href="#i-target" x="{x - 9}" y="{y - 9}" width="18" height="18" style="color:{DEEP}"/>')
     elif kind == "k":
         out.append(f'<circle cx="{x}" cy="{y}" r="19" fill="{CARD}" stroke="{GOLDL}" stroke-width="1.2"/>')
         out.append(f'<use href="#i-cards" x="{x - 9}" y="{y - 9}" width="18" height="18" style="color:{DEEP}"/>')
@@ -98,15 +103,15 @@ print(f'''<!-- ═════════════ ROUTE (generiert von tool
     <div class="kicker"><span class="sec">✦</span><span class="rule"></span><span>Quest-Map</span></div>
     <h1>Deine <em>Route</em> für heute.</h1>
     <div class="routebar">
-      <div><b>≈ 6:50</b><span>Std. Lernzeit</span></div>
+      <div><b>≈ 7:30</b><span>Std. Lernzeit</span></div>
       <div><b>4</b><span>Pausen à 10 Min</span></div>
-      <div><b>300</b><span>XP möglich</span></div>
-      <div class="hl"><b>200</b><span>XP Tagesziel</span></div>
+      <div><b>350</b><span>XP möglich</span></div>
+      <div class="hl"><b>230</b><span>XP Tagesziel</span></div>
     </div>
     <div class="maplegend">
       <span><i class="ml n"></i>Lernstation</span>
       <span><i class="ml m"></i>Claude-Mission · selbst schreiben</span>
-      <span><i class="ml b"></i>Boss-Test</span>
+      <span><i class="ml a"></i>App-Drill</span><span><i class="ml b"></i>Boss-Test</span>
       <span><i class="ml p"></i>Pause + Level-Bonus</span>
     </div>
     <div style="margin-top:14px">

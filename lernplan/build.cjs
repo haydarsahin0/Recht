@@ -8,16 +8,39 @@
 //   {{RUN}}        Kopfzeile mit Seitenzahl
 //   {{FOOT:text}}  Fußzeile mit Fortschritt in % und Text
 //   {{P:id}}       Seitenzahl der <section data-id="id">
+//   {{APP}}        Link zur Quiz-App (meta.json: app)
+//   <!--BREAK-->   teilt eine Seite (nur zwischen Blöcken direkt im .body)
 //   data-level="n" auf <section> → Daumenregister mit Level n hervorgehoben
 const { chromium } = require('playwright');
 const fs = require('node:fs');
 const path = require('node:path');
 
+// <!--BREAK--> auf oberster Ebene im .body teilt eine Seite in Folgeseiten mit gleichem Kicker.
+function splitBreaks(s) {
+  if (!s.includes('<!--BREAK-->')) return [s];
+  const footIdx = s.search(/^\s*\{\{FOOT:/m);
+  const before = s.slice(0, footIdx), after = s.slice(footIdx);
+  const bodyStart = before.indexOf('<div class="body"');
+  const bodyOpenEnd = before.indexOf('>', bodyStart) + 1;
+  const prefix = before.slice(0, bodyOpenEnd);
+  const inner = before.slice(bodyOpenEnd, before.lastIndexOf('</div>'));
+  const parts = inner.split('<!--BREAK-->');
+  const n = parts.length;
+  const kicker = (inner.match(/<div class="kicker">[\s\S]*?<\/div>/) || [''])[0];
+  const label = k => kicker.replace(/(<span class="rule"><\/span><span>[^<]*)(<\/span>)/, `$1 · Teil ${k}/${n}$2`);
+  return parts.map((part, k) => {
+    const pre = k === 0 ? prefix : prefix.replace(/data-id="([^"]+)"/, (_, id) => `data-id="${id}-${k + 1}"`);
+    const body = k === 0 ? part.replace(kicker, label(1)) : `\n    ${label(k + 1)}\n` + part;
+    const end = k === n - 1 ? after : '  {{FOOT:Weiter auf der nächsten Seite →}}\n</section>\n';
+    return `${pre}${body}  </div>\n${end}`;
+  });
+}
+
 function assemble(dir) {
   const meta = JSON.parse(fs.readFileSync(path.join(dir, 'meta.json'), 'utf8'));
   const files = fs.readdirSync(path.join(dir, 'pages')).filter(f => f.endsWith('.html')).sort();
   const raw = files.map(f => fs.readFileSync(path.join(dir, 'pages', f), 'utf8')).join('\n');
-  const sections = raw.split(/(?=<section\b)/).filter(s => s.trim().startsWith('<section'));
+  const sections = raw.split(/(?=<section\b)/).filter(s => s.trim().startsWith('<section')).flatMap(splitBreaks);
   const total = sections.length;
   const pad = n => String(n).padStart(2, '0');
   const ids = {};
@@ -28,6 +51,7 @@ function assemble(dir) {
     const pct = Math.round((n / total) * 100);
     const lvl = Number((s.match(/data-level="(\d)"/) || [])[1] || 0);
     s = s.replace(/\{\{P:([\w-]+)\}\}/g, (_, id) => { if (!ids[id]) throw new Error('Unbekannte Seiten-ID: ' + id); return ids[id]; });
+    s = s.split('{{APP}}').join(meta.app || '').split('{{PAGES}}').join(String(total));
     s = s.replace('{{RUN}}', `<header class="run"><span>Recht · Klausurtraining</span><span>${meta.run}</span><span class="pg">${pad(n)} / ${pad(total)}</span></header>`);
     s = s.replace(/\{\{FOOT:([^}]*)\}\}/, (_, t) => `<footer class="foot"><div class="prog"><div class="trk"><i style="width:${pct}%"></i></div><b>${pct} %</b></div><span>${t}</span></footer>`);
     if (lvl) {
