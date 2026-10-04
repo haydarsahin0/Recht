@@ -119,7 +119,7 @@ Fortschritt liegt im Artifact-Datenspeicher, Collection `progress`, ein Dokument
 Lesen mit `ArtifactData` → `action: "list"`, `collection: "progress"`.
 
 Felder: `xp`, `days` (Lerntage), `cards` (`{id: {box 0–5, due, right, wrong}}`), `quiz` (`{id: {right, wrong, last}}`,
-`last: 0` = zuletzt falsch), `rounds` (letzte Runden mit Punktzahl). Karten-/Fragen-IDs: `k*` Klausur, `r*` Recht,
+`last: 0` = zuletzt falsch), `write` (Schreib-Trainer: `{aufgabeId: {best: [Stufe1 %, Stufe2 %, Stufe3 %], n, mastered, last: {s, pct, src, text}}}` – `text` ist die letzte eigene Antwort), `rounds` (letzte Runden mit Punktzahl). Karten-/Fragen-IDs: `k*` Klausur, `r*` Recht,
 `m*` Methode, `a*` Anspruch, `w*` Willenserklärung, `z*` Zugang, `v*` Vertrag, `q*`/`t*` Quiz, `f*` Mini-Fälle.
 Auswertung für den Studenten: schwächste Themen (Trefferquote), Karten in Box 0–1, Fragen mit `last: 0` – dann gezielt
 die passenden Seiten im PDF und eine Mini-Übung vorschlagen.

@@ -145,6 +145,58 @@ canvas#fx { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events
 .foot { margin-top: 26px; font-size: 12.5px; color: var(--muted); display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
 .dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--muted); margin-right: 6px; vertical-align: 1px; }
 .dot.on { background: var(--ok); }
+
+/* Schreib-Trainer */
+.mode.wide { grid-column: 1 / -1; }
+.wgrp { margin-top: 20px; }
+.wrow { width: 100%; text-align: left; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; align-items: center; background: var(--surface); border: 1px solid var(--line); border-radius: 9px; padding: 12px 14px; margin-top: 8px; }
+.wrow:hover { border-color: var(--gold); }
+.wrow .t { font-size: 15.5px; color: var(--ink); }
+.wrow .m { font-size: 12.5px; color: var(--muted); margin-top: 2px; }
+.pips { display: flex; gap: 5px; align-items: center; justify-content: flex-end; }
+.pips i { width: 11px; height: 11px; border-radius: 50%; border: 1px solid var(--gold); }
+.pips i.on { background: var(--gold); }
+.badge { font-size: 11px; letter-spacing: .08em; color: var(--on-gold); background: var(--ok); border-radius: 20px; padding: 2px 8px 1px; white-space: nowrap; }
+.stages { display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
+.stg { border: 1px solid var(--line); background: var(--surface); border-radius: 30px; padding: 6px 13px 5px; font-size: 13px; color: var(--muted); }
+.stg.on { background: var(--gold); border-color: var(--gold); color: var(--on-gold); }
+.stg[disabled] { opacity: .5; cursor: default; }
+.note { font-size: 14px; color: var(--muted); margin-top: 10px; }
+.slot { margin-top: 16px; }
+.slot .sh { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; }
+.slot .sh b { font-size: 15.5px; color: var(--ink); font-weight: 600; }
+.slot .sh span { white-space: nowrap; flex: none; }
+.slot .hint { font-size: 14px; color: var(--gold-ink); font-style: italic; margin-top: 2px; }
+.slot textarea, .free textarea { display: block; width: 100%; min-height: 84px; margin-top: 8px; border: 1px solid var(--line); border-radius: 9px; background: var(--bg); color: var(--ink); font: 16px/1.5 var(--text); padding: 10px 12px; resize: vertical; }
+.free textarea { min-height: 220px; }
+.slot textarea:focus, .free textarea:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px var(--gold-soft); }
+.kbd { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 14px; align-items: center; }
+.kbd span { font-size: 12px; color: var(--muted); margin-right: 2px; }
+.kbd button { min-width: 38px; border: 1px solid var(--line); background: var(--surface); border-radius: 7px; padding: 6px 9px 5px; font-size: 15px; color: var(--ink); }
+.score { display: grid; grid-template-columns: auto 1fr; gap: 16px; align-items: center; }
+.score .big2 { font-family: var(--display); font-size: 46px; line-height: 1; color: var(--ink); font-variant-numeric: tabular-nums; }
+.score .big2 span { font-size: 24px; color: var(--muted); }
+.src { display: inline-block; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; border-radius: 20px; padding: 2px 9px 1px; border: 1px solid var(--gold); color: var(--gold-ink); }
+.src.ai { background: var(--stage); color: #e2c286; border-color: var(--stage); }
+.crit { border-top: 1px solid var(--line); padding: 11px 0; }
+.crit:last-child { border-bottom: 1px solid var(--line); }
+.crit .ch { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; }
+.crit .ch b { font-size: 15px; color: var(--ink); }
+.crit .pts { font-variant-numeric: tabular-nums; font-size: 14px; white-space: nowrap; }
+.crit .pts.full { color: var(--ok); } .crit .pts.part { color: var(--gold-ink); } .crit .pts.zero { color: var(--no); }
+.crit p { margin: 4px 0 0; font-size: 14.5px; color: var(--ink2); }
+.miss { display: inline-block; font-size: 12.5px; background: var(--no-soft); color: var(--no); border-radius: 20px; padding: 1px 8px; margin: 4px 4px 0 0; }
+details.mu { margin-top: 6px; }
+details.mu summary { font-size: 13px; color: var(--gold-ink); cursor: pointer; }
+details.mu div { font-size: 14.5px; color: var(--ink); background: var(--gold-soft); border-radius: 7px; padding: 8px 10px; margin-top: 5px; }
+.improved { background: var(--gold-soft); border: 1px solid var(--gold); border-radius: 10px; padding: 14px 16px; margin-top: 14px; font-size: 16px; color: var(--ink); white-space: pre-wrap; }
+.tips li { margin: 4px 0; color: var(--ink); font-size: 15px; }
+.tips { padding-left: 20px; margin: 6px 0 0; }
+.ailine { display: flex; gap: 10px; align-items: center; margin-top: 14px; font-size: 14px; color: var(--muted); }
+.dots i { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--gold); margin-right: 3px; animation: blink 1.2s infinite; }
+.dots i:nth-child(2) { animation-delay: .2s; } .dots i:nth-child(3) { animation-delay: .4s; }
+@keyframes blink { 0%, 80%, 100% { opacity: .2; } 40% { opacity: 1; } }
+.h5 { font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); margin-top: 18px; display: block; }
 @media (max-width: 520px) {
   .brand .long { display: none; }
   .modes { grid-template-columns: minmax(0, 1fr); }
@@ -270,7 +322,7 @@ const KEY = "zivilrecht-drill-v1";
 const RANKS = ["Rechts-Neuling","Paragrafen-Scout","Gutachten-Lehrling","Anspruchs-Jäger","Gutachten-Profi","Klausur-Maschine"];
 const INTERVAL_DAYS = [0, 0.25, 1, 2, 4, 7];
 const LEVEL_XP = 150;
-const fresh = () => ({ v: 1, xp: 0, days: [], cards: {}, quiz: {}, rounds: [], updatedAt: 0 });
+const fresh = () => ({ v: 1, xp: 0, days: [], cards: {}, quiz: {}, write: {}, rounds: [], updatedAt: 0 });
 let S = fresh();
 let db = null, docRef = null, saving = false, dirty = false, saveTimer = null;
 
@@ -367,19 +419,21 @@ function home() {
       <button class="day" disabled>Tag 4 · bald</button>
     </nav>
     <section class="modes">
-      <button class="mode dark" data-go="quiz"><span class="label">10 Fragen · Combo-Bonus</span><h3>Quiz-Runde</h3><p>Multiple Choice, Wahr/Falsch und Mini-Fälle – mit Erklärung auf Deutsch und Türkisch.</p><span class="go">Runde starten →</span></button>
+      <button class="mode dark wide" data-go="write"><span class="label">Neu · ${masteredCount()} / ${WRITE.length} gemeistert · bis 30 XP pro Stufe</span><h3>Schreib-Trainer</h3><p>Du schreibst die Antwort selbst – erst mit Kästen und Hinweisen, am Ende wie in der Klausur. Claude korrigiert, gibt Punkte und zeigt dir, wie es besser geht.</p><span class="go">Schreiben üben →</span></button>
+      <button class="mode" data-go="quiz"><span class="label">10 Fragen · Combo-Bonus</span><h3>Quiz-Runde</h3><p>Multiple Choice, Wahr/Falsch und Mini-Fälle – mit Erklärung auf Deutsch und Türkisch.</p><span class="go">Runde starten →</span></button>
       <button class="mode" data-go="cards"><span class="label">Lernkartei · ${due} fällig</span><h3>Karteikarten</h3><p>Frage lesen, laut antworten, aufdecken. Gewusste Karten kommen seltener wieder.</p><span class="go">${due ? "Fällige Karten lernen →" : "Alles gelernt – Bonusrunde →"}</span></button>
       <button class="mode" data-go="cases"><span class="label">6 Fälle</span><h3>Mini-Fälle</h3><p>Kurze Sachverhalte wie in der Klausur: Wer macht das Angebot? Ist es zugegangen?</p><span class="go">Fälle lösen →</span></button>
       <button class="mode" data-go="weak"><span class="label">${weak} offen</span><h3>Schwachstellen</h3><p>Nur die Fragen, die du zuletzt falsch hattest. Bis alles grün ist.</p><span class="go">${weak ? "Fehler ausbügeln →" : "Noch keine Fehler →"}</span></button>
     </section>
     <section class="topics"><span class="label">Trefferquote nach Thema</span><div style="margin-top:8px">${topics}</div></section>
-    <div class="tr"><b>TR</b><span>Her gün önce Quiz-Runde, sonra vadesi gelen kartlar. Yanlış yaptıkların „Schwachstellen“ bölümünde toplanır. İlerlemen kaydedilir; Claude'a „Drill'imi kontrol et“ dersen zayıf konularını görür.</span></div>`;
+    <div class="tr"><b>TR</b><span>Her gün: önce Schreib-Trainer (yazma), sonra Quiz-Runde ve vadesi gelen kartlar. Yanlış yaptıkların „Schwachstellen“ bölümünde toplanır. İlerlemen kaydedilir; Claude'a „Drill'imi kontrol et“ dersen zayıf konularını görür.</span></div>`;
   view.querySelectorAll("[data-go]").forEach(b => b.onclick = () => {
     const g = b.dataset.go;
     if (g === "quiz") startQuiz(shuffle(QUIZ.filter(q => q.type !== "fall")).slice(0, 10), "Quiz-Runde");
     if (g === "cases") startQuiz(shuffle(QUIZ.filter(q => q.type === "fall")), "Mini-Fälle");
     if (g === "weak") { const w = weakItems(); w.length ? startQuiz(shuffle(w), "Schwachstellen") : startQuiz(shuffle(QUIZ).slice(0, 5), "Bonusrunde"); }
     if (g === "cards") startCards();
+    if (g === "write") writeList();
   });
 }
 
@@ -513,6 +567,362 @@ function burst() {
   })();
 }
 
+/* ───────── Schreib-Trainer · Aufgaben Tag 1 ───────── */
+// slot: [label, punkte, kern?, hinweis, hinweis TR, keyword-gruppen, musterantwort]
+const S_ = (label, pts, core, hint, tr, kw, model) => ({ label, pts, core, hint, tr, kw, model });
+const WRITE = [
+  { id: "e1", group: "frage", q: "Was ist Recht aus rechtswissenschaftlicher Sicht?", exam: 1, tr: "Hukuk bilimine göre hukuk nedir?",
+    note: "In der Klausur zählt vor allem Kasten 1 (Positivismus). Die anderen Kästen sind Bonus: Sie zeigen Verständnis und helfen, wenn die Frage anders gestellt wird.",
+    slots: [
+      S_("Rechtswissenschaftliche Sicht (Positivismus)", 1, true, "Summe aller … Rechtsnormen – geschrieben und …", "Pozitivizme göre tanım: yazılı + yazısız kuralların toplamı", [["summe", "gesamtheit", "alle"], ["geltend"], ["rechtsnorm", "normen"], ["geschrieben", "gesetz"], ["ungeschrieben", "gewohnheitsrecht"]], "Recht ist nach dem Positivismus die Summe aller geltenden Rechtsnormen – geschriebene (Gesetze) und ungeschriebene (Gewohnheitsrecht). Das sind die Normen, die der Gesetzgeber erlässt und / oder die Gerichte anwenden."),
+      S_("Soziologische Sicht", 0.5, false, "kulturelles … und Herrschafts…", "Sosyolojik bakış: kültürel olgu, iktidar aracı", [["kultur"], ["herrschaft", "macht", "instrument"]], "Soziologisch ist Recht ein kulturelles Faktum und ein Herrschaftsinstrument; soziale Faktoren wirken auf das Recht ein."),
+      S_("Philosophische Sicht", 0.5, false, "Verwirklichung von … (Naturrecht)", "Felsefi bakış: adaletin gerçekleşmesi, doğal hukuk", [["gerechtigkeit"], ["naturrecht", "vernunft", "verwirklich"]], "Philosophisch ist Recht die Verwirklichung von Gerechtigkeit; nach der Naturrechtslehre folgt es aus der menschlichen Natur und Vernunft."),
+      S_("Ökonomische Sicht", 0.5, false, "Rahmen des … · Kosten…", "Ekonomik bakış: piyasanın çerçevesi, maliyet unsuru", [["markt"], ["kosten", "rahmen", "institution"]], "Ökonomisch ist Recht die institutionelle Rahmenbedingung des Marktes und ein Kostenfaktor („law as price“)."),
+      S_("Wozu dient Recht?", 0.5, false, "Gerechtigkeit und Rechts…", "Hukuk neye hizmet eder? Adalet + hukuk güvenliği", [["gerechtigkeit"], ["rechtssicherheit", "sicherheit"]], "Recht dient der Gerechtigkeit und der Rechtssicherheit."),
+    ] },
+  { id: "e2", group: "frage", q: "Wodurch unterscheiden sich Privatrecht und öffentliches Recht?", exam: 2, tr: "Özel hukuk ile kamu hukuku arasındaki fark nedir?",
+    slots: [
+      S_("Privatrecht", 1, true, "Welches Verhältnis? Zwischen wem? Typische Handlungsform?", "Eşitlik ilişkisi, vatandaşlar arası, tipik araç: sözleşme", [["gleichordnung", "gleichgeordnet", "gleichberechtigt", "gleicher ebene", "gleichen ebene"], ["buerger", "privat", "personen"], ["vertrag"]], "Das Privatrecht regelt das Gleichordnungsverhältnis, in der Regel zwischen Bürgern untereinander. Typische Handlungsform ist der Vertrag (z. B. Kaufvertrag)."),
+      S_("Öffentliches Recht", 1, true, "Welches Verhältnis zwischen Staat und Bürger? Typische Handlungsform?", "Üstlük-altlık ilişkisi, devlet–vatandaş, tipik araç: idari işlem", [["unterordnung", "ueberordnung", "hoheit"], ["staat"], ["verwaltungsakt", "hoheitsakt", "einseitig"]], "Das öffentliche Recht regelt das Über- und Unterordnungsverhältnis zwischen Staat und Bürger. Typische Handlungsform ist der einseitige Verwaltungsakt. Auch das Strafrecht gehört dazu."),
+    ] },
+  { id: "e3", group: "frage", q: "Was ist eine Willenserklärung?", exam: 1, tr: "İrade beyanı nedir?",
+    slots: [
+      S_("Definition", 1, true, "Äußerung eines … , der auf die Herbeiführung einer … gerichtet ist", "İradenin açıklanması + hukuki sonuca yönelik olması", [["aeusserung", "kundgabe", "erklaerung"], ["wille"], ["rechtsfolge"], ["gerichtet", "herbeifuehr"]], "Eine Willenserklärung ist die Äußerung eines Willens, der auf die Herbeiführung einer Rechtsfolge gerichtet ist."),
+      S_("Bedeutung", 0.5, false, "Ausdruck der Privat…", "Neyin ifadesidir? İrade özerkliği", [["privatautonomie"]], "Sie ist Ausdruck der Privatautonomie und ein Grundbaustein des Privatrechts."),
+    ] },
+  { id: "e4", group: "frage", q: "Aus welchen Elementen besteht eine Willenserklärung? Was gilt, wenn eines fehlt?", exam: 3, tr: "İrade beyanının unsurları neler? Biri eksikse ne olur?",
+    slots: [
+      S_("Objektiver Tatbestand", 1, true, "Was sieht ein neutraler Beobachter? ausdrücklich oder …", "Dış unsur: beyan – açık veya davranışla", [["erklaerung", "aeusserung"], ["objektiv", "aeusser", "beobachter"], ["ausdruecklich", "konkludent", "schluessig"]], "Objektiver (äußerer) Tatbestand: eine Erklärung, die für einen objektiven Beobachter einen Rechtsfolgewillen zeigt – ausdrücklich oder konkludent (durch schlüssiges Verhalten)."),
+      S_("Handlungswille", 0.5, true, "überhaupt … wollen (fehlt bei …)", "Hareket iradesi: hareket etmek istemek (refleks değil)", [["handlungswille"], ["handeln", "handlung", "reflex"]], "Handlungswille: der Wille, überhaupt zu handeln (fehlt z. B. bei einem Reflex)."),
+      S_("Erklärungsbewusstsein", 0.5, true, "wissen, dass man etwas rechtlich … erklärt", "Beyan bilinci: hukuken önemli bir şey yaptığını bilmek", [["erklaerungsbewusstsein"], ["rechtlich", "rechtserheblich", "rechtsgeschaeft"]], "Erklärungsbewusstsein: das Bewusstsein, irgendetwas rechtlich Erhebliches zu erklären."),
+      S_("Geschäftswille", 0.5, true, "ein ganz … Rechtsgeschäft wollen", "İşlem iradesi: tam olarak bu işlemi istemek", [["geschaeftswille"], ["bestimmt", "konkret", "dieses"]], "Geschäftswille: der Wille, ein ganz bestimmtes Rechtsgeschäft abzuschließen."),
+      S_("Folgen, wenn etwas fehlt", 0.5, true, "Handlungswille fehlt → … · Erklärungsbewusstsein / Geschäftswille fehlt → …", "Hareket iradesi yoksa beyan yok; diğerleri yoksa beyan var ama iptal edilebilir", [["keine willenserklaerung", "keine we", "nicht vor", "liegt keine"], ["anfecht"]], "Fehlt der Handlungswille, liegt keine WE vor. Fehlen das Erklärungsbewusstsein (h.M.) oder der Geschäftswille, liegt eine WE vor, die angefochten werden kann (§§ 119 ff. BGB)."),
+    ] },
+  { id: "e5", group: "frage", q: "Nennen und erklären Sie die vier klassischen Auslegungsmethoden.", exam: 2, tr: "Dört klasik yorum yöntemini say ve açıkla.",
+    slots: [
+      S_("Grammatikalische Auslegung", 0.5, true, "schaut auf den …", "Lafzi yorum: kelimenin anlamı", [["grammat", "wortlaut"], ["wort", "bedeutung", "ausgangspunkt", "grenze"]], "Grammatikalisch: Sie schaut auf den Wortlaut der Norm – Ausgangspunkt und Grenze der Auslegung."),
+      S_("Systematische Auslegung", 0.5, true, "schaut auf den … im Gesetz", "Sistematik yorum: kanundaki yeri, diğer kurallarla ilişkisi", [["systemat"], ["zusammenhang", "stellung", "gesamt", "andere normen", "nachbar"]], "Systematisch: Sie schaut auf den Regelungszusammenhang der Norm im Gesamtsystem des Gesetzes."),
+      S_("Teleologische Auslegung", 0.5, true, "schaut auf … und … der Norm", "Amaçsal yorum: kuralın anlamı ve amacı", [["teleolog"], ["zweck", "sinn"]], "Teleologisch: Sie schaut auf den Sinn und Zweck der Norm."),
+      S_("Historische Auslegung", 0.5, true, "schaut auf den Willen des …", "Tarihsel yorum: kanun koyucunun iradesi", [["histor"], ["gesetzgeber", "entstehung", "begruendung", "geschichte"]], "Historisch: Sie schaut auf die Entstehungsgeschichte und den Willen des Gesetzgebers."),
+      S_("Rangfolge", 0.5, false, "Welche Methode ist nur unterstützend?", "Hangisi sadece destekleyicidir?", [["historisch"], ["subsidiaer", "unterstuetz", "nachrangig"]], "Die historische Auslegung ist nach h.M. nur unterstützend (subsidiär)."),
+    ] },
+  { id: "e6", group: "frage", q: "Was ist ein Anspruch und wie prüft man ihn?", exam: 2, tr: "Talep hakkı nedir ve nasıl incelenir?",
+    slots: [
+      S_("Definition mit Norm", 1, true, "das Recht, von einem anderen … zu verlangen (§ …)", "Birinden bir şey yapmasını/yapmamasını isteme hakkı, § 194", [["recht"], ["verlangen"], ["tun", "unterlassen"], ["194"]], "Ein Anspruch ist das Recht, von einem anderen ein Tun oder Unterlassen zu verlangen (§ 194 Abs. 1 BGB)."),
+      S_("Prüfungsaufbau", 1, true, "I. … II. … III. …", "Doğdu mu, sona erdi mi, ileri sürülebilir mi?", [["entstanden"], ["untergegangen", "erloschen"], ["durchsetzbar"]], "Geprüft wird in drei Schritten: I. Anspruch entstanden, II. Anspruch untergegangen, III. Anspruch durchsetzbar."),
+      S_("Einstieg in den Fall", 0.5, false, "Die Frage mit den 4 W", "4 soru: kim, neyi, kimden, neye dayanarak", [["wer"], ["was"], ["wem"], ["woraus"]], "Einstieg: Wer will was von wem woraus?"),
+    ] },
+  { id: "e7", group: "frage", q: "Wann wird eine empfangsbedürftige Willenserklärung unter Abwesenden wirksam?", exam: 2, tr: "Hazır olmayanlar arasında varması gereken bir beyan ne zaman geçerli olur?",
+    slots: [
+      S_("Grundsatz mit Norm", 1, true, "mit ihrem … (§ …) – vorher muss sie … sein", "Ulaştığı anda (§ 130 I 1); önce gönderilmiş olmalı", [["zugang", "zugeht", "zugegangen"], ["130"], ["abgabe", "abgegeben"]], "Sie wird mit ihrem Zugang wirksam (§ 130 Abs. 1 S. 1 BGB). Vorher muss sie abgegeben, also willentlich in den Rechtsverkehr gebracht worden sein."),
+      S_("Definition Zugang", 1, true, "so in den … des Empfängers, dass unter … Umständen mit … zu rechnen ist", "Hâkimiyet alanı + normalde öğrenme imkânı", [["machtbereich"], ["normal", "gewoehnlich"], ["kenntnis"]], "Zugegangen ist sie, wenn sie so in den Machtbereich des Empfängers gelangt, dass unter normalen Umständen mit seiner Kenntnisnahme zu rechnen ist."),
+      S_("Beispiel Brief", 0.5, false, "Einwurf nach 18 Uhr → …", "Akşam 18'den sonra atılan mektup → ertesi gün", [["brief", "briefkasten"], ["naechst", "18", "abend", "leerung", "morgen"]], "Ein Brief, der nach 18 Uhr eingeworfen wird, geht erst am nächsten Tag zu."),
+      S_("Widerruf", 0.5, false, "Was gilt, wenn ein Widerruf … oder … zugeht?", "Geri alma önce veya aynı anda ulaşırsa", [["widerruf"], ["vorher", "gleichzeitig"]], "Geht vorher oder gleichzeitig ein Widerruf zu, wird die Erklärung nicht wirksam (§ 130 Abs. 1 S. 2 BGB)."),
+    ] },
+  { id: "e8", group: "frage", q: "Wie kommt ein Vertrag zustande?", exam: 2, tr: "Sözleşme nasıl kurulur?",
+    slots: [
+      S_("Grundsatz", 0.5, true, "durch zwei … Willenserklärungen: … und … (§§ …)", "İki uyumlu beyan: icap ve kabul", [["angebot", "antrag"], ["annahme"], ["uebereinstimm", "korrespondier", "zwei willenserklaerung", "zwei we"]], "Ein Vertrag kommt durch zwei übereinstimmende Willenserklärungen zustande: Angebot und Annahme (§§ 145 ff. BGB)."),
+      S_("Angebot", 1, true, "Definition + was muss es enthalten?", "Tanım + esaslı unsurlar (taraflar, mal, fiyat)", [["empfangsbeduerftig", "willenserklaerung"], ["zustimmung", "ja"], ["abhaengt", "nur noch"], ["essentialia", "parteien", "preis", "gegenstand"]], "Ein Angebot ist eine empfangsbedürftige Willenserklärung, durch die einem anderen ein Vertragsschluss so angetragen wird, dass das Zustandekommen des Vertrages nur noch von dessen Zustimmung abhängt. Es muss die essentialia negotii enthalten (Parteien, Gegenstand, Preis)."),
+      S_("Annahme", 0.5, true, "Definition", "Teklife şartsız onay", [["uneingeschraenkt", "vorbehaltlos"], ["zustimm", "einverst"]], "Eine Annahme ist eine empfangsbedürftige Willenserklärung, aus der hervorgeht, dass dem Angebot uneingeschränkt zugestimmt wird."),
+      S_("Abgrenzung", 0.5, false, "Was ist kein Angebot – und warum?", "Hangisi teklif değildir, neden?", [["invitatio"], ["rechtsbindungswille", "bindungswille", "binden"]], "Keine Angebote sind invitationes ad offerendum (z. B. Schaufenster): Es fehlt der Rechtsbindungswille."),
+    ] },
+  { id: "e9", group: "frage", q: "Was ist eine invitatio ad offerendum? Nennen Sie ein Beispiel.", exam: 2, tr: "İcaba davet nedir? Bir örnek ver.",
+    slots: [
+      S_("Definition", 1, true, "Aufforderung, selbst …", "Başkasını teklif vermeye çağırmak", [["aufforderung", "einladung", "auffordern"], ["angebot"], ["abzugeben", "abgabe", "selbst", "machen"]], "Eine invitatio ad offerendum ist die Aufforderung an andere, selbst ein Angebot abzugeben."),
+      S_("Warum kein Angebot?", 0.5, false, "Es fehlt der … – Grund: begrenzte Ware, …", "Bağlanma iradesi yok: mal sınırlı, satıcı kime satacağını seçmek ister", [["rechtsbindungswille", "bindungswille", "binden"], ["begrenzt", "aussuchen", "auswahl", "vorrat", "entscheiden"]], "Es fehlt der Rechtsbindungswille: Der Verkäufer hat nur begrenzt Ware und will sich den Vertragspartner aussuchen."),
+      S_("Beispiel", 1, true, "ein typisches Beispiel", "Tipik örnek: vitrin, katalog, internet sitesi", [["schaufenster", "katalog", "prospekt", "website", "internet", "online", "anzeige", "speisekarte", "auslage"]], "Beispiele: die Auslage im Schaufenster, ein Katalog oder Prospekt, Waren auf einer Website."),
+    ] },
+  { id: "e10", group: "frage", q: "Was regelt § 150 BGB?", exam: 2, tr: "§ 150 BGB neyi düzenler?",
+    slots: [
+      S_("§ 150 Abs. 1", 1, true, "die verspätete …", "Geç kabul = yeni teklif", [["verspaet", "zu spaet"], ["neuer antrag", "neues angebot", "neuen antrag", "neuen angebot"]], "Nach § 150 Abs. 1 BGB gilt die verspätete Annahme eines Antrags als neuer Antrag."),
+      S_("§ 150 Abs. 2", 1, true, "Annahme mit … = …", "Değiştirilmiş kabul = ret + yeni teklif", [["aender", "erweiter", "einschraenk"], ["ablehnung"], ["neuer antrag", "neues angebot", "neuen antrag", "neuen angebot"]], "Nach § 150 Abs. 2 BGB gilt eine Annahme unter Erweiterungen, Einschränkungen oder sonstigen Änderungen als Ablehnung, verbunden mit einem neuen Antrag."),
+    ] },
+  { id: "e11", group: "frage", q: "Was ist Subsumtion?", exam: 1, tr: "Subsumtion (olayı kurala uygulama) nedir?",
+    slots: [
+      S_("Definition", 1, true, "die … eines Sachverhalts unter einen …", "Olayı bir hukuk kuralının altına yerleştirmek", [["unterordnung", "unterordnen", "einordnung"], ["sachverhalt"], ["rechtssatz", "norm", "tatbestand"]], "Subsumtion ist die Unterordnung eines Sachverhalts unter einen Rechtssatz."),
+      S_("Ablauf", 0.5, false, "Man prüft, ob die … erfüllt sind und die … eintritt", "Şartlar tek tek kontrol edilir, sonra hukuki sonuç", [["tatbestandsmerkmal", "tbm", "voraussetzung"], ["rechtsfolge"]], "Man prüft Merkmal für Merkmal, ob der Sachverhalt die Tatbestandsmerkmale erfüllt; dann tritt die Rechtsfolge ein."),
+    ] },
+  { id: "e12", group: "frage", q: "Was ist der Unterschied zwischen einem Gesetz im formellen und im materiellen Sinn?", exam: 2, tr: "Şekli ve maddi anlamda kanun arasındaki fark nedir?",
+    slots: [
+      S_("Formelles Gesetz", 1, true, "von wem und wie erlassen?", "Meclis tarafından yasama sürecinde çıkarılan", [["parlament", "legislative", "bundestag"], ["verfahren", "erlassen", "gesetzgebung"]], "Ein Gesetz im formellen Sinn ist jede Rechtsnorm, die das Parlament im vorgeschriebenen Gesetzgebungsverfahren erlässt."),
+      S_("Materielles Gesetz", 1, true, "jede … und … Rechtsnorm", "Genel ve soyut her kural (yönetmelik, tüzük de)", [["generell", "allgemein"], ["abstrakt"], ["verordnung", "satzung", "jede"]], "Ein Gesetz im materiellen Sinn ist jede generell-abstrakte Rechtsnorm – also auch Rechtsverordnungen und Satzungen."),
+      S_("Beispiel", 0.5, false, "StVG und StVO", "StVG (meclis) – StVO (yönetmelik)", [["stvo", "verordnung"], ["stvg", "parlamentsgesetz"]], "Das StVG ist ein Parlamentsgesetz (formell und materiell); die StVO ist eine Rechtsverordnung (nur materiell)."),
+    ] },
+  { id: "g1", group: "gutachten", q: "Schreibe den Obersatz für den Anspruch des V.", exam: 1, tr: "V'nin talebi için giriş cümlesini yaz.",
+    ctx: "V verkauft K ein Fahrrad für 350 €. K holt das Rad ab, zahlt aber nicht.",
+    slots: [
+      S_("Obersatz", 1, true, "V könnte gegen … einen Anspruch auf … aus § … haben.", "„könnte“ + kim, kimden, ne, hangi paragraf", [["koennte"], ["gegen k"], ["zahlung", "kaufpreis", "350"], ["433"], ["abs 2", "ii", "absatz 2"]], "V könnte gegen K einen Anspruch auf Zahlung von 350 € aus § 433 Abs. 2 BGB haben."),
+    ] },
+  { id: "g2", group: "gutachten", q: "Prüfe im Gutachtenstil: Liegt im Schaufenster ein Angebot des H?", exam: 4, tr: "Vitrindeki bisiklet H'nin teklifi mi? Gutachten üslubuyla incele.",
+    ctx: "Im Schaufenster von Fahrradhändler H steht ein Rennrad mit dem Schild „390 €“.",
+    slots: [
+      S_("Obersatz", 1, true, "Ein Angebot des H könnte …", "„könnte“ ile soruyu sor", [["koennte", "muesste"], ["angebot"], ["schaufenster", "auslage"]], "Ein Angebot des H könnte in der Auslage des Rennrads im Schaufenster liegen."),
+      S_("Definition", 1, true, "Ein Angebot ist …", "Teklifin tanımı", [["empfangsbeduerftig", "willenserklaerung"], ["vertragsschluss", "vertrag"], ["zustimmung"], ["abhaengt", "nur noch"]], "Ein Angebot ist eine empfangsbedürftige Willenserklärung, durch die einem anderen ein Vertragsschluss so angetragen wird, dass das Zustandekommen des Vertrages nur noch von dessen Zustimmung abhängt."),
+      S_("Subsumtion", 1, true, "objektiver Empfängerhorizont (§§ 133, 157) · Rechtsbindungswille? · Grund?", "Makul alıcı nasıl anlar? Bağlanma iradesi var mı? Neden yok?", [["rechtsbindungswille", "binden", "bindungswille"], ["133", "157", "empfaengerhorizont"], ["aussuchen", "auswahl", "begrenzt", "nur ein", "entscheiden"], ["invitatio"]], "Nach dem objektiven Empfängerhorizont (§§ 133, 157 BGB) will H sich noch nicht binden: Er hat nur ein Rad und will selbst entscheiden, an wen er verkauft. Es fehlt der Rechtsbindungswille. Die Auslage ist nur eine invitatio ad offerendum."),
+      S_("Ergebnis", 1, true, "Folglich …", "„Folglich“ ile sonuç", [["folglich", "somit", "mithin", "daher"], ["kein angebot", "keine angebot", "nicht vor", "kein wirksames"]], "Folglich liegt im Schaufenster kein Angebot des H."),
+    ] },
+  { id: "g3", group: "gutachten", q: "Prüfe im Gutachtenstil, wann das Angebot des K zugegangen ist.", exam: 4, tr: "K'nin teklifi ne zaman ulaştı? Gutachten üslubuyla incele.",
+    ctx: "K wirft am Dienstag um 20 Uhr einen Brief mit seinem Angebot in den Briefkasten des Ladens von V. Der Laden ist bis 18 Uhr geöffnet.",
+    slots: [
+      S_("Obersatz", 1, true, "Das Angebot müsste V nach § … zugegangen sein.", "„müsste“ + § 130 I 1", [["muesste", "koennte"], ["zugegangen", "zugang", "zugeht"], ["130"]], "Das Angebot müsste V nach § 130 Abs. 1 S. 1 BGB zugegangen sein."),
+      S_("Definition", 1, true, "Zugegangen ist eine Erklärung, wenn …", "Ulaşmanın tanımı", [["machtbereich"], ["normal", "gewoehnlich"], ["kenntnis"]], "Zugegangen ist eine Erklärung, wenn sie so in den Machtbereich des Empfängers gelangt, dass unter normalen Umständen mit Kenntnisnahme zu rechnen ist."),
+      S_("Subsumtion", 1, true, "Briefkasten = Machtbereich · 20 Uhr = nach Geschäftsschluss · wann liest man normal?", "Kutu = hâkimiyet alanı; saat 20 = mesai sonrası; ne zaman okunur?", [["briefkasten", "machtbereich"], ["20", "abend", "nach 18", "geschaeftsschluss", "geschlossen"], ["naechst", "mittwoch", "morgen"]], "Der Brief kam am Dienstag um 20 Uhr in den Briefkasten des Ladens und damit in den Machtbereich des V. Weil der Laden nur bis 18 Uhr geöffnet ist, ist erst am nächsten Morgen mit Kenntnisnahme zu rechnen."),
+      S_("Ergebnis", 1, true, "Folglich …", "„Folglich“ ile sonuç", [["folglich", "somit", "mithin", "daher"], ["mittwoch", "naechst", "morgen"]], "Folglich ist das Angebot am Mittwochmorgen zugegangen."),
+    ] },
+  { id: "g4", group: "gutachten", q: "Prüfe im Gutachtenstil, ob K das Angebot des V angenommen hat.", exam: 4, tr: "K, V'nin teklifini kabul etti mi? Gutachten üslubuyla incele.",
+    ctx: "V bietet K sein Rad für 500 € an. K antwortet sofort: „Okay, für 450 €.“",
+    slots: [
+      S_("Obersatz", 1, true, "K könnte das Angebot … haben.", "„könnte“ ile soruyu sor", [["koennte", "muesste"], ["angenommen", "annahme"]], "K könnte das Angebot des V angenommen haben."),
+      S_("Definition", 1, true, "Eine Annahme ist …", "Kabulün tanımı", [["empfangsbeduerftig", "willenserklaerung"], ["uneingeschraenkt", "vorbehaltlos"], ["zustimm"]], "Eine Annahme ist eine empfangsbedürftige Willenserklärung, aus der hervorgeht, dass dem Angebot uneingeschränkt zugestimmt wird."),
+      S_("Subsumtion", 1, true, "Stimmt K uneingeschränkt zu? Was sagt § 150 Abs. 2?", "K şartsız mı onaylıyor? § 150 II ne der?", [["450", "niedriger", "weniger"], ["aender", "abweich", "nicht uneingeschraenkt", "einschraenk"], ["150"], ["neuer antrag", "neues angebot", "neuen antrag", "neuen angebot"]], "K stimmt nicht uneingeschränkt zu, sondern will nur 450 € zahlen. Nach § 150 Abs. 2 BGB gilt das als Ablehnung, verbunden mit einem neuen Angebot über 450 €."),
+      S_("Ergebnis", 1, true, "Folglich …", "„Folglich“ ile sonuç", [["folglich", "somit", "mithin", "daher"], ["keine annahme", "nicht angenommen", "neues angebot", "neuen antrag", "neuer antrag"]], "Folglich hat K das Angebot nicht angenommen, sondern ein neues Angebot über 450 € gemacht."),
+    ] },
+  { id: "g5", group: "gutachten", q: "Schreibe den Meinungsstreit: Hat A eine Willenserklärung abgegeben?", exam: 4, tr: "Görüş ayrılığını yaz: A irade beyanında bulundu mu?",
+    ctx: "Trierer Weinversteigerung: Der ortsfremde A winkt auf einer Weinversteigerung seinem Freund zu. Dort bietet man durch Handheben. Der Auktionator erteilt A den Zuschlag für eine Flasche Wein zu 50 €.",
+    slots: [
+      S_("Problem", 1, true, "Fraglich ist, ob …", "„Fraglich ist, ob …“ ile sorunu söyle", [["fraglich", "problem"], ["erklaerungsbewusstsein"]], "Fraglich ist, ob eine Willenserklärung vorliegt, obwohl A das Erklärungsbewusstsein fehlte."),
+      S_("Ansicht 1 · Willenstheorie", 1, true, "Ergebnis + Argument (§ 118 analog, Privatautonomie)", "Sonuç + gerekçe (§ 118 kıyasen, irade özerkliği)", [["willenstheorie", "eine ansicht", "mindermeinung"], ["keine willenserklaerung", "keine we", "nicht vor", "liegt keine"], ["118", "privatautonomie", "scherz"]], "Nach der Willenstheorie ist das Erklärungsbewusstsein zwingend, weil schon eine Scherzerklärung nichtig ist (§ 118 BGB analog) und die Privatautonomie geschützt werden muss. Danach läge keine Willenserklärung vor."),
+      S_("Ansicht 2 · Erklärungstheorie (h.M.)", 1, true, "Ergebnis + Argument (Sorgfalt, Vertrauensschutz, §§ 119 ff.)", "Sonuç + gerekçe (özen, güvenin korunması, §§ 119 vd.)", [["erklaerungstheorie", "h m", "herrschende"], ["erkennen", "sorgfalt", "fahrlaessig"], ["vertrauen", "119", "anfecht"]], "Nach der h.M. (Erklärungstheorie) genügt es, dass A bei pflichtgemäßer Sorgfalt hätte erkennen können, dass Handheben auf einer Auktion als Gebot verstanden wird. Wer im Rechtsverkehr auftritt, trägt das Risiko; er kann nach §§ 119 ff. anfechten. Danach liegt eine Willenserklärung vor."),
+      S_("Entscheidung und Ergebnis", 1, true, "Ergebnisse verschieden → Stellungnahme → Somit …", "Sonuçlar farklı → görüşünü gerekçelendir → sonuç", [["verschieden", "unterschiedlich", "stellungnahme", "spricht", "ueberzeug"], ["folglich", "somit", "mithin", "daher"], ["anfecht", "willenserklaerung abgegeben", "we vor", "willenserklaerung vor"]], "Die Ansichten kommen zu verschiedenen Ergebnissen. Für die h.M. spricht der Vertrauensschutz: Der Auktionator durfte auf das Handzeichen vertrauen. Somit hat A eine – anfechtbare – Willenserklärung abgegeben."),
+    ] },
+];
+const STAGES = ["Geführt", "Ohne Hilfe", "Klausur"];
+const STAGE_XP = [10, 20, 30];
+
+/* ───────── Schreib-Trainer · Bewertung ───────── */
+const norm = s => (s || "").toLowerCase().replace(/ä/g, "ae").replace(/ö/g, "oe").replace(/ü/g, "ue").replace(/ß/g, "ss").replace(/[^a-z0-9]+/g, " ").trim();
+const hit = (t, kw) => { const k = norm(kw); return k.length <= 3 ? (" " + t + " ").includes(" " + k + " ") : t.includes(k); };
+const q4 = x => Math.round(x * 4) / 4;
+const fmt = x => String(q4(x)).replace(".", ",");
+function quickScore(task, answers, free) {
+  const all = norm(free ? answers[0] : answers.join(" "));
+  return task.slots.map((sl, i) => {
+    const t = free ? all : norm(answers[i]);
+    const ok = sl.kw.map(g => g.some(k => hit(t, k)));
+    return { pts: q4(sl.pts * ok.filter(Boolean).length / sl.kw.length), max: sl.pts, core: sl.core, missing: sl.kw.filter((g, j) => !ok[j]).map(g => g[0]) };
+  });
+}
+function totals(crit) {
+  const sum = f => crit.filter(f).reduce((a, c) => a + c.pts, 0), max = f => crit.filter(f).reduce((a, c) => a + c.max, 0);
+  const core = sum(c => c.core), coreMax = max(c => c.core), bonus = sum(c => !c.core), bonusMax = max(c => !c.core);
+  return { core, coreMax, bonus, bonusMax, pct: coreMax ? Math.round((core / coreMax) * 100) : 0 };
+}
+function buildPrompt(task, stage, answers) {
+  const free = stage === 3;
+  const raster = task.slots.map((sl, i) => `${i + 1}. ${sl.label} – max ${sl.pts} – ${sl.core ? "Kern" : "Bonus"} – Erwartung: ${sl.model}`).join("\n");
+  const answer = free ? answers[0] : task.slots.map((sl, i) => `[${i + 1}. ${sl.label}]\n${answers[i] || "(leer)"}`).join("\n\n");
+  return `Du korrigierst eine Antwort für die Klausur „Einführung in das Zivilrecht für Wirtschaftswissenschaftler“ (Uni Göttingen). Der Student lernt Deutsch als Fremdsprache und ist Anfänger. Sei streng wie ein Prüfer, aber fair und ermutigend.
+
+AUFGABE: ${task.q} (${task.exam} ${task.exam === 1 ? "Punkt" : "Punkte"})
+${task.ctx ? "SACHVERHALT: " + task.ctx + "\n" : ""}MODUS: ${free ? "Klausur-Modus – freie Antwort ohne Struktur-Hilfe. Ordne den Inhalt selbst den Kriterien zu." : "Geführt – die Antwort ist nach Kriterien gegliedert."}
+
+BEWERTUNGSRASTER (je Kriterium 0 bis max in Schritten von 0,25; „Kern“ zählt für die Klausurpunkte, „Bonus“ zeigt Verständnis):
+${raster}
+
+REGELN DES PRÜFERS: abstrakt antworten und mit Paragrafen belegen, wo möglich. Bei Fallaufgaben Gutachtenstil: Obersatz im Konjunktiv („könnte“, „müsste“), erst Definition, dann Subsumtion mit den Fakten des Sachverhalts, Ergebnis am Ende mit „folglich“ / „somit“; Urteilsstil (Ergebnis zuerst) kostet Punkte. Sinngemäß richtige Formulierungen zählen voll. Sprachfehler kosten keine Punkte, solange der Inhalt klar ist.
+
+ANTWORT DES STUDENTEN:
+${answer}
+
+Antworte nur mit JSON in genau dieser Form:
+{"kriterien":[{"nr":1,"punkte":0.5,"kommentar":"1–2 kurze Sätze in einfachem Deutsch"}],"staerken":["was gut war"],"fehlt":["fehlender Fachbegriff oder Gedanke"],"tipps":["höchstens 3 konkrete Tipps, wie man es in der Klausur besser schreibt"],"tipps_tr":["dieselben Tipps auf Türkisch"],"verbessert":"die Antwort des Studenten als klausurreife Version, nah an seinen Worten, höchstens 130 Wörter","sprache":["höchstens 2 wichtige Sprachfehler mit Korrektur, sonst leer"]}`;
+}
+const arr = x => Array.isArray(x) ? x.map(String).filter(Boolean).slice(0, 5) : [];
+async function aiGrade(task, stage, answers, signal) {
+  const r = await sampleFn.json(buildPrompt(task, stage, answers), { signal, modelTier: "default" });
+  const ks = Array.isArray(r && r.kriterien) ? r.kriterien : [];
+  const crit = task.slots.map((sl, i) => {
+    const k = ks.find(x => Number(x && x.nr) === i + 1) || ks[i] || {};
+    let p = Number(k.punkte); if (!isFinite(p)) p = 0;
+    return { pts: Math.max(0, Math.min(sl.pts, q4(p))), max: sl.pts, core: sl.core, comment: String(k.kommentar || "") };
+  });
+  return { crit, staerken: arr(r.staerken), fehlt: arr(r.fehlt), tipps: arr(r.tipps), tipps_tr: arr(r.tipps_tr), verbessert: String(r.verbessert || ""), sprache: arr(r.sprache) };
+}
+
+/* ───────── Schreib-Trainer · Zustand ───────── */
+const wState = id => (S.write && S.write[id]) || { best: [0, 0, 0], n: 0, mastered: false };
+const unlocked = (id, stage) => stage === 1 || wState(id).best[stage - 2] >= 70;
+const masteredCount = () => WRITE.filter(t => wState(t.id).mastered).length;
+function recordWrite(task, stage, pct, src, text) {
+  if (!S.write) S.write = {};
+  const st = JSON.parse(JSON.stringify(wState(task.id)));
+  const oldXP = Math.round(st.best[stage - 1] / 100 * STAGE_XP[stage - 1]);
+  st.best[stage - 1] = Math.max(st.best[stage - 1], pct);
+  const gain = Math.max(0, Math.round(st.best[stage - 1] / 100 * STAGE_XP[stage - 1]) - oldXP);
+  let mastery = false;
+  if (stage === 3 && pct >= 80 && !st.mastered) { st.mastered = true; mastery = true; }
+  st.n++; st.last = { s: stage, pct, src, d: today(), text: text.slice(0, 2000) };
+  S.write[task.id] = st;
+  addXP(gain + (mastery ? 25 : 0));
+  touch();
+  if (mastery) { burst(); setTimeout(() => popText("Gemeistert!"), 950); }
+  return { gain, mastery };
+}
+const draftKey = (id, stage) => `drill-draft-${id}-${stage}`;
+function loadDraft(id, stage) { try { return JSON.parse(localStorage.getItem(draftKey(id, stage)) || "null"); } catch { return null; } }
+function saveDraft(id, stage, a) { try { localStorage.setItem(draftKey(id, stage), JSON.stringify(a)); } catch {} }
+function clearDraft(id, stage) { try { localStorage.removeItem(draftKey(id, stage)); } catch {} }
+
+/* ───────── Schreib-Trainer · Bildschirme ───────── */
+function writeList() {
+  const row = t => {
+    const st = wState(t.id);
+    const pips = [0, 1, 2].map(k => `<i class="${st.best[k] >= (k === 2 ? 80 : 70) ? "on" : ""}" title="Stufe ${k + 1}"></i>`).join("");
+    const best = Math.max(...st.best);
+    return `<button class="wrow" data-w="${t.id}"><div style="min-width:0"><div class="t">${esc(t.q)}</div><div class="m">${t.exam} ${t.exam === 1 ? "Punkt" : "Punkte"} · ${st.n ? "bestes Ergebnis " + best + " %" : "noch nicht geschrieben"}</div></div><div class="pips">${st.mastered ? '<span class="badge">gemeistert</span>' : pips}</div></button>`;
+  };
+  view.innerHTML = `
+    <div class="bar2"><button class="back" id="back">← Start</button></div>
+    <section class="stage">
+      <span class="label">Schreib-Trainer · ${masteredCount()} / ${WRITE.length} gemeistert</span>
+      <h1>Schreib es <em>selbst</em>.</h1>
+      <p style="color:var(--stage-muted);margin:10px 0 0;font-size:15px">Jede Aufgabe hat 3 Stufen: <b style="color:var(--stage-ink)">Geführt</b> (Kästen mit Hinweisen) → <b style="color:var(--stage-ink)">Ohne Hilfe</b> (nur Kästen) → <b style="color:var(--stage-ink)">Klausur</b> (ein leeres Feld, aus dem Kopf). Ab 70 % öffnet sich die nächste Stufe, ab 80 % in der Klausur-Stufe ist die Aufgabe gemeistert.</p>
+      <div class="tr"><b>TR</b><span style="color:var(--stage-muted)">Cevabını kendin yaz. Önce ipuçlu kutular, sonra ipucusuz, en son sınav gibi boş sayfa. Claude cevabını puanlar ve sınavda nasıl daha iyi yazacağını söyler.</span></div>
+    </section>
+    <div class="wgrp"><span class="label">Frageteil · Einzelfragen</span>${WRITE.filter(t => t.group === "frage").map(row).join("")}</div>
+    <div class="wgrp"><span class="label">Gutachten-Bausteine · Fall</span>${WRITE.filter(t => t.group === "gutachten").map(row).join("")}</div>`;
+  document.getElementById("back").onclick = home;
+  view.querySelectorAll("[data-w]").forEach(b => b.onclick = () => {
+    const t = WRITE.find(x => x.id === b.dataset.w), st = wState(t.id);
+    const stage = st.mastered ? 3 : unlocked(t.id, 3) ? 3 : unlocked(t.id, 2) ? 2 : 1;
+    writeTask(t, stage);
+  });
+}
+
+let lastField = null, aiCtl = null;
+function writeTask(task, stage) {
+  if (aiCtl) { aiCtl.abort(); aiCtl = null; }
+  const free = stage === 3;
+  const draft = loadDraft(task.id, stage) || [];
+  const tabs = STAGES.map((n, k) => `<button class="stg${k + 1 === stage ? " on" : ""}" data-s="${k + 1}" ${unlocked(task.id, k + 1) ? "" : "disabled"}>${k + 1} · ${n}${unlocked(task.id, k + 1) ? "" : " · ab 70 %"}</button>`).join("");
+  const slots = free
+    ? `<div class="free"><label class="label" for="wf-${task.id}">Deine Antwort – wie in der Klausur</label><textarea id="wf-${task.id}" data-i="0" spellcheck="false" placeholder="Schreib deine vollständige Antwort aus dem Kopf …">${esc(draft[0] || "")}</textarea></div>`
+    : task.slots.map((sl, i) => `
+      <div class="slot">
+        <div class="sh"><b>${i + 1}. ${esc(sl.label)}</b><span class="xp" style="color:var(--gold-ink)">${fmt(sl.pts)} P.${sl.core ? "" : " · Bonus"}</span></div>
+        ${stage === 1 ? `<div class="hint">${esc(sl.hint)}</div><div class="tr" style="margin-top:4px"><b>TR</b><span>${esc(sl.tr)}</span></div>` : ""}
+        <textarea id="w-${task.id}-${i}" data-i="${i}" spellcheck="false" aria-label="${esc(sl.label)}">${esc(draft[i] || "")}</textarea>
+      </div>`).join("");
+  view.innerHTML = `
+    <div class="bar2"><button class="back" id="back">← Alle Aufgaben</button></div>
+    <div class="stages">${tabs}</div>
+    <article class="card">
+      <span class="label">${task.group === "frage" ? "Einzelfrage" : "Gutachten-Baustein"} · ${task.exam} ${task.exam === 1 ? "Punkt" : "Punkte"}</span>
+      ${task.ctx ? `<div class="case">${esc(task.ctx)}</div>` : ""}
+      <div class="q">${esc(task.q)}</div>
+      <div class="tr"><b>TR</b><span>${esc(task.tr)}</span></div>
+      ${task.note && stage < 3 ? `<p class="note">${esc(task.note)}</p>` : ""}
+      ${free ? `<p class="note">Klausur-Modus: keine Kästen, keine Hinweise. ${task.group === "gutachten" ? "Schreib im Gutachtenstil: Obersatz → Definition → Subsumtion → Ergebnis." : "Definition + Paragraf + kurze Erklärung."}</p>` : ""}
+      ${slots}
+      <div class="kbd" aria-label="Sonderzeichen"><span>Einfügen:</span>${["ä", "ö", "ü", "Ä", "Ö", "Ü", "ß", "§", "„", "“"].map(c => `<button type="button" data-ch="${c}">${c}</button>`).join("")}</div>
+      <div class="btns" style="grid-template-columns:1fr"><button class="btn main" id="submit">Abgeben &amp; korrigieren</button></div>
+      <div id="wres"></div>
+    </article>`;
+  document.getElementById("back").onclick = writeList;
+  view.querySelectorAll(".stg").forEach(b => b.onclick = () => { if (!b.disabled) writeTask(task, +b.dataset.s); });
+  const fields = [...view.querySelectorAll("textarea")];
+  let t;
+  fields.forEach(f => {
+    f.onfocus = () => { lastField = f; };
+    f.oninput = () => { clearTimeout(t); t = setTimeout(() => saveDraft(task.id, stage, fields.map(x => x.value)), 400); };
+  });
+  lastField = fields[0];
+  view.querySelectorAll("[data-ch]").forEach(b => {
+    b.onmousedown = e => e.preventDefault();
+    b.onclick = () => {
+      const f = lastField || fields[0]; if (!f) return;
+      const a = f.selectionStart ?? f.value.length, z = f.selectionEnd ?? a;
+      f.value = f.value.slice(0, a) + b.dataset.ch + f.value.slice(z);
+      f.focus(); f.selectionStart = f.selectionEnd = a + b.dataset.ch.length;
+      f.dispatchEvent(new Event("input"));
+    };
+  });
+  document.getElementById("submit").onclick = () => submitWrite(task, stage, fields.map(f => f.value.trim()));
+}
+
+async function submitWrite(task, stage, answers) {
+  const res = document.getElementById("wres");
+  if (!answers.some(a => a.length >= 3)) { res.innerHTML = `<p class="note" style="color:var(--no)">Schreib zuerst deine Antwort – auch wenn sie nicht perfekt ist.</p>`; return; }
+  const free = stage === 3;
+  const quick = quickScore(task, answers, free);
+  const text = free ? answers[0] : task.slots.map((sl, i) => `${sl.label}: ${answers[i]}`).join("\n");
+  document.getElementById("submit").disabled = true;
+  renderWriteResult(task, stage, { crit: quick }, "quick", sampleFn ? "loading" : "off");
+  if (!sampleFn) { finishWrite(task, stage, totals(quick).pct, "quick", text); return; }
+  aiCtl = new AbortController();
+  try {
+    const ai = await aiGrade(task, stage, answers, aiCtl.signal);
+    aiCtl = null;
+    renderWriteResult(task, stage, ai, "ai", "done");
+    finishWrite(task, stage, totals(ai.crit).pct, "ai", text);
+  } catch (e) {
+    aiCtl = null;
+    const code = e && e.code;
+    if (code === "cancelled") { renderWriteResult(task, stage, { crit: quick }, "quick", "stopped"); finishWrite(task, stage, totals(quick).pct, "quick", text); return; }
+    if (["not_granted", "sampling_disabled", "not_declared", "capability_disabled", "capability_removed"].includes(code)) sampleFn = null;
+    const msg = code === "rate_limited" ? "Gerade zu viele Anfragen – versuch es in ein paar Minuten nochmal."
+      : code === "session_expired" ? "Bitte melde dich bei Claude neu an."
+      : sampleFn ? "Claude konnte gerade nicht antworten." : "Die Claude-Bewertung ist hier nicht verfügbar – der Schnell-Check zählt.";
+    renderWriteResult(task, stage, { crit: quick }, "quick", "error", msg, () => submitWrite(task, stage, answers));
+    finishWrite(task, stage, totals(quick).pct, "quick", text);
+  }
+}
+function finishWrite(task, stage, pct, src, text) {
+  clearDraft(task.id, stage);
+  const r = recordWrite(task, stage, pct, src, text);
+  const box = document.getElementById("wnext");
+  if (!box) return;
+  const next = stage < 3 && unlocked(task.id, stage + 1);
+  box.innerHTML = `
+    <p class="note">${r.mastery ? "Aufgabe gemeistert – stark!" : stage === 3 && pct >= 80 ? "Wieder über 80 % – das sitzt." : next ? `Stufe ${stage + 1} ist offen.` : stage < 3 ? `Für Stufe ${stage + 1} brauchst du 70 % in dieser Stufe.` : "Ziel: 80 % im Klausur-Modus."}${r.gain ? ` · +${r.gain} XP` : ""}</p>
+    <div class="btns" style="grid-template-columns:repeat(${next ? 3 : 2},minmax(0,1fr))">
+      <button class="btn" id="again">Nochmal schreiben</button>
+      ${next ? `<button class="btn main" style="grid-column:auto" id="nextStage">Stufe ${stage + 1} →</button>` : ""}
+      <button class="btn" id="toList">Alle Aufgaben</button>
+    </div>`;
+  document.getElementById("again").onclick = () => writeTask(task, stage);
+  document.getElementById("toList").onclick = writeList;
+  if (next) document.getElementById("nextStage").onclick = () => writeTask(task, stage + 1);
+}
+function renderWriteResult(task, stage, data, src, aiState, msg, retry) {
+  const tt = totals(data.crit);
+  const C = 2 * Math.PI * 26;
+  const crit = data.crit.map((c, i) => {
+    const sl = task.slots[i], cls = c.pts >= c.max ? "full" : c.pts > 0 ? "part" : "zero";
+    const body = src === "ai"
+      ? (c.comment ? `<p>${esc(c.comment)}</p>` : "")
+      : (c.missing.length ? `<div>${c.missing.map(m => `<span class="miss">fehlt: ${esc(m)}</span>`).join("")}</div>` : `<p>Alle Schlüsselbegriffe gefunden.</p>`);
+    return `<div class="crit"><div class="ch"><b>${i + 1}. ${esc(sl.label)}${sl.core ? "" : ' <span class="muted" style="font-weight:400">· Bonus</span>'}</b><span class="pts ${cls}">${fmt(c.pts)} / ${fmt(c.max)}</span></div>${body}<details class="mu"><summary>Musterlösung</summary><div>${esc(sl.model)}</div></details></div>`;
+  }).join("");
+  const ai = src === "ai" ? data : null;
+  const list = (h, xs) => xs && xs.length ? `<span class="h5">${h}</span><ul class="tips">${xs.map(x => `<li>${esc(x)}</li>`).join("")}</ul>` : "";
+  const status = aiState === "loading"
+    ? `<div class="ailine"><span class="dots"><i></i><i></i><i></i></span><span>Claude korrigiert deine Antwort … (bis zu einer Minute)</span><button class="back" id="stopAi">Stopp</button></div>`
+    : aiState === "error" ? `<div class="ailine"><span>${esc(msg || "")}</span>${retry && sampleFn ? '<button class="back" id="retryAi">Nochmal versuchen</button>' : ""}</div>`
+    : aiState === "off" ? `<div class="ailine"><span>Schnell-Check nach Schlüsselbegriffen. Die ausführliche Claude-Bewertung gibt es in der Claude-App.</span></div>`
+    : aiState === "stopped" ? `<div class="ailine"><span>Claude-Bewertung gestoppt – der Schnell-Check zählt.</span></div>` : "";
+  document.getElementById("wres").innerHTML = `
+    <div style="margin-top:20px;border-top:1px dashed var(--gold);padding-top:16px">
+      <div class="score">
+        <svg width="64" height="64" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="26" fill="none" stroke="var(--line)" stroke-width="6"/><circle cx="32" cy="32" r="26" fill="none" stroke="var(--gold)" stroke-width="6" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${C * (1 - tt.pct / 100)}" transform="rotate(-90 32 32)"/></svg>
+        <div><div class="big2">${fmt(tt.core)}<span> / ${fmt(tt.coreMax)} P.</span></div>
+        <div class="row" style="margin-top:4px"><span class="src${src === "ai" ? " ai" : ""}">${src === "ai" ? "Claude-Bewertung" : "Schnell-Check"}</span><span class="muted" style="font-size:13.5px">${tt.pct} % der Klausurpunkte${tt.bonusMax ? ` · Bonus ${fmt(tt.bonus)} / ${fmt(tt.bonusMax)}` : ""}</span></div></div>
+      </div>
+      ${status}
+      <span class="h5">Pro Kriterium</span>
+      <div>${crit}</div>
+      ${ai && ai.verbessert ? `<span class="h5">So schreibst du es in der Klausur</span><div class="improved">${esc(ai.verbessert)}</div>` : ""}
+      ${ai ? list("Das war gut", ai.staerken) + list("Das fehlt noch", ai.fehlt) + list("Tipps für die Klausur", ai.tipps) : ""}
+      ${ai && ai.tipps_tr.length ? `<div class="tr"><b>TR</b><span>${ai.tipps_tr.map(esc).join(" · ")}</span></div>` : ""}
+      ${ai ? list("Sprache", ai.sprache) : ""}
+      <div id="wnext"></div>
+    </div>`;
+  const stop = document.getElementById("stopAi"); if (stop) stop.onclick = () => aiCtl && aiCtl.abort();
+  const re = document.getElementById("retryAi"); if (re) re.onclick = retry;
+  document.getElementById("wres").scrollIntoView({ behavior: "smooth", block: "start" });
+}
+let sampleFn = null;
+
 /* ───────── Start & Sync ───────── */
 const view = document.getElementById("view");
 const local = loadLocal();
@@ -520,6 +930,7 @@ if (local && local.v === 1) S = Object.assign(fresh(), local);
 renderTop(); home();
 setSync(false, "Fortschritt nur auf diesem Gerät");
 
+if (window.claude && window.claude.use) window.claude.use("sample").then(f => { sampleFn = f || null; }).catch(() => {});
 (async () => {
   try {
     if (!window.claude || !window.claude.use) return;
