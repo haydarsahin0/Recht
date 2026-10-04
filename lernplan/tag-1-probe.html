@@ -1,0 +1,850 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>Tag 1 · Das Fundament</title>
+<link rel="stylesheet" href="assets/theme.css">
+<style>
+  /* ───── Seite 1 · Cover ───── */
+  .cover-top { display: flex; justify-content: space-between; align-items: flex-start; }
+  .bigday { font-family: var(--display); font-weight: 400; font-size: 124px; line-height: .82; color: var(--ink); letter-spacing: -.03em; }
+  .bigday em { color: var(--gold2); }
+  .cover-title { font-family: var(--display); font-size: 52px; line-height: 1; color: var(--ink); margin: 10px 0 12px; font-weight: 400; }
+  .count {
+    width: 128px; height: 128px; border-radius: 50%;
+    border: 1px solid var(--goldline);
+    display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+    margin-top: 6px;
+  }
+  .count .n { font-family: var(--display); font-size: 50px; line-height: .9; color: var(--gold2); }
+  .count .t { font-size: 7.6px; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); margin-top: 4px; line-height: 1.5; }
+
+  .track { position: relative; margin-top: 4px; }
+  .track .phases { display: grid; grid-template-columns: 4fr 4fr 1.1fr; gap: 10px; margin-bottom: 8px; }
+  .track .phases div { font-size: 8px; letter-spacing: .22em; text-transform: uppercase; color: var(--gold); border-bottom: 1px solid var(--goldline); padding-bottom: 5px; }
+  .track .phases div.rep { color: var(--muted); border-color: var(--faint); }
+  .track .phases div.ex { color: var(--gold2); border-color: var(--gold2); text-align: center; }
+  .nodes { display: grid; grid-template-columns: repeat(8, 1fr) 1.1fr; gap: 10px; }
+  .nodes .d { text-align: left; }
+  .nodes .c {
+    width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--goldline);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--display); font-size: 17px; color: var(--gold2); margin-bottom: 7px; background: var(--card);
+  }
+  .nodes .d.now .c { background: var(--gold); color: #fff; border-color: var(--gold); }
+  .nodes .d.rep .c { border-style: dashed; border-color: var(--faint); color: var(--muted); }
+  .nodes .d.ex .c { border-radius: 3px; transform: rotate(45deg); width: 24px; height: 24px; margin: 3px 0 10px 3px; background: var(--goldsoft2); }
+  .nodes .d.ex .c span { transform: rotate(-45deg); font-size: 13px; }
+  .nodes b { display: block; font-size: 10.4px; line-height: 1.25; }
+  .nodes span.s { display: block; font-size: 9.2px; color: var(--muted); line-height: 1.35; margin-top: 2px; }
+
+  .plan li { list-style: none; display: grid; grid-template-columns: 18px 26px 1fr auto; align-items: baseline; padding: 4px 0; border-top: 1px solid var(--line); font-size: 11.8px; color: var(--ink); }
+  .plan li:last-child { border-bottom: 1px solid var(--line); }
+  .plan li .sec { font-family: var(--display); color: var(--gold); font-size: 15px; }
+  .plan li .m { font-size: 10px; color: var(--muted); letter-spacing: .04em; }
+  .xpl .r { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-top: 1px solid var(--line); font-size: 11.8px; color: var(--ink); }
+  .ranks { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 10px; }
+  .ranks div { border: 1px solid var(--line); border-radius: 4px; padding: 7px 8px 6px; text-align: center; background: var(--card); }
+  .ranks div b { display: block; font-family: var(--display); font-weight: 500; font-size: 15px; }
+  .ranks div span { font-size: 8.6px; letter-spacing: .14em; color: var(--muted); }
+  .ranks div.top { border-color: var(--goldline); background: var(--goldsoft); }
+  .ranks div.top b { color: var(--gold2); }
+
+  /* ───── Seite 2 ───── */
+  .part { position: relative; padding: 13px 18px 12px; }
+  .part .pct { position: absolute; right: 16px; top: 10px; font-family: var(--display); font-size: 38px; color: var(--gold2); line-height: 1; }
+  .part .num { font-size: 26px; }
+  .tbar { display: flex; height: 30px; border-radius: 4px; overflow: hidden; border: 1px solid var(--line); }
+  .tbar div { display: flex; align-items: center; justify-content: center; font-size: 8.6px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink); border-right: 1px solid var(--line); text-align: center; line-height: 1.2; }
+  .tbar div:last-child { border-right: 0; }
+  .tbar .b { background: var(--goldsoft2); }
+  .tbar .w { background: var(--goldsoft); }
+  .tbar .x { background: var(--card); color: var(--muted); }
+  .tticks { display: flex; font-size: 8.6px; color: var(--muted); margin-top: 4px; }
+  .tticks span { flex: none; }
+  .mini li { list-style: none; display: grid; grid-template-columns: 16px 1fr; font-size: 11.6px; padding: 1.5px 0; color: var(--ink); }
+  .mini li .i { width: 11px; height: 11px; margin-top: 3px; }
+
+  /* ───── Seite 3 ───── */
+  .formula { display: grid; grid-template-columns: 1fr 18px 1fr 18px 1fr 18px 1fr; align-items: stretch; }
+  .formula .f { border: 1px solid var(--line); background: var(--card); border-radius: 4px; padding: 9px 10px; text-align: center; }
+  .formula .f b { display: block; font-family: var(--display); font-weight: 500; font-size: 17px; line-height: 1.1; }
+  .formula .f span { font-size: 10px; color: var(--muted); }
+  .formula .f.r { border-color: var(--goldline); background: var(--goldsoft); }
+  .formula .f.r b { color: var(--gold2); }
+  .formula .op { display: flex; align-items: center; justify-content: center; font-family: var(--display); font-size: 22px; color: var(--gold); }
+  .vs { display: grid; grid-template-columns: 22px 1fr; gap: 0 8px; padding: 7px 0; border-top: 1px solid var(--line); }
+  .vs:last-child { border-bottom: 1px solid var(--line); }
+  .vs .i { width: 16px; height: 16px; margin-top: 2px; }
+  .vs p { font-size: 12.2px; color: var(--ink); }
+  .vs p.q { font-family: var(--display); font-size: 17px; line-height: 1.3; }
+  .vs small { display: block; color: var(--muted); font-size: 10.6px; margin-top: 2px; }
+
+  /* ───── Seite 4 ───── */
+  .blocks .card { border-top-width: 3px; padding: 12px 13px 12px; }
+  .blocks .card.o { border-top-color: var(--c-ober); }
+  .blocks .card.d { border-top-color: var(--c-def); }
+  .blocks .card.s { border-top-color: var(--c-sub); }
+  .blocks .card.e { border-top-color: var(--c-erg); }
+  .blocks .card .num { font-size: 21px; margin-bottom: 4px; }
+  .blocks .card h3 { font-size: 18px; margin-bottom: 1px; }
+  .blocks .card .q { font-size: 10.6px; color: var(--muted); font-style: italic; display: block; margin-bottom: 7px; }
+  .blocks .card .g { font-size: 10.4px; color: var(--ink); display: block; border-top: 1px solid var(--line2); padding-top: 6px; }
+  .blocks .card .ex { font-family: var(--display); font-size: 15px; line-height: 1.25; color: var(--ink2); display: block; margin-top: 5px; }
+  .example .gb { font-size: 11.9px; color: var(--ink); margin-bottom: 3px; }
+  .example .gb.faint { border-color: var(--line); color: var(--faint); font-style: italic; }
+  .kit .r { display: grid; grid-template-columns: 88px 1fr; align-items: baseline; padding: 4px 0; border-top: 1px solid var(--line); font-size: 11.6px; color: var(--ink); }
+  .kit .r:last-child { border-bottom: 1px solid var(--line); }
+  .levels { font-family: var(--display); font-size: 15px; color: var(--ink); line-height: 1.35; }
+  .levels span { display: block; }
+
+  /* ───── Seite 5 ───── */
+  .wcards .card { padding: 11px 14px 10px; }
+  .wcards h3 { font-size: 23px; color: var(--gold2); margin-bottom: 6px; }
+  .wcards .sub { margin: 0 0 6px; }
+  .wcards p { font-size: 12.2px; color: var(--ink); }
+
+  /* ───── Seite 6 ───── */
+  .def .quote { font-size: 22px; }
+  .ttab { width: 100%; border-collapse: collapse; }
+  .ttab th { text-align: left; font-weight: 400; font-size: 8.2px; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); padding: 0 8px 6px 0; border-bottom: 1px solid var(--goldline); }
+  .ttab td { padding: 5px 8px 5px 0; border-bottom: 1px solid var(--line); font-size: 11.6px; color: var(--ink); vertical-align: top; line-height: 1.45; }
+  .ttab td:first-child { font-weight: 600; width: 130px; }
+  .ttab td:last-child { width: 222px; }
+  .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; vertical-align: 0; }
+  .dot.r { background: var(--no); }
+  .dot.y { background: var(--goldline); }
+  .tb li { list-style: none; display: grid; grid-template-columns: 20px 1fr; padding: 3px 0; font-size: 11.8px; color: var(--ink); }
+  .tb li .n { font-family: var(--display); color: var(--gold); font-size: 16px; line-height: 1.1; }
+  .tb li small { display: block; color: var(--muted); font-size: 10.6px; }
+
+  /* ───── Seite 7 ───── */
+  .flow { display: grid; grid-template-columns: 1fr 26px 1fr 26px 0.8fr; align-items: stretch; }
+  .flow .op { display: flex; align-items: center; justify-content: center; color: var(--gold); font-size: 18px; }
+  .flow .card { padding: 9px 13px; }
+  .flow .card .num { font-size: 20px; margin-bottom: 3px; }
+  .flow .card h3 { font-size: 18px; }
+  .flow .card p { font-size: 11px; color: var(--muted); line-height: 1.45; }
+  .flow .fin { display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+  .flow .fin .i { width: 22px; height: 22px; color: var(--gold); margin-bottom: 4px; }
+  .tl { margin-top: 2px; }
+  .tl .hd, .tl .rw { display: grid; grid-template-columns: 138px 1fr 132px; gap: 14px; align-items: center; }
+  .tl .hd { font-size: 8px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); padding-bottom: 4px; }
+  .tl .axis { position: relative; height: 14px; }
+  .tl .axis span { position: absolute; transform: translateX(-50%); font-size: 8.4px; letter-spacing: .04em; text-transform: none; color: var(--muted); white-space: nowrap; }
+  .tl .rw { padding: 4px 0; border-top: 1px solid var(--line); }
+  .tl .rw:last-of-type { border-bottom: 1px solid var(--line); }
+  .tl .who { font-size: 11.4px; color: var(--ink); line-height: 1.3; }
+  .tl .who small { display: block; color: var(--muted); font-size: 10px; }
+  .tl .lane { position: relative; height: 18px; }
+  .tl .lane::before { content: ''; position: absolute; left: 0; right: 0; top: 50%; border-top: 1px solid var(--line); }
+  .tl .lane .biz { position: absolute; top: 3px; bottom: 3px; background: var(--goldsoft2); border-radius: 2px; }
+  .tl .lane .mid { position: absolute; top: 0; bottom: 0; border-left: 1px dashed var(--faint); }
+  .tl .lane .dt { position: absolute; top: 50%; width: 9px; height: 9px; border-radius: 50%; background: var(--ink); transform: translate(-50%, -50%); }
+  .tl .lane .zg { position: absolute; top: 50%; width: 11px; height: 11px; background: var(--gold); transform: translate(-50%, -50%) rotate(45deg); border-radius: 1px; }
+  .tl .lane .ln { position: absolute; top: 50%; border-top: 1.5px dashed var(--gold); }
+  .tl .res { font-size: 11.2px; color: var(--ink); line-height: 1.3; }
+  .tl .res small { display: block; color: var(--muted); font-size: 9.8px; }
+  .legend { display: flex; gap: 16px; font-size: 9.6px; color: var(--muted); margin-top: 7px; align-items: center; }
+  .legend i { display: inline-block; vertical-align: -1px; margin-right: 5px; }
+
+  /* ───── Seite 8 ───── */
+  .chain { display: grid; grid-template-columns: 1fr 16px 1fr 16px 1fr 16px 1fr; align-items: center; margin-top: 8px; }
+  .chain .c { border: 1px solid var(--line); background: var(--card); border-radius: 4px; padding: 6px 8px; font-size: 10.6px; color: var(--ink); line-height: 1.35; }
+  .chain .c small { display: block; font-size: 8px; letter-spacing: .16em; text-transform: uppercase; color: var(--gold); }
+  .chain .c.r { border-color: var(--goldline); background: var(--goldsoft2); }
+  .chain .a { text-align: center; color: var(--gold); font-size: 13px; }
+
+  /* ───── Seite 9 ───── */
+  .sv { background: var(--grey); border-radius: 4px; padding: 10px 16px; }
+  .sv p { font-size: 11.8px; color: var(--ink); line-height: 1.55; }
+  .sv .ff { margin-top: 6px; font-weight: 600; }
+  .gut { margin-top: 8px; }
+  .gut .ln { display: grid; grid-template-columns: 76px 1fr; gap: 0 12px; }
+  .gut .ln .m { padding-top: 4px; text-align: right; }
+  .gut .ln .t { font-size: 10.9px; line-height: 1.45; color: var(--ink); border-left: 3px solid var(--line); padding: 2px 0 4px 11px; }
+  .gut .ln .t.o { border-color: var(--c-ober); }
+  .gut .ln .t.d { border-color: var(--c-def); }
+  .gut .ln .t.s { border-color: var(--c-sub); }
+  .gut .ln .t.e { border-color: var(--c-erg); }
+  .gut .hd { display: grid; grid-template-columns: 76px 1fr; gap: 0 12px; margin: 4px 0 1px; }
+  .gut .hd b { grid-column: 2; font-family: var(--display); font-weight: 600; font-size: 15px; color: var(--ink); padding-left: 14px; }
+  .gut .hd.sub b { font-size: 14px; font-weight: 500; font-style: italic; }
+  .gut .mark { background: linear-gradient(transparent 58%, var(--goldsoft2) 58%); }
+
+  /* ───── Seite 10 ───── */
+  .mc { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 14px; }
+  .mc .q { border: 1px solid var(--line); background: var(--card); border-radius: 5px; padding: 8px 12px 7px; }
+  .mc .q p { font-size: 11.4px; color: var(--ink); line-height: 1.4; margin-bottom: 5px; }
+  .mc .q p .nr { font-family: var(--display); color: var(--gold); font-size: 16px; margin-right: 4px; }
+  .mc .q ol { list-style: none; }
+  .mc .q li { font-size: 10.8px; color: var(--ink2); padding: 1.5px 0; display: grid; grid-template-columns: 18px 1fr; }
+  .mc .q li::before { content: attr(data-l); color: var(--gold); }
+  .eq .r { display: grid; grid-template-columns: 26px 1fr auto; gap: 0 6px; padding: 6px 0 17px; border-top: 1px solid var(--line); font-size: 12px; color: var(--ink); position: relative; }
+  .eq .r .nr { font-family: var(--display); color: var(--gold); font-size: 17px; line-height: 1; }
+  .eq .r .wl { position: absolute; left: 32px; right: 0; bottom: 6px; border-bottom: 1px solid #c9c3b8; }
+  .flip { transform: rotate(180deg); border: 1px dashed var(--goldline); border-radius: 6px; padding: 11px 15px 10px; background: var(--card); }
+  .flip p { font-size: 10px; color: var(--ink); line-height: 1.5; }
+  .flip p + p { margin-top: 4px; }
+  .flip b { color: var(--gold2); }
+  .score { display: grid; grid-template-columns: auto 1fr; gap: 14px; align-items: center; }
+  .score .tot { font-family: var(--display); font-size: 30px; color: var(--ink); line-height: 1; white-space: nowrap; }
+  .score .tot span { color: var(--faint); }
+</style>
+</head>
+<body>
+
+<!-- ═════════════════════════ 01 · COVER ═════════════════════════ -->
+<section class="page">
+  <header class="run"><span>Recht · Klausurtraining</span><span>Tag 1 · Das Fundament</span><span class="pg">01 / 10</span></header>
+  <div class="body">
+    <div class="kicker"><span>Einführung in das Zivilrecht</span><span class="rule"></span><span>Klausur · Mo, 12.10.2026 · 120 Min</span><span class="rel"><span class="stamp">Probe · 10 Seiten</span></span></div>
+
+    <div class="cover-top mt12">
+      <div>
+        <div class="bigday">Tag <em>1</em></div>
+        <div class="cover-title">Das <em>Fundament</em>.</div>
+      </div>
+      <div class="count"><span class="n">8</span><span class="t">Tage bis<br>zur Klausur</span></div>
+    </div>
+
+    <p class="lead">Heute lernst du, wie die Klausur funktioniert, wie man ein Gutachten schreibt und wie ein Vertrag entsteht. Am Ende des Tages löst du deinen ersten Fall – allein.</p>
+    <div class="tr"><span class="tag">TR</span><p>Bugün sınavın nasıl işlediğini, bir Gutachten'in nasıl yazıldığını ve bir sözleşmenin nasıl kurulduğunu öğreniyorsun. Günün sonunda ilk vakanı tek başına çözeceksin.</p></div>
+
+    <div class="mt24">
+      <span class="label">Dein 8-Tage-Plan</span>
+      <div class="track">
+        <div class="phases"><div>Lernen · Tag 1–4</div><div class="rep">Wiederholen · Tag 5–8</div><div class="ex">Ziel</div></div>
+        <div class="nodes">
+          <div class="d now"><div class="c">1</div><b>Fundament</b><span class="s">Klausur, Gutachten, Vertrag</span></div>
+          <div class="d"><div class="c">2</div><b>Wirksamkeit</b><span class="s">Anfechtung, Minderjährige, Vertreter, AGB</span></div>
+          <div class="d"><div class="c">3</div><b>Leistungs&shy;störung</b><span class="s">Schadensersatz, Rücktritt, Kaufrecht</span></div>
+          <div class="d"><div class="c">4</div><b>Gesetz</b><span class="s">Werk, Miete, Eigentum, Delikt, Bereicherung</span></div>
+          <div class="d rep"><div class="c">5</div><b>Drill I</b><span class="s">Fragen&shy;katalog + Probeklausur</span></div>
+          <div class="d rep"><div class="c">6</div><b>Drill II</b><span class="s">Fragen&shy;katalog + Klausur 2</span></div>
+          <div class="d rep"><div class="c">7</div><b>Drill III</b><span class="s">Schwach&shy;stellen + Klausur 3</span></div>
+          <div class="d rep"><div class="c">8</div><b>General&shy;probe</b><span class="s">Alles 1× – dann Ruhe</span></div>
+          <div class="d ex"><div class="c"><span>★</span></div><b>Klausur</b><span class="s">12.10. · Ziel 1,7</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid g2 mt24" style="grid-template-columns: 1.25fr 1fr; gap: 26px;">
+      <div>
+        <span class="label">Heute auf dem Plan · ca. 5,5 Std.</span>
+        <ul class="plan">
+          <li><span class="box"></span><span class="sec">§ 1</span><span>Klausur verstehen</span><span class="m">20 Min</span></li>
+          <li><span class="box"></span><span class="sec">§ 2</span><span>Was der Prüfer will</span><span class="m">20 Min</span></li>
+          <li><span class="box"></span><span class="sec">§ 3</span><span>Gutachtenstil</span><span class="m">45 Min</span></li>
+          <li><span class="box"></span><span class="sec">§ 4</span><span>Der Anspruch</span><span class="m">40 Min</span></li>
+          <li><span class="box"></span><span class="sec">§ 5</span><span>Willenserklärung</span><span class="m">45 Min</span></li>
+          <li><span class="box"></span><span class="sec">§ 6</span><span>Zugang</span><span class="m">40 Min</span></li>
+          <li><span class="box"></span><span class="sec">§ 7</span><span>Angebot + Annahme</span><span class="m">50 Min</span></li>
+          <li><span class="box"></span><span class="sec">§ 8</span><span>Dein erstes Gutachten</span><span class="m">45 Min</span></li>
+          <li><span class="box"></span><span class="sec">§ 9</span><span>Boss-Test</span><span class="m">30 Min</span></li>
+        </ul>
+        <p class="small mt8">Rhythmus: 50 Min lernen · 10 Min Pause. Handy weg.</p>
+      </div>
+      <div>
+        <span class="label">So sammelst du XP</span>
+        <div class="xpl">
+          <div class="r"><span>Check auf jeder Seite</span><span class="xp">+5 XP</span></div>
+          <div class="r"><span>Gutachten selbst schreiben</span><span class="xp">+10 XP</span></div>
+          <div class="r" style="border-bottom:1px solid var(--line)"><span>Boss-Test am Ende</span><span class="xp">bis +60 XP</span></div>
+        </div>
+        <div class="ranks">
+          <div><b>Anfänger</b><span>0–49 XP</span></div>
+          <div><b>Solide</b><span>50–79 XP</span></div>
+          <div class="top"><b>Maschine</b><span>80–100 XP</span></div>
+        </div>
+        <p class="small mt8">Tagesziel: <b>80 XP</b>. Weniger? Dann die Seiten mit Fehlern morgen früh noch einmal lesen.</p>
+      </div>
+    </div>
+
+    <div class="warn mt20">
+      <span class="ic"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"><path d="M12 3.2 2.6 20h18.8L12 3.2z"/><path d="M12 9.6v5M12 17.3v.4" stroke-linecap="round"/></svg></span>
+      <div>
+        <span class="label">Heute erledigen · Anmeldung</span>
+        <p>Laut Vorlesung: Anmeldung <b>7 Tage vor dem Klausurtag</b>. Prüfe heute, ob du für den 12.10. angemeldet bist.</p>
+        <div class="tr" style="margin-top:4px"><span class="tag">TR</span><p>Sınav kaydı 7 gün önceden yapılmalı – bugün sistemde kaydını mutlaka kontrol et!</p></div>
+      </div>
+    </div>
+  </div>
+  <footer class="foot"><div class="bar"><i class="on"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><span>Los geht's · S. 2</span></footer>
+</section>
+
+<!-- ═════════════════════════ 02 · KLAUSUR ═════════════════════════ -->
+<section class="page">
+  <header class="run"><span>Recht · Klausurtraining</span><span>Tag 1 · Das Fundament</span><span class="pg">02 / 10</span></header>
+  <div class="body">
+    <div class="kicker"><span class="sec">§ 1</span><span class="rule"></span><span>Klausur verstehen</span><span class="rel">Relevanz <b>●●●</b></span></div>
+    <h1>So sieht die <em>Klausur</em> aus.</h1>
+    <p class="lead">120 Minuten, zwei Teile, beide gleich viel wert: ein kleiner Fall und kurze Fragen. Wer das Format kennt, verschenkt keine Punkte.</p>
+    <div class="tr"><span class="tag">TR</span><p>Sınav iki parçadan oluşur: bir olay (Fall) ve kısa sorular (Einzelfragen). Her biri puanın yarısı. Kısa sorular saf ezber – burada garanti puan toplarsın.</p></div>
+
+    <div class="grid g2 mt16">
+      <div class="card part">
+        <span class="pct">50 %</span>
+        <span class="num">A</span>
+        <h3>Gutachtliche Falllösung</h3>
+        <span class="sub">Ein Fall · ca. 65 Min</span>
+        <p>Du bekommst einen <b>Sachverhalt</b> (eine kurze Geschichte) und eine <b>Fallfrage</b>. Du antwortest mit einem <b>Gutachten</b>.</p>
+        <p class="small">Probeklausur: „Hat B gegen A einen Anspruch auf Übergabe und Übereignung der Schriften?“ → 28 Punkte</p>
+      </div>
+      <div class="card part hl">
+        <span class="pct">50 %</span>
+        <span class="num">B</span>
+        <h3>Einzelfragen</h3>
+        <span class="sub">ca. 12 Fragen · ca. 45 Min</span>
+        <p>Kurze Wissensfragen, je <b>1–5 Punkte</b>. Du antwortest mit <b>Definition + Paragraf</b>. Kein Gutachten nötig.</p>
+        <p class="small">Probeklausur: „Was ist eine Willenserklärung?“ (1 P.) … „Voraussetzungen des Schadensersatzes statt der Leistung?“ (5 P.) → 28 Punkte</p>
+      </div>
+    </div>
+
+    <div class="greybox mt12" style="padding:9px 16px">
+      <p style="font-size:12.4px;color:var(--ink)"><b>Das heißt für dich:</b> Die Hälfte der Klausur ist reines Lernwissen. Diese Punkte holst du sicher – mit dem Fragen-Drill ab Tag 5.</p>
+    </div>
+
+    <div class="mt16">
+      <span class="label">Dein Zeitplan · 120 Minuten · Empfehlung</span>
+      <div class="tbar">
+        <div class="x" style="width:7%">Lesen</div>
+        <div class="b" style="width:37.5%">Teil B · Einzelfragen</div>
+        <div class="w" style="width:12.5%">Skizze</div>
+        <div class="b" style="width:38%">Teil A · Gutachten schreiben</div>
+        <div class="x" style="width:5%">✓</div>
+      </div>
+      <div class="tticks"><span style="width:7%">0'</span><span style="width:37.5%">5'</span><span style="width:12.5%">50'</span><span style="width:38%">65'</span><span style="width:5%">115'</span></div>
+      <p class="small mt4"><b>Warum zuerst B?</b> Sichere Punkte zuerst. Wird es am Ende knapp, fehlt dir kein Wissenspunkt. Harte Grenze: Minute 50.</p>
+    </div>
+
+    <h2 class="mt16">Dein 6-Schritte-Plan für den Fall</h2>
+    <div class="steps">
+      <div class="s"><span class="n">1</span><div><b>Fallfrage zuerst lesen</b><span>Dann weißt du, was du suchst.</span></div></div>
+      <div class="s"><span class="n">2</span><div><b>Sachverhalt 2× lesen</b><span>Daten, Preise, wörtliche Zitate markieren.</span></div></div>
+      <div class="s"><span class="n">3</span><div><b>Skizze machen</b><span>Personen als Buchstaben, Pfeile dazwischen.</span></div></div>
+      <div class="s"><span class="n">4</span><div><b>Die 4 W fragen</b><span>Wer will was von wem woraus? (§ 4)</span></div></div>
+      <div class="s" style="border-bottom:1px solid var(--line)"><span class="n">5</span><div><b>Gliederung</b><span>Nur Stichpunkte: I., 1., 2. …</span></div></div>
+      <div class="s" style="border-bottom:1px solid var(--line)"><span class="n">6</span><div><b>Gutachten schreiben</b><span>Probleme ausführlich. Klares ganz kurz.</span></div></div>
+    </div>
+
+    <div class="grid g2 mt20">
+      <div class="card">
+        <span class="label">Erlaubt · dein Gesetzbuch</span>
+        <ul class="mini">
+          <li><span class="i ok"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4.5 12.5l4.5 4.5L19.5 6.5"/></svg></span>Reiter und Klebezettel</li>
+          <li><span class="i ok"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4.5 12.5l4.5 4.5L19.5 6.5"/></svg></span>Unterstreichen und markieren</li>
+          <li><span class="i ok"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4.5 12.5l4.5 4.5L19.5 6.5"/></svg></span>Pro Seite max. 5 §§ handschriftlich</li>
+          <li><span class="i no"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 6l12 12M18 6 6 18"/></svg></span>Wörter, Skizzen, Notizen</li>
+        </ul>
+      </div>
+      <div class="card">
+        <span class="label">Formalia · nicht vergessen</span>
+        <ul class="mini">
+          <li><span class="i" style="color:var(--gold)"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></span>Links ca. ⅓ der Seite als Rand frei</li>
+          <li><span class="i" style="color:var(--gold)"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></span>Matrikelnummer auf Seite 1</li>
+          <li><span class="i" style="color:var(--gold)"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></span>Am Ende: unterschreiben + Matrikelnr.</li>
+          <li><span class="i" style="color:var(--gold)"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></span>Antworten auf eigenes Papier, nicht aufs Aufgabenblatt</li>
+        </ul>
+      </div>
+    </div>
+    <div class="tr"><span class="tag">TR</span><p>Kanun kitabı serbest! Sekme yapıştır, altını çiz. Sayfa başına en fazla 5 paragraf numarası yazabilirsin – kelime veya not yazmak yasak.</p></div>
+  </div>
+  <footer class="foot"><div class="bar"><i class="on"></i><i class="on"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><span>Weiter: Was der Prüfer will →</span></footer>
+</section>
+
+<!-- ═════════════════════════ 03 · FEHLERBERICHT ═════════════════════════ -->
+<section class="page">
+  <header class="run"><span>Recht · Klausurtraining</span><span>Tag 1 · Das Fundament</span><span class="pg">03 / 10</span></header>
+  <div class="body">
+    <div class="kicker"><span class="sec">§ 2</span><span class="rule"></span><span>Fehlerbericht zur Probeklausur</span><span class="rel">Relevanz <b>●●●</b></span></div>
+    <h1>Was der <em>Prüfer</em> sehen will.</h1>
+    <p class="lead">Nach der Probeklausur hat der Dozent die Hauptfehler aufgeschrieben. Das ist Gold: Dort steht genau, wofür es Punkte gibt – und wofür nicht. Hier ist alles übersetzt.</p>
+    <div class="tr"><span class="tag">TR</span><p>Hocanın deneme sınavından sonra yazdığı hata raporu: Puanın nereden geldiğini ve nerede kaybedildiğini birebir söylüyor. Bu sayfayı neredeyse ezberle.</p></div>
+
+    <span class="label mt20">Teil A · Das Gutachten</span>
+    <div class="grid g2" style="gap:30px">
+      <ul class="pm">
+        <h4>Das bringt Punkte</h4>
+        <li><span><b>Überschriften</b> (I., 1., a) …)<small>Der Prüfer sieht sofort, was du gerade prüfst.</small></span></li>
+        <li><span><b>Obersatz mit genauer Norm</b><small>„§ 119 Abs. 1 Alt. 1 BGB“ – nicht nur „§ 119“.</small></span></li>
+        <li><span><b>Erst definieren, dann subsumieren</b><small>„Ein Angebot ist …“ – erst danach kommt der Fall.</small></span></li>
+        <li><span><b>Jede Info im Sachverhalt benutzen</b><small>Frag bei jedem Satz: „Warum steht das da?“</small></span></li>
+        <li><span><b>Logisch bleiben</b><small>Wer mit dem Inhaltsirrtum startet, endet nicht beim Erklärungsirrtum.</small></span></li>
+      </ul>
+      <ul class="pm minus">
+        <h4>Das kostet Punkte</h4>
+        <li><span><b>Urteilsstil</b><small>Das Ergebnis schon am Anfang sagen.</small></span></li>
+        <li><span><b>Sachverhalt nacherzählen</b><small>… oder das Gesetz abschreiben. Beides kennt der Prüfer schon.</small></span></li>
+        <li><span><b>Ungefragtes prüfen</b><small>Kein Schadensersatz gefragt? Dann kein § 122 BGB – null Punkte.</small></span></li>
+        <li><span><b>Infos weglassen</b><small>Viele ignorierten den Brief des A – so fehlte die invitatio.</small></span></li>
+        <li><span><b>Unleserliche Schrift</b><small>Was der Prüfer nicht lesen kann, zählt nicht.</small></span></li>
+      </ul>
+    </div>
+
+    <span class="label mt20">Teil B · Die Antwort-Formel für Einzelfragen</span>
+    <div class="formula">
+      <div class="f"><b>Definition</b><span>abstrakt, allgemein</span></div>
+      <div class="op">+</div>
+      <div class="f"><b>Paragraf</b><span>„§ 110 BGB“</span></div>
+      <div class="op">+</div>
+      <div class="f"><b>1–2 Sätze</b><span>kurze Erklärung</span></div>
+      <div class="op">=</div>
+      <div class="f r"><b>volle Punkte</b><span>pro Frage</span></div>
+    </div>
+    <p class="small mt8">Abstrakt antworten · Beispiele nur, wenn danach gefragt wird · keine langen Fälle erfinden · zwischen den Antworten eine Freizeile</p>
+
+    <div class="card mt16" style="padding:13px 16px 4px">
+      <span class="label grey">Probeklausur · Frage 3 · 1 Punkt</span>
+      <p style="font-family:var(--display);font-size:20px;color:var(--ink);line-height:1.2;margin-bottom:6px">Was ist Recht aus rechtswissenschaftlicher Sicht?</p>
+      <div class="vs">
+        <span class="i no"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6 6 18"/></svg></span>
+        <div><p class="q">„Recht dient der Gerechtigkeit.“</p><small>Häufigste Antwort – und laut Fehlerbericht zu wenig. Gerechtigkeit ist unter Juristen umstritten.</small></div>
+      </div>
+      <div class="vs" style="border-bottom:0">
+        <span class="i ok"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4.5 12.5l4.5 4.5L19.5 6.5"/></svg></span>
+        <div><p class="q">„Recht ist nach dem Positivismus die Summe aller geltenden Rechtsnormen – geschriebene und ungeschriebene (Gewohnheitsrecht). Das sind die Normen, die der Gesetzgeber erlässt und / oder die Gerichte anwenden.“</p></div>
+      </div>
+    </div>
+    <div class="tr"><span class="tag">TR</span><p>„Hukuk = adalet“ demek yetmez! Doğru cevap: Hukuk, yürürlükteki tüm yazılı ve yazısız (örf ve âdet) hukuk kurallarının toplamıdır.</p></div>
+
+    <div class="check mt16">
+      <div class="top"><span class="label">Check</span><span class="xp">+5 XP</span></div>
+      <p>Die Fallfrage lautet: „Hat B gegen A einen Anspruch auf Übergabe?“ Du schreibst zusätzlich eine Seite über Schadensersatz. Wie viele Punkte bekommst du dafür – und warum?</p>
+      <div class="wline"></div>
+    </div>
+  </div>
+  <footer class="foot"><div class="bar"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><span>Lösung zum Check · S. 10</span></footer>
+</section>
+
+<!-- ═════════════════════════ 04 · GUTACHTENSTIL ═════════════════════════ -->
+<section class="page">
+  <header class="run"><span>Recht · Klausurtraining</span><span>Tag 1 · Das Fundament</span><span class="pg">04 / 10</span></header>
+  <div class="body">
+    <div class="kicker"><span class="sec">§ 3</span><span class="rule"></span><span>Juristische Methodik</span><span class="rel">Relevanz <b>●●●</b></span></div>
+    <h1>Der <em>Gutachtenstil</em> in 4 Schritten.</h1>
+    <p class="lead">Ein Gutachten ist wie eine Rechnung in Mathe: Du schreibst nicht nur das Ergebnis, sondern jeden Schritt. Und das Ergebnis kommt immer <b>am Ende</b>.</p>
+    <div class="tr"><span class="tag">TR</span><p>Gutachten, matematikte işlemi göstermek gibidir. Önce soru (könnte), sonra kural (tanım), sonra olaya uygulama, en son sonuç (folglich). Sonuç asla başta gelmez.</p></div>
+
+    <div class="grid g4 blocks mt16" style="gap:10px">
+      <div class="card o"><span class="num">1</span><h3>Obersatz</h3><span class="q">Was prüfe ich?</span><span class="g">Konjunktiv: <b>könnte, müsste</b></span><span class="ex">„A könnte … haben.“</span></div>
+      <div class="card d"><span class="num">2</span><h3>Definition</h3><span class="q">Was sagt die Regel?</span><span class="g">Indikativ: <b>ist</b></span><span class="ex">„Ein Angebot ist …“</span></div>
+      <div class="card s"><span class="num">3</span><h3>Subsumtion</h3><span class="q">Passt der Fall?</span><span class="g">Fakten aus dem <b>Sachverhalt</b></span><span class="ex">„Hier hat B …“</span></div>
+      <div class="card e"><span class="num">4</span><h3>Ergebnis</h3><span class="q">Also?</span><span class="g"><b>folglich, somit</b></span><span class="ex">„Folglich liegt … vor.“</span></div>
+    </div>
+    <p class="small mt8">Die Logik dahinter: Alle Menschen sind sterblich <i>(Regel)</i>. Sokrates ist ein Mensch <i>(Fall)</i>. Also ist Sokrates sterblich <i>(Ergebnis)</i>.</p>
+
+    <div class="grid g2 mt20" style="grid-template-columns: 1.15fr 1fr; gap: 24px;">
+      <div class="example">
+        <span class="label">So klingt es · Beispiel aus der Vorlesung</span>
+        <p class="small mb8">Dozent G nimmt Student S das neue Gesetzbuch weg. S will es zurück.</p>
+        <p class="gb o"><span class="chip o">Obersatz</span> S könnte gegen G einen Anspruch auf Herausgabe des Buches aus § 985 BGB haben.</p>
+        <p class="gb faint">[ Sache? ✓ · S Eigentümer? ✓ ]</p>
+        <p class="gb o">Weiter müsste G Besitzer des Buches sein.</p>
+        <p class="gb d"><span class="chip d">Definition</span> Besitzer ist, wer die tatsächliche Herrschaft über eine Sache hat (§ 854 Abs. 1 BGB).</p>
+        <p class="gb s"><span class="chip s">Subsumtion</span> G hält das Buch in der Hand. Damit hat er die tatsächliche Herrschaft darüber.</p>
+        <p class="gb e"><span class="chip e">Ergebnis</span> Folglich ist G Besitzer. S hat gegen G einen Anspruch auf Herausgabe aus § 985 BGB.</p>
+      </div>
+      <div>
+        <span class="label">Gutachtenstil oder Urteilsstil?</span>
+        <div class="vs">
+          <span class="i ok"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4.5 12.5l4.5 4.5L19.5 6.5"/></svg></span>
+          <div><p>„G <u style="text-decoration:none;border-bottom:1px solid var(--goldline)">müsste</u> Besitzer sein. Besitzer ist, wer … G hält das Buch … <u style="text-decoration:none;border-bottom:1px solid var(--goldline)">Folglich</u> ist G Besitzer."</p><small>Frage → Regel → Fall → Antwort. So will es der Prüfer.</small></div>
+        </div>
+        <div class="vs">
+          <span class="i no"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6 6 18"/></svg></span>
+          <div><p>„G ist Besitzer, denn er hält das Buch in der Hand.“</p><small>Antwort zuerst = Urteilsstil. Laut Fehlerbericht: Punktabzug.</small></div>
+        </div>
+        <p class="small mt8"><b>Tipp:</b> Einfache Punkte darfst du kurz machen (2–3 Sätze). Aber die Reihenfolge bleibt immer gleich.</p>
+      </div>
+    </div>
+
+    <div class="grid g2 mt20" style="grid-template-columns: 1.6fr 1fr; gap: 24px;">
+      <div>
+        <span class="label">Dein Satz-Baukasten</span>
+        <div class="kit">
+          <div class="r"><span><span class="chip o">Obersatz</span></span><span>A könnte gegen B einen Anspruch auf … aus § … BGB haben.</span></div>
+          <div class="r"><span><span class="chip o">Merkmal</span></span><span>Dafür müsste … · Voraussetzung ist, dass …</span></div>
+          <div class="r"><span><span class="chip d">Definition</span></span><span>Ein … ist … · … liegt vor, wenn …</span></div>
+          <div class="r"><span><span class="chip s">Subsumtion</span></span><span>Hier … · Vorliegend … · Fraglich ist, ob …</span></div>
+          <div class="r"><span><span class="chip e">Ergebnis</span></span><span>Folglich … · Somit … · Mithin …</span></div>
+        </div>
+      </div>
+      <div>
+        <span class="label">Gliederungsebenen</span>
+        <div class="levels">
+          <span>A.</span><span style="padding-left:14px">I.</span><span style="padding-left:28px">1.</span><span style="padding-left:42px">a)</span><span style="padding-left:56px">aa)</span>
+        </div>
+        <p class="small mt4">Wer A sagt, muss auch B sagen: Jede Ebene hat mindestens 2 Punkte.</p>
+      </div>
+    </div>
+
+    <div class="check mt16">
+      <div class="top"><span class="label">Check</span><span class="xp">+5 XP</span></div>
+      <p>Gutachtenstil oder Urteilsstil? „K ist Käufer geworden, weil er mit V einen Vertrag geschlossen hat.“ Schreibe den Satz richtig um.</p>
+      <div class="wline"></div>
+    </div>
+  </div>
+  <footer class="foot"><div class="bar"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><i></i><i></i><i></i><i></i></div><span>Lösung zum Check · S. 10</span></footer>
+</section>
+
+<!-- ═════════════════════════ 05 · ANSPRUCH ═════════════════════════ -->
+<section class="page">
+  <header class="run"><span>Recht · Klausurtraining</span><span>Tag 1 · Das Fundament</span><span class="pg">05 / 10</span></header>
+  <div class="body">
+    <div class="kicker"><span class="sec">§ 4</span><span class="rule"></span><span>Der Anspruch · § 194 Abs. 1 BGB</span><span class="rel">Relevanz <b>●●●</b></span></div>
+    <h1>Wer will <em>was</em> von wem woraus?</h1>
+    <p class="lead">Die Fallfrage fragt fast immer nach einem <b>Anspruch</b>: das Recht, von einem anderen ein Tun oder Unterlassen zu verlangen (§ 194 Abs. 1 BGB). Jede Lösung beginnt mit diesen 4 Fragen.</p>
+    <div class="tr"><span class="tag">TR</span><p>Anspruch = talep hakkı: Birinden bir şey yapmasını veya yapmamasını isteme hakkı. Her vakada önce 4 soruyu sor: Kim, neyi, kimden, hangi paragrafa dayanarak istiyor?</p></div>
+
+    <div class="greybox mt12" style="padding:9px 16px"><p style="font-size:12.2px;color:var(--ink)"><b>Fall:</b> V verkauft K ein Fahrrad für 350 €. K holt das Rad ab, zahlt aber nicht. <b>Fallfrage:</b> Kann V von K Zahlung verlangen?</p></div>
+
+    <div class="grid g4 wcards mt8" style="gap:10px">
+      <div class="card"><h3>Wer?</h3><span class="sub">Anspruchsteller</span><p>V, der Verkäufer</p></div>
+      <div class="card"><h3>Was?</h3><span class="sub">Das Ziel</span><p>Zahlung von 350 €</p></div>
+      <div class="card"><h3>Von wem?</h3><span class="sub">Anspruchsgegner</span><p>K, der Käufer</p></div>
+      <div class="card hl"><h3>Woraus?</h3><span class="sub">Anspruchsgrundlage</span><p>§ 433 Abs. 2 BGB</p></div>
+    </div>
+
+    <div class="greybox mt12">
+      <span class="label">Daraus wird dein erster Satz</span>
+      <p class="quote" style="font-size:21px"><u>V</u> könnte gegen <u>K</u> einen Anspruch auf <u>Zahlung von 350 €</u> aus <u>§ 433 Abs. 2 BGB</u> haben.</p>
+    </div>
+
+    <h2 class="mt20">Der Bauplan jedes Anspruchs</h2>
+    <div class="rows">
+      <div class="row"><span class="k">I.</span><b>Anspruch entstanden?</b><span>Sind alle Voraussetzungen da? z. B. wirksamer Vertrag. Hindernisse: § 105 I, § 134, § 138 I</span></div>
+      <div class="row"><span class="k">II.</span><b>Anspruch untergegangen?</b><span>Ist er wieder weg? z. B. Erfüllung § 362 I, Anfechtung § 142 I, Unmöglichkeit § 275 I</span></div>
+      <div class="row"><span class="k">III.</span><b>Anspruch durchsetzbar?</b><span>Kann der Gegner sich wehren (Einrede)? z. B. Verjährung § 214 I, § 320 I</span></div>
+    </div>
+    <div class="tr"><span class="tag">TR</span><p>Önce: Talep doğdu mu? Sonra: Sonradan ortadan kalktı mı? En son: Karşı taraf bir def'i (ör. zamanaşımı) ileri sürebilir mi? II ve III'ü sadece olayda bir ipucu varsa incele.</p></div>
+
+    <div class="grid g2 mt20" style="grid-template-columns: 1.2fr 1fr; gap: 26px;">
+      <div>
+        <span class="label">Die wichtigsten Anspruchsgrundlagen</span>
+        <div class="ptab">
+          <div class="r"><span>Kaufpreis zahlen</span><span>§ 433 II</span></div>
+          <div class="r"><span>Ware übergeben + übereignen</span><span>§ 433 I 1</span></div>
+          <div class="r"><span>Werklohn</span><span>§ 631 I</span></div>
+          <div class="r"><span>Miete zahlen</span><span>§ 535 II</span></div>
+          <div class="r"><span>Schadensersatz aus Vertrag</span><span>§ 280 I</span></div>
+          <div class="r"><span>Schadensersatz aus Delikt</span><span>§ 823 I</span></div>
+          <div class="r"><span>Herausgabe meiner Sache</span><span>§ 985</span></div>
+          <div class="r"><span>Rückgabe ohne Rechtsgrund</span><span>§ 812 I 1 Alt. 1</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="merk">
+          <span class="label">Merksatz</span>
+          <p class="t">Vertrag vor Gesetz. Prüfe zuerst den Vertrag.</p>
+        </div>
+        <p class="small mt8">In der Probeklausur lag das Problem in <b>I.</b> (Angebot oder invitatio?) und in <b>II.</b> (Anfechtung).</p>
+        <div class="check mt12">
+          <div class="top"><span class="label">Check</span><span class="xp">+5 XP</span></div>
+          <p>M bestellt bei W ein Sofa. W liefert nicht. Bilde die 4 W und den ersten Satz.</p>
+          <div class="wline"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer class="foot"><div class="bar"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><i></i><i></i><i></i></div><span>Lösung zum Check · S. 10</span></footer>
+</section>
+
+<!-- ═════════════════════════ 06 · WILLENSERKLÄRUNG ═════════════════════════ -->
+<section class="page">
+  <header class="run"><span>Recht · Klausurtraining</span><span>Tag 1 · Das Fundament</span><span class="pg">06 / 10</span></header>
+  <div class="body">
+    <div class="kicker"><span class="sec">§ 5</span><span class="rule"></span><span>Willenserklärung · §§ 116 ff. BGB</span><span class="rel">Relevanz <b>●●●</b></span></div>
+    <h1>Die <em>Willenserklärung</em>.</h1>
+    <p class="lead">Sie ist der Baustein von allem: Jeder Vertrag besteht aus zwei Willenserklärungen (WE). Kündigung und Anfechtung sind auch WE.</p>
+
+    <div class="greybox def mt12">
+      <span class="label">Definition · auswendig lernen · steht nicht im BGB</span>
+      <p class="quote">„Eine Willenserklärung ist die Äußerung eines Willens, der auf die Herbeiführung einer Rechtsfolge gerichtet ist.“</p>
+      <p class="small mt4">Probeklausur Frage 4 (1 Punkt). Die Musterlösung ergänzt: „Sie ist Ausdruck der Privatautonomie.“</p>
+    </div>
+    <div class="tr"><span class="tag">TR</span><p>İrade beyanı: Hukuki bir sonuç doğurmak isteyen iradenin dışa vurulmasıdır. Örnek: „Bu bisikleti 500 €'ya alıyorum.“ Tanım kanunda yazmaz – kelimesi kelimesine ezberle!</p></div>
+
+    <div class="grid g2 mt16">
+      <div class="card">
+        <span class="label">Außen · objektiver Tatbestand</span>
+        <h3>Was sieht ein neutraler Beobachter?</h3>
+        <p class="mt4">Eine <b>Erklärung</b>, die nach außen einen Rechtsfolgewillen zeigt:</p>
+        <ul class="tb mt4">
+          <li><span class="n">·</span><span><b>ausdrücklich</b> – mit Worten: Brief, E-Mail, „Ich kaufe“</span></li>
+          <li><span class="n">·</span><span><b>konkludent</b> – durch Verhalten: nicken, Hand heben, Ware aufs Kassenband legen</span></li>
+        </ul>
+      </div>
+      <div class="card">
+        <span class="label">Innen · subjektiver Tatbestand</span>
+        <h3>Was will die Person?</h3>
+        <ul class="tb mt4">
+          <li><span class="n">1</span><span><b>Handlungswille</b><small>überhaupt handeln wollen (fehlt bei Reflex)</small></span></li>
+          <li><span class="n">2</span><span><b>Erklärungsbewusstsein</b><small>wissen: „Das ist rechtlich wichtig“</small></span></li>
+          <li><span class="n">3</span><span><b>Geschäftswille</b><small>genau dieses Geschäft wollen</small></span></li>
+        </ul>
+      </div>
+    </div>
+
+    <h2 class="mt16">Was passiert, wenn etwas fehlt?</h2>
+    <table class="ttab">
+      <tr><th>Es fehlt</th><th>Beispiel aus der Vorlesung</th><th>Folge</th></tr>
+      <tr><td>Erklärung</td><td>A: „Ich hätte gern irgendwann mal ein Fahrrad.“</td><td><span class="dot r"></span><b>Keine WE</b></td></tr>
+      <tr><td>Handlungswille</td><td>„Wer mein Rad will, Hand hoch!“ – B wird von einer Wespe gestochen und reißt die Hand hoch.</td><td><span class="dot r"></span><b>Keine WE</b></td></tr>
+      <tr><td>Erklärungs&shy;bewusstsein</td><td><i>Trierer Weinversteigerung:</i> A winkt einem Freund zu. Der Auktionator wertet das als Gebot.</td><td><span class="dot y"></span><b>WE (+)</b> nach h.M., wenn A es hätte erkennen können → anfechtbar</td></tr>
+      <tr><td>Geschäftswille</td><td>B will ein Rad leihen, verhört sich und sagt „Ja“ zum Kauf.</td><td><span class="dot y"></span><b>WE (+)</b> → anfechtbar nach § 119 BGB</td></tr>
+    </table>
+    <div class="tr"><span class="tag">TR</span><p>Kırmızı = irade beyanı yok. Sarı = irade beyanı var, ama sonradan iptal (Anfechtung) edilebilir – bu 2. günün konusu. Sadece „beyan“ ve „hareket iradesi“ zorunludur.</p></div>
+
+    <div class="grid g2 mt16" style="grid-template-columns: 1.25fr 1fr; gap: 20px;">
+      <div class="warn">
+        <span class="ic"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5l3 2" stroke-linecap="round"/></svg></span>
+        <div>
+          <span class="label">Auslegung · §§ 133, 157 BGB</span>
+          <p>Eine Erklärung gilt so, wie ein <b>objektiver Empfänger</b> sie verstehen durfte – nicht, wie der Erklärende sie gemeint hat (objektiver Empfängerhorizont).</p>
+          <p class="small mt4">A macht B ein Angebot. B nickt. → „Ja, ich nehme an.“</p>
+        </div>
+      </div>
+      <div class="check">
+        <div class="top"><span class="label">Check</span><span class="xp">+5 XP</span></div>
+        <p>A schläft bei einer Versteigerung ein und nickt im Schlaf. Liegt eine WE vor? Warum?</p>
+        <div class="wline"></div>
+      </div>
+    </div>
+  </div>
+  <footer class="foot"><div class="bar"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><i></i><i></i></div><span>Lösung zum Check · S. 10</span></footer>
+</section>
+
+<!-- ═════════════════════════ 07 · ZUGANG ═════════════════════════ -->
+<section class="page">
+  <header class="run"><span>Recht · Klausurtraining</span><span>Tag 1 · Das Fundament</span><span class="pg">07 / 10</span></header>
+  <div class="body">
+    <div class="kicker"><span class="sec">§ 6</span><span class="rule"></span><span>Wirksamwerden · § 130 BGB</span><span class="rel">Relevanz <b>●●●</b></span></div>
+    <h1>Abgabe + <em>Zugang</em> = wirksam.</h1>
+    <p class="lead">Eine Willenserklärung muss losgeschickt werden und ankommen. Erst dann wirkt sie.</p>
+    <div class="tr"><span class="tag">TR</span><p>Bir irade beyanı önce „yola çıkmalı“ (Abgabe), sonra „varmalı“ (Zugang). Varmak = alıcının hâkimiyet alanına girmek + normal şartlarda okuyabilecek olmak. Gerçekten okuyup okumaması önemli değil!</p></div>
+
+    <div class="flow mt16">
+      <div class="card"><span class="num">1</span><h3>Abgabe</h3><p>Der Erklärende gibt die Erklärung bewusst „aus der Hand“ – z. B. Brief in den Postkasten.</p></div>
+      <div class="op">→</div>
+      <div class="card"><span class="num">2</span><h3>Zugang</h3><p>Die Erklärung kommt beim Empfänger an (Definition unten).</p></div>
+      <div class="op">=</div>
+      <div class="card fill fin"><span class="i"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4.5 12.5l4.5 4.5L19.5 6.5"/></svg></span><h3>wirksam</h3></div>
+    </div>
+    <p class="small mt4">Gilt für <b>empfangsbedürftige</b> WE (Normalfall: Angebot, Annahme, Kündigung). Ein Testament braucht nur die Abgabe.</p>
+
+    <div class="grid g2 mt12" style="grid-template-columns: 1fr 1.35fr;">
+      <div class="card">
+        <span class="label">Unter Anwesenden</span>
+        <h3>Persönlich, Telefon, Video</h3>
+        <p class="mt4">Zugang <b>sofort</b>, wenn der andere die Erklärung wahrnehmen kann.</p>
+        <p class="small mt4">Telefon zählt als „anwesend“: § 147 Abs. 1 S. 2 BGB.</p>
+      </div>
+      <div class="card hl">
+        <span class="label">Unter Abwesenden · § 130 Abs. 1 S. 1 BGB</span>
+        <h3>Brief, E-Mail</h3>
+        <p class="mt4" style="font-family:var(--display);font-size:15.5px;line-height:1.28;color:var(--ink)">„Zugegangen ist eine Erklärung, wenn sie so in den <u style="text-decoration:none;border-bottom:1px solid var(--goldline)">Machtbereich</u> des Empfängers gelangt, dass er <u style="text-decoration:none;border-bottom:1px solid var(--goldline)">unter normalen Umständen Kenntnis</u> nehmen kann."</p>
+        <p class="small mt4">Also 2 Fragen: ① Ist sie im Machtbereich (Briefkasten, Mail-Server)? ② Wann liest man normalerweise?</p>
+      </div>
+    </div>
+
+    <h2 class="mt12">Wann geht es zu?</h2>
+    <div class="tl">
+      <div class="hd"><span>Erklärung</span>
+        <div class="axis"><span style="left:6.67%">Di 8 Uhr</span><span style="left:40%">18 Uhr</span><span style="left:60%">0 Uhr</span><span style="left:86.67%">Mi 8 Uhr</span></div>
+        <span>Zugang</span></div>
+      <div class="rw"><div class="who">Brief<small>Einwurf Di, 11 Uhr</small></div>
+        <div class="lane"><span class="biz" style="left:6.67%;width:33.33%"></span><span class="biz" style="left:86.67%;width:13.33%"></span><span class="mid" style="left:60%"></span><span class="dt" style="left:16.67%"></span><span class="zg" style="left:19%"></span></div>
+        <div class="res"><b>Di</b> – noch heute<small>Leerung am selben Tag</small></div></div>
+      <div class="rw"><div class="who">Brief<small>Einwurf Di, 20 Uhr</small></div>
+        <div class="lane"><span class="biz" style="left:6.67%;width:33.33%"></span><span class="biz" style="left:86.67%;width:13.33%"></span><span class="mid" style="left:60%"></span><span class="ln" style="left:46.67%;width:40%"></span><span class="dt" style="left:46.67%"></span><span class="zg" style="left:86.67%"></span></div>
+        <div class="res"><b>Mi</b> morgens<small>nach 18 Uhr: erst nächster Tag</small></div></div>
+      <div class="rw"><div class="who">E-Mail an Firma<small>Eingang Di, 15 Uhr</small></div>
+        <div class="lane"><span class="biz" style="left:6.67%;width:33.33%"></span><span class="biz" style="left:86.67%;width:13.33%"></span><span class="mid" style="left:60%"></span><span class="dt" style="left:30%"></span><span class="zg" style="left:32.3%"></span></div>
+        <div class="res"><b>Di</b>, sofort<small>in der Geschäftszeit</small></div></div>
+      <div class="rw"><div class="who">E-Mail an Firma<small>Eingang Di, 23 Uhr</small></div>
+        <div class="lane"><span class="biz" style="left:6.67%;width:33.33%"></span><span class="biz" style="left:86.67%;width:13.33%"></span><span class="mid" style="left:60%"></span><span class="ln" style="left:56.67%;width:30%"></span><span class="dt" style="left:56.67%"></span><span class="zg" style="left:86.67%"></span></div>
+        <div class="res"><b>Mi</b>, Geschäftsbeginn<small>nachts liest niemand</small></div></div>
+      <div class="legend"><span><i class="dot" style="background:var(--ink)"></i>Eingang</span><span><i style="width:9px;height:9px;background:var(--gold);transform:rotate(45deg)"></i>Zugang</span><span><i style="width:16px;height:8px;background:var(--goldsoft2)"></i>normale Zeit zum Lesen</span><span style="margin-left:auto">Private E-Mail: laut Vorlesung meist erst, wenn gelesen.</span></div>
+    </div>
+
+    <div class="warn mt12">
+      <span class="ic"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"><path d="M12 3.2 2.6 20h18.8L12 3.2z"/><path d="M12 9.6v5M12 17.3v.4" stroke-linecap="round"/></svg></span>
+      <div>
+        <span class="label">Klausur-Falle Nr. 1 · Zugang ≠ Lesen</span>
+        <p>Liegt der Brief im Briefkasten und A liest ihn nicht, ist er <b>trotzdem zugegangen</b>. Probeklausur: „Ein Postbote wirft den Brief des B in den Briefkasten des A.“ – Dieser Satz ist da, damit <b>du § 130 Abs. 1 S. 1 prüfst</b>.</p>
+      </div>
+    </div>
+
+    <div class="check mt12">
+      <div class="top"><span class="label">Check</span><span class="xp">+5 XP</span></div>
+      <p>Mieter M wirft seine Kündigung um 23 Uhr in den Briefkasten von Vermieter V. V liest sie erst drei Tage später. Wann ging sie zu?</p>
+      <div class="wline"></div>
+    </div>
+  </div>
+  <footer class="foot"><div class="bar"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div><span>Lösung zum Check · S. 10</span></footer>
+</section>
+
+<!-- ═════════════════════════ 08 · VERTRAGSSCHLUSS ═════════════════════════ -->
+<section class="page">
+  <header class="run"><span>Recht · Klausurtraining</span><span>Tag 1 · Das Fundament</span><span class="pg">08 / 10</span></header>
+  <div class="body">
+    <div class="kicker"><span class="sec">§ 7</span><span class="rule"></span><span>Vertragsschluss · §§ 145 ff. BGB</span><span class="rel">Relevanz <b>●●●</b></span></div>
+    <h1>Angebot + Annahme = <em>Vertrag</em></h1>
+
+    <svg viewBox="0 0 694 92" width="694" height="92" style="display:block;margin:4px 0 2px" font-family="Lora, serif">
+      <defs>
+        <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M1 1.5 9 5 1 8.5" fill="none" stroke="#a47c3b" stroke-width="1.2"/></marker>
+      </defs>
+      <circle cx="26" cy="46" r="25" fill="#f7f6f2" stroke="#bf9858"/>
+      <text x="26" y="52" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="21" fill="#1c1a17">K</text>
+      <circle cx="668" cy="46" r="25" fill="#f7f6f2" stroke="#bf9858"/>
+      <text x="668" y="52" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="21" fill="#1c1a17">V</text>
+      <line x1="70" y1="34" x2="622" y2="34" stroke="#a47c3b" stroke-width="1" marker-end="url(#ah)"/>
+      <text x="347" y="22" text-anchor="middle" font-size="11" fill="#1c1a17"><tspan font-weight="600">1 · Angebot</tspan><tspan fill="#6b665d" font-style="italic">  „Ich kaufe das Rad für 350 €.“</tspan></text>
+      <line x1="624" y1="58" x2="72" y2="58" stroke="#a47c3b" stroke-width="1" marker-end="url(#ah)"/>
+      <text x="347" y="79" text-anchor="middle" font-size="11" fill="#1c1a17"><tspan font-weight="600">2 · Annahme</tspan><tspan fill="#6b665d" font-style="italic">  „Okay, passt.“</tspan></text>
+    </svg>
+
+    <div class="grid g2 mt8">
+      <div class="card">
+        <h3>Angebot <span class="para" style="font-size:15px">§ 145</span></h3>
+        <p style="color:var(--ink)">Eine empfangsbedürftige WE, durch die einem anderen ein Vertragsschluss so angetragen wird, dass das Zustandekommen des Vertrages <b>nur noch von dessen Zustimmung</b> abhängt.</p>
+        <p class="small">Einfach: Der andere muss nur noch „Ja“ sagen.</p>
+        <p class="small"><b>Muss enthalten</b> <i>(essentialia negotii)</i>: Parteien · Kaufsache · Preis – und <b>Rechtsbindungswille</b>.</p>
+      </div>
+      <div class="card">
+        <h3>Annahme <span class="para" style="font-size:15px">§§ 146 ff.</span></h3>
+        <p style="color:var(--ink)">Eine empfangsbedürftige WE, aus der hervorgeht, dass dem Angebot <b>uneingeschränkt</b> zugestimmt wird.</p>
+        <p class="small"><b>Rechtzeitig?</b> Anwesend: sofort (§ 147 I) · Abwesend: solange man normal mit Antwort rechnen darf (§ 147 II) · Frist gesetzt: bis Fristende (§ 148). Zu spät → Angebot erlischt (§ 146).</p>
+      </div>
+    </div>
+    <div class="tr"><span class="tag">TR</span><p>Teklif: Karşı tarafın sadece „evet“ demesi yetecek kadar net olmalı (taraflar, mal, fiyat). Kabul: Teklife şartsız ve zamanında „evet“.</p></div>
+
+    <div class="warn mt16">
+      <span class="ic"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"><path d="M12 3.2 2.6 20h18.8L12 3.2z"/><path d="M12 9.6v5M12 17.3v.4" stroke-linecap="round"/></svg></span>
+      <div>
+        <span class="label">Klausur-Falle Nr. 2 · invitatio ad offerendum</span>
+        <p>Schaufenster, Katalog, Prospekt, Online-Shop, Kleinanzeige = <b>noch kein Angebot</b>. Nur eine Einladung, selbst ein Angebot zu machen. Grund: Der Verkäufer hat nur begrenzt Ware und will selbst aussuchen, an wen er verkauft – es fehlt der <b>Rechtsbindungswille</b>. Das Angebot macht der Kunde.</p>
+        <p class="small mt4"><b>Gegenbeispiele:</b> Warenautomat = Angebot an alle („ad incertas personas“) · eBay-Auktion = verbindliches Angebot</p>
+      </div>
+    </div>
+    <div class="tr"><span class="tag">TR</span><p>Vitrin, katalog, online mağaza, ilan = henüz teklif DEĞİL, sadece „teklif vermeye davet“. Teklifi müşteri yapar. Satıcı kime satacağına kendisi karar vermek ister.</p></div>
+
+    <div class="warn mt16">
+      <span class="ic"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"><path d="M12 3.2 2.6 20h18.8L12 3.2z"/><path d="M12 9.6v5M12 17.3v.4" stroke-linecap="round"/></svg></span>
+      <div style="flex:1">
+        <span class="label">Klausur-Falle Nr. 3 · § 150 BGB</span>
+        <p>„Ja, aber für 300 €“ ist <b>kein Ja</b>: Es ist eine Ablehnung + ein <b>neues Angebot</b> (§ 150 Abs. 2). Auch eine verspätete Annahme ist ein neues Angebot (§ 150 Abs. 1).</p>
+        <div class="chain">
+          <div class="c"><small>Angebot</small>V: „Rad für 350 €“</div><span class="a">→</span>
+          <div class="c"><small>neues Angebot</small>K: „Okay, für 300 €“</div><span class="a">→</span>
+          <div class="c"><small>Annahme</small>V und K: Handschlag</div><span class="a">=</span>
+          <div class="c r"><small>Vertrag</small>über 300 €</div>
+        </div>
+      </div>
+    </div>
+    <div class="tr"><span class="tag">TR</span><p>„Evet, ama 300 €'ya“ bir kabul değildir: Ret + yeni tekliftir. Geç gelen kabul de yeni bir tekliftir – karşı tarafın onu tekrar kabul etmesi gerekir.</p></div>
+
+    <div class="grid g2 mt16" style="grid-template-columns: 1fr 1fr; gap: 20px;">
+      <div class="merk">
+        <span class="label">Merksatz</span>
+        <p class="t">Frag immer: Wer hat das Angebot gemacht? Oft der Kunde – nicht der Verkäufer.</p>
+      </div>
+      <div class="check">
+        <div class="top"><span class="label">Check</span><span class="xp">+5 XP</span></div>
+        <p>Ein Getränkeautomat am Bahnhof: Angebot oder invitatio ad offerendum? Warum?</p>
+        <div class="wline"></div>
+      </div>
+    </div>
+  </div>
+  <footer class="foot"><div class="bar"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div><span>Lösung zum Check · S. 10</span></footer>
+</section>
+
+<!-- ═════════════════════════ 09 · MUSTER-GUTACHTEN ═════════════════════════ -->
+<section class="page">
+  <header class="run"><span>Recht · Klausurtraining</span><span>Tag 1 · Das Fundament</span><span class="pg">09 / 10</span></header>
+  <div class="body">
+    <div class="kicker"><span class="sec">§ 8</span><span class="rule"></span><span>Alles zusammen</span><span class="rel"><span class="xp solid">+10 XP</span></span></div>
+    <h1>Dein erstes <em>Gutachten</em>.</h1>
+    <div class="tr" style="margin:0 0 10px"><span class="tag">TR</span><p>Renkli etiketler her bölümde aynı 4 adımı gösterir. Sınavda da tam böyle yazacaksın – sadece renkler olmadan.</p></div>
+
+    <div class="sv">
+      <span class="label">Sachverhalt</span>
+      <p>Studentin S sieht im Schaufenster von Fahrradhändler H ein Rennrad mit dem Schild „390 €“. Sie schreibt H einen Brief: „Ich kaufe das Rennrad aus Ihrem Schaufenster für 390 €.“ Der Postbote wirft den Brief am Dienstag um 11 Uhr in den Briefkasten des H. Am Mittwoch ruft H bei S an und sagt: „Einverstanden!“ Am Freitag will H das Rad doch lieber behalten.</p>
+      <p class="ff">Hat S gegen H einen Anspruch auf Übergabe und Übereignung des Rennrads?</p>
+    </div>
+
+    <div class="gut">
+      <div class="ln"><span class="m"><span class="chip o">Obersatz</span></span><p class="t o">S könnte gegen H einen Anspruch auf Übergabe und Übereignung des Rennrads aus § 433 Abs. 1 S. 1 BGB haben.</p></div>
+      <div class="hd"><b>I. Anspruch entstanden</b></div>
+      <div class="ln"><span class="m"><span class="chip o">Obersatz</span></span><p class="t o">Dafür müsste ein wirksamer Kaufvertrag zustande gekommen sein. Ein Vertrag entsteht durch zwei übereinstimmende Willenserklärungen, Angebot und Annahme (§§ 145 ff. BGB).</p></div>
+      <div class="hd sub"><b>1. Angebot des H durch das Schaufenster</b></div>
+      <div class="ln"><span class="m"><span class="chip d">Definition</span></span><p class="t d">Ein Angebot ist eine empfangsbedürftige Willenserklärung, durch die einem anderen ein Vertragsschluss so angetragen wird, dass das Zustandekommen des Vertrages nur noch von dessen Zustimmung abhängt.</p></div>
+      <div class="ln"><span class="m"><span class="chip s">Subsumtion</span></span><p class="t s">Ein Angebot könnte im Ausstellen des Rads im Schaufenster liegen. Nach dem objektiven Empfängerhorizont (§§ 133, 157 BGB) will H sich dadurch aber noch nicht binden: Er hat nur ein Rad und will selbst entscheiden, an wen er verkauft. Es fehlt der Rechtsbindungswille. Die Auslage ist nur eine <span class="mark">invitatio ad offerendum</span>.</p></div>
+      <div class="ln"><span class="m"><span class="chip e">Ergebnis</span></span><p class="t e">Folglich liegt im Schaufenster kein Angebot des H.</p></div>
+      <div class="hd sub"><b>2. Angebot der S durch den Brief</b></div>
+      <div class="ln"><span class="m"><span class="chip s">Subsumtion</span></span><p class="t s">Ein Angebot könnte aber im Brief der S liegen. Er enthält alle wesentlichen Vertragsbestandteile: die Parteien (S und H), die Kaufsache (das Rennrad) und den Preis (390 €). H musste nur noch „Ja“ sagen. Unter Abwesenden wird das Angebot erst mit <span class="mark">Zugang</span> wirksam (§ 130 Abs. 1 S. 1 BGB).</p></div>
+      <div class="ln"><span class="m"><span class="chip d">Definition</span></span><p class="t d">Zugegangen ist eine Erklärung, wenn sie so in den Machtbereich des Empfängers gelangt, dass er unter normalen Umständen Kenntnis nehmen kann.</p></div>
+      <div class="ln"><span class="m"><span class="chip s">Subsumtion</span></span><p class="t s">Der Brief lag am Dienstag um 11 Uhr im Briefkasten des H. Mit einer Leerung am selben Tag war zu rechnen.</p></div>
+      <div class="ln"><span class="m"><span class="chip e">Ergebnis</span></span><p class="t e">Somit ist das Angebot am Dienstag zugegangen. Ein wirksames Angebot der S liegt vor.</p></div>
+      <div class="hd sub"><b>3. Annahme durch H</b></div>
+      <div class="ln"><span class="m"><span class="chip d">Definition</span></span><p class="t d">Eine Annahme ist eine empfangsbedürftige Willenserklärung, aus der hervorgeht, dass dem Angebot uneingeschränkt zugestimmt wird.</p></div>
+      <div class="ln"><span class="m"><span class="chip s">Subsumtion</span></span><p class="t s">H sagte am Telefon „Einverstanden!“ und stimmte damit ohne Einschränkung zu. Am Telefon gilt die Erklärung als unter Anwesenden abgegeben (§ 147 Abs. 1 S. 2 BGB); sie ging S zu, als sie sie hörte. Die Antwort am nächsten Tag war rechtzeitig (§ 147 Abs. 2 BGB).</p></div>
+      <div class="ln"><span class="m"><span class="chip e">Ergebnis</span></span><p class="t e">Folglich hat H das Angebot wirksam angenommen. Ein Kaufvertrag ist zustande gekommen; der Anspruch ist entstanden.</p></div>
+      <div class="hd"><b>II. Anspruch untergegangen oder nicht durchsetzbar?</b></div>
+      <div class="ln"><span class="m"></span><p class="t">Dafür gibt der Sachverhalt keine Anhaltspunkte. Dass H das Rad „lieber behalten“ will, ändert am Vertrag nichts.</p></div>
+      <div class="hd"><b>III. Ergebnis</b></div>
+      <div class="ln"><span class="m"><span class="chip e">Ergebnis</span></span><p class="t e">S hat gegen H einen Anspruch auf Übergabe und Übereignung des Rennrads aus § 433 Abs. 1 S. 1 BGB.</p></div>
+    </div>
+
+    <div class="check mt12" style="padding:10px 15px">
+      <div class="top" style="margin-bottom:3px"><span class="label">Deine Aufgabe</span><span class="xp">+10 XP</span></div>
+      <p>Gutachten abdecken. In 15 Minuten selbst schreiben. Dann vergleichen: Hast du alle 4 Farben in jedem Punkt?</p>
+    </div>
+  </div>
+  <footer class="foot"><div class="bar"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div><span>Gleich: Boss-Test →</span></footer>
+</section>
+
+<!-- ═════════════════════════ 10 · BOSS-TEST ═════════════════════════ -->
+<section class="page">
+  <header class="run"><span>Recht · Klausurtraining</span><span>Tag 1 · Das Fundament</span><span class="pg">10 / 10</span></header>
+  <div class="body">
+    <div class="kicker"><span class="sec">§ 9</span><span class="rule"></span><span>Boss-Test · Tag 1</span><span class="rel"><span class="xp solid">bis +60 XP</span></span></div>
+    <h1>Zeig, was du <em>kannst</em>.</h1>
+    <div class="tr" style="margin-top:0"><span class="tag">TR</span><p>Önce hepsini cevapla, sonra sayfayı ters çevirip kontrol et. Hile yok – burada hata yapmak, sınavda hata yapmaktan çok daha iyidir.</p></div>
+
+    <span class="label mt16">Runde 1 · Schnell-Check · je 5 XP</span>
+    <div class="mc">
+      <div class="q"><p><span class="nr">1</span>Wie viel Prozent der Punkte gibt es für die Einzelfragen?</p><ol><li data-l="a">25 %</li><li data-l="b">50 %</li><li data-l="c">75 %</li></ol></div>
+      <div class="q"><p><span class="nr">2</span>Welcher Satz ist ein richtiger Obersatz?</p><ol><li data-l="a">„Ein Angebot ist eine empfangsbedürftige WE …“</li><li data-l="b">„V hat gegen K einen Anspruch aus § 433 II.“</li><li data-l="c">„V könnte gegen K einen Anspruch auf Zahlung von 50 € aus § 433 Abs. 2 BGB haben.“</li></ol></div>
+      <div class="q"><p><span class="nr">3</span>Ein Online-Shop zeigt eine Jacke für 80 €. Das ist …</p><ol><li data-l="a">eine invitatio ad offerendum</li><li data-l="b">ein Angebot nach § 145 BGB</li><li data-l="c">eine Annahme</li></ol></div>
+      <div class="q"><p><span class="nr">4</span>B wird bei einer Auktion von einer Wespe gestochen und reißt die Hand hoch.</p><ol><li data-l="a">WE, aber anfechtbar</li><li data-l="b">WE, voll wirksam</li><li data-l="c">keine WE – Handlungswille fehlt</li></ol></div>
+      <div class="q"><p><span class="nr">5</span>Ein Brief wird um 21 Uhr in den Briefkasten eines Büros geworfen. Zugang?</p><ol><li data-l="a">sofort um 21 Uhr</li><li data-l="b">am nächsten Morgen</li><li data-l="c">erst, wenn jemand ihn liest</li></ol></div>
+      <div class="q"><p><span class="nr">6</span>V bietet ein Rad für 500 € an. K sagt: „Ja, für 450 €.“ Was ist das?</p><ol><li data-l="a">Ablehnung + neues Angebot (§ 150 II)</li><li data-l="b">Vertrag über 450 €</li><li data-l="c">Vertrag über 500 €</li></ol></div>
+    </div>
+
+    <span class="label mt16">Runde 2 · Einzelfragen wie in der Klausur · je 10 XP</span>
+    <div class="eq">
+      <div class="r"><span class="nr">7</span><span>Was ist eine Willenserklärung?</span><span class="xp">1 Punkt</span><span class="wl"></span></div>
+      <div class="r"><span class="nr">8</span><span>Was ist ein Angebot und was muss es enthalten?</span><span class="xp">2 Punkte</span><span class="wl"></span></div>
+      <div class="r" style="border-bottom:1px solid var(--line)"><span class="nr">9</span><span>Wann geht eine Willenserklärung unter Abwesenden zu? Nenne die Norm.</span><span class="xp">2 Punkte</span><span class="wl"></span></div>
+    </div>
+
+    <div class="score mt12">
+      <div class="tot">___ <span>/ 100 XP</span></div>
+      <p class="small">Zähle alles zusammen: Checks (S. 3–8) + Gutachten (S. 9) + Boss-Test. <b>80+</b> = Maschine, morgen geht's weiter. <b>Unter 50</b> = Fehlerseiten morgen früh noch einmal lesen.</p>
+    </div>
+
+    <div class="flip mt16">
+      <span class="label">Lösungen · Seite umdrehen</span>
+      <p><b>Runde 1:</b> 1 b · 2 c · 3 a · 4 c · 5 b · 6 a</p>
+      <p><b>7:</b> Die Äußerung eines Willens, der auf die Herbeiführung einer Rechtsfolge gerichtet ist. Sie ist Ausdruck der Privatautonomie. <b>8:</b> Eine empfangsbedürftige WE, durch die einem anderen ein Vertragsschluss so angetragen wird, dass das Zustandekommen nur noch von dessen Zustimmung abhängt (§ 145 BGB). Es muss die essentialia negotii enthalten (Parteien, Gegenstand, Preis) und mit Rechtsbindungswillen abgegeben sein. <b>9:</b> § 130 Abs. 1 S. 1 BGB: wenn sie so in den Machtbereich des Empfängers gelangt, dass er unter normalen Umständen Kenntnis nehmen kann.</p>
+      <p><b>Checks · S. 3:</b> null Punkte – nicht gefragt, also Zeitverschwendung. <b>S. 4:</b> Urteilsstil. Richtig: „K könnte Käufer sein. Dafür müsste ein Kaufvertrag vorliegen … Folglich ist K Käufer.“ <b>S. 5:</b> Wer? M · Was? Übergabe + Übereignung des Sofas · Von wem? W · Woraus? § 433 Abs. 1 S. 1 BGB → „M könnte gegen W einen Anspruch auf Übergabe und Übereignung des Sofas aus § 433 Abs. 1 S. 1 BGB haben.“ <b>S. 6:</b> Nein – im Schlaf fehlt der Handlungswille. <b>S. 7:</b> Am nächsten Morgen (Einwurf nach 18 Uhr). Dass V erst drei Tage später liest, ist egal. <b>S. 8:</b> Angebot an alle („ad incertas personas“) – der Automat verkauft an jeden, solange Ware da ist.</p>
+    </div>
+  </div>
+  <footer class="foot"><div class="bar"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></div><span>Tag 1 geschafft · morgen: Tag 2</span></footer>
+</section>
+
+</body>
+</html>
